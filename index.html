@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mega Quiz Pedagógico: Métodos e Avaliação</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; }
+        .quiz-card { max-width: 800px; margin: 30px auto; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .author-badge { font-size: 0.9rem; margin-bottom: 10px; }
+        .option-btn { text-align: left; margin-bottom: 8px; transition: all 0.3s; }
+        .explanation-box { display: none; margin-top: 15px; border-left: 5px solid #0d6efd; background-color: #e7f1ff; padding: 15px; border-radius: 5px; }
+        .score-display { font-size: 1.2rem; font-weight: bold; color: #198754; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="card quiz-card">
+        <div class="card-header bg-primary text-white text-center">
+            <h3>Quiz: Métodos de Ensino e Avaliação</h3>
+            <p class="mb-0">6 Autores &bull; 60 Questões</p>
+        </div>
+        <div class="card-body">
+            <div id="start-screen" class="text-center">
+                <p>Este quiz contém 10 perguntas de cada um dos seguintes autores:</p>
+                <ul class="list-inline">
+                    <li class="list-inline-item badge bg-secondary">Perrenoud</li>
+                    <li class="list-inline-item badge bg-secondary">Freire</li>
+                    <li class="list-inline-item badge bg-secondary">Luckesi</li>
+                    <li class="list-inline-item badge bg-secondary">Vasconcellos</li>
+                    <li class="list-inline-item badge bg-secondary">Demo</li>
+                    <li class="list-inline-item badge bg-secondary">Hoffmann</li>
+                </ul>
+                <button class="btn btn-lg btn-success mt-3" onclick="startQuiz()">Iniciar Quiz Completo</button>
+            </div>
+
+            <div id="quiz-screen" style="display: none;">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="badge bg-info text-dark" id="question-counter">Questão 1/60</span>
+                    <span class="score-display">Acertos: <span id="score">0</span></span>
+                </div>
+                
+                <h5 id="author-name" class="text-primary author-badge">Autor</h5>
+                <h4 id="question-text" class="mb-4">Texto da Pergunta</h4>
+
+                <div id="options-container" class="d-grid gap-2">
+                    </div>
+
+                <div id="explanation" class="explanation-box">
+                    <strong>Explicação:</strong> <span id="explanation-text"></span>
+                </div>
+
+                <div class="d-flex justify-content-end mt-3">
+                    <button id="next-btn" class="btn btn-primary disabled" onclick="nextQuestion()">Próxima Pergunta</button>
+                </div>
+            </div>
+
+            <div id="end-screen" class="text-center" style="display: none;">
+                <h2>Quiz Finalizado!</h2>
+                <p class="lead">Sua pontuação final:</p>
+                <h1 class="display-4"><span id="final-score">0</span> / 60</h1>
+                <div id="final-message" class="mt-3"></div>
+                <button class="btn btn-warning mt-4" onclick="location.reload()">Reiniciar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // BANCO DE DADOS COM 60 QUESTÕES (10 por autor)
+    const questions = [
+        // --- 1. Philippe Perrenoud ---
+        {
+            author: "Philippe Perrenoud",
+            text: "Para Perrenoud, a avaliação formativa deve estar focada primariamente em:",
+            options: ["Classificar os alunos em ordem de desempenho.", "Regular as aprendizagens e auxiliar o aluno a superar dificuldades.", "Punir comportamentos inadequados.", "Cumprir as exigências burocráticas da escola."],
+            correct: 1,
+            explanation: "Para Perrenoud, a avaliação formativa serve para regular o processo de ensino-aprendizagem, oferecendo feedback para que o aluno avance."
+        },
+        {
+            author: "Philippe Perrenoud",
+            text: "O conceito de 'Competência' para Perrenoud envolve:",
+            options: ["Apenas o domínio de teorias.", "A capacidade de mobilizar recursos cognitivos para enfrentar situações complexas.", "A memorização de conteúdos factuais.", "A obediência às regras escolares."],
+            correct: 1,
+            explanation: "Competência é a faculdade de mobilizar um conjunto de recursos cognitivos (saberes, capacidades, informações) para solucionar com pertinência uma série de situações."
+        },
+        {
+            author: "Philippe Perrenoud",
+            text: "Sobre os ciclos de aprendizagem, Perrenoud defende que:",
+            options: ["Devem ser eliminados em favor da seriação rígida.", "São eficazes apenas se houver reprovação anual.", "Permitem respeitar os diferentes ritmos de aprendizagem dos alunos ao longo de vários anos.", "Não funcionam na prática escolar."],
+            correct: 2,
+            explanation: "Os ciclos plurianuais são vistos como uma estrutura que permite gerir a progressão das aprendizagens respeitando os ritmos individuais."
+        },
+        {
+            author: "Philippe Perrenoud",
+            text: "Qual destas é uma das '10 Novas Competências para Ensinar'?",
+            options: ["Administrar a própria carreira.", "Ensinar apenas aulas expositivas.", "Observar e avaliar os alunos em situações de aprendizagem (avaliação formativa).", "Ignorar a tecnologia."],
+            correct: 2,
+            explanation: "Gerir a progressão das aprendizagens através da observação e avaliação formativa é uma das competências centrais listadas pelo autor."
+        },
+        {
+            author: "Philippe Perrenoud",
+            text: "A 'diferenciação pedagógica' busca:",
+            options: ["Dar a mesma aula para todos para garantir igualdade.", "Criar situações de aprendizagem variadas para atender à heterogeneidade da turma.", "Separar os alunos fracos dos fortes em salas diferentes.", "Diminuir o conteúdo para facilitar a aprovação."],
+            correct: 1,
+            explanation: "Diferenciar é organizar as interações e atividades de modo que cada aluno tenha situações fecundas de aprendizagem."
+        },
+        {
+            author: "Philippe Perrenoud",
+            text: "Perrenoud critica a 'fabricação da excelência escolar' porque:",
+            options: ["A escola valoriza normas arbitrárias que nem sempre refletem competências reais.", "A excelência é impossível de atingir.", "Todos os alunos já são excelentes naturalmente.", "A escola não deveria ensinar nada."],
+            correct: 0,
+            explanation: "Ele analisa como a escola define o que é sucesso ou fracasso baseada em normas que muitas vezes privilegiam certas classes sociais ou habilidades específicas."
+        },
+        {
+            author: "Philippe Perrenoud",
+            text: "No ensino por competências, o papel do erro é:",
+            options: ["Uma falha que deve ser punida com nota baixa.", "Um indicador de falta de inteligência.", "Uma ferramenta essencial de aprendizagem e regulação.", "Irrelevante para o processo."],
+            correct: 2,
+            explanation: "O erro é visto como sintoma de como o aluno pensa e uma oportunidade para ajustar o ensino (regulação)."
+        },
+        {
+            author: "Philippe Perrenoud",
+            text: "O 'Ofício de Aluno' refere-se a:",
+            options: ["Trabalhar fora da escola.", "As estratégias que os estudantes desenvolvem para sobreviver e ter sucesso no sistema escolar.", "A profissão futura do estudante.", "Ser monitor da sala."],
+            correct: 1,
+            explanation: "É o conjunto de comportamentos e estratégias (como entender o que o professor quer) que o aluno adota para 'jogar o jogo' da escola."
+        },
+        {
+            author: "Philippe Perrenoud",
+            text: "Para trabalhar com projetos, o professor deve:",
+            options: ["Negociar com os alunos e partir de questões reais.", "Seguir estritamente o livro didático.", "Evitar a interdisciplinaridade.", "Fazer todo o trabalho pelos alunos."],
+            correct: 0,
+            explanation: "A pedagogia de projetos envolve a participação ativa dos alunos e a conexão com problemas reais."
+        },
+        {
+            author: "Philippe Perrenoud",
+            text: "A prática reflexiva no ensino implica que o professor:",
+            options: ["Siga manuais sem questionar.", "Analise sua própria prática para ajustá-la e melhorá-la continuamente.", "Reclame dos alunos na sala dos professores.", "Apenas cumpra o horário."],
+            correct: 1,
+            explanation: "O professor reflexivo é aquele que pensa sobre o que faz, por que faz e como pode fazer melhor, adaptando-se às situações."
+        },
+
+        // --- 2. Paulo Freire ---
+        {
+            author: "Paulo Freire",
+            text: "O conceito de 'Educação Bancária' descreve o método onde:",
+            options: ["O aluno aprende sobre economia.", "O professor 'deposita' o conhecimento no aluno, visto como passivo.", "A escola paga os alunos para estudar.", "Há troca mútua de saberes."],
+            correct: 1,
+            explanation: "Na educação bancária, o saber é uma doação dos que se julgam sábios aos que julgam nada saber."
+        },
+        {
+            author: "Paulo Freire",
+            text: "Para Freire, ensinar não é transferir conhecimento, mas:",
+            options: ["Criar as possibilidades para a sua própria produção ou construção.", "Impor a verdade científica.", "Treinar habilidades técnicas.", "Decorar fórmulas."],
+            correct: 0,
+            explanation: "Frase célebre de 'Pedagogia da Autonomia'. O aluno deve ser sujeito da construção do saber."
+        },
+        {
+            author: "Paulo Freire",
+            text: "A avaliação na perspectiva freireana deve ser:",
+            options: ["Punitiva e excludente.", "Burocrática e quantitativa.", "Dialógica e investigativa da prática.", "Usada para silenciar os alunos."],
+            correct: 2,
+            explanation: "A avaliação deve servir para refletir sobre a prática (ação-reflexão-ação) e não para classificar."
+        },
+        {
+            author: "Paulo Freire",
+            text: "O que são 'Temas Geradores'?",
+            options: ["Assuntos aleatórios escolhidos pelo livro.", "Temas extraídos da realidade de vida dos educandos para basear o ensino.", "Temas que geram polêmica inútil.", "Tópicos obrigatórios do governo."],
+            correct: 1,
+            explanation: "São temas que partem da análise do contexto existencial dos alunos, servindo de base para a alfabetização e conscientização."
+        },
+        {
+            author: "Paulo Freire",
+            text: "A 'leitura do mundo' precede a:",
+            options: ["Leitura da palavra.", "Escrita de números.", "Formação universitária.", "Prática esportiva."],
+            correct: 0,
+            explanation: "Freire defende que entender o contexto social e político (ler o mundo) é pré-requisito para a alfabetização real (ler a palavra)."
+        },
+        {
+            author: "Paulo Freire",
+            text: "A 'Educação Problematizadora' visa:",
+            options: ["Criar problemas matemáticos difíceis.", "Desenvolver a consciência crítica e a liberdade.", "Manter o status quo social.", "Adaptar o aluno ao mercado de trabalho acriticamente."],
+            correct: 1,
+            explanation: "Ao contrário da bancária, a problematizadora estimula a reflexão crítica sobre a realidade para transformá-la."
+        },
+        {
+            author: "Paulo Freire",
+            text: "Segundo Freire, a autoridade do professor:",
+            options: ["Deve ser absoluta e inquestionável.", "Não deve existir, todos são iguais.", "Não deve degenerar em autoritarismo, mas dialogar com a liberdade do aluno.", "Depende do medo que ele impõe."],
+            correct: 2,
+            explanation: "Freire não nega a autoridade do professor, mas defende que ela deve ser democrática e respeitar a autonomia do aluno."
+        },
+        {
+            author: "Paulo Freire",
+            text: "O 'Inédito Viável' refere-se a:",
+            options: ["Algo impossível de realizar.", "Uma ação transformadora possível diante de uma situação limite.", "Um projeto escolar não aprovado.", "Uma utopia inalcançável."],
+            correct: 1,
+            explanation: "É a ação concreta que se torna possível quando se toma consciência da realidade e se busca superá-la."
+        },
+        {
+            author: "Paulo Freire",
+            text: "A rigorosidade metódica para Freire significa:",
+            options: ["Ser rígido e bravo com os alunos.", "Não ter método nenhum.", "Estudar e ensinar com profundidade, não superficialmente.", "Seguir o horário rigidamente."],
+            correct: 2,
+            explanation: "Ensinar exige rigorosidade metódica: o professor deve aproximar o aluno do objeto de conhecimento com seriedade e profundidade crítica."
+        },
+        {
+            author: "Paulo Freire",
+            text: "Ninguém educa ninguém, ninguém educa a si mesmo...",
+            options: ["Os homens se educam em comunhão, mediatizados pelo mundo.", "A escola é que educa todos.", "O governo educa o povo.", "A internet educa a todos."],
+            correct: 0,
+            explanation: "Frase clássica que resume a natureza social e dialógica da educação."
+        },
+
+        // --- 3. Cipriano Luckesi ---
+        {
+            author: "Cipriano Luckesi",
+            text: "Luckesi faz uma distinção crucial entre:",
+            options: ["Prova e Teste.", "Avaliação da Aprendizagem e Exames Escolares.", "Ensino e Educação.", "Professor e Educador."],
+            correct: 1,
+            explanation: "Sua principal tese é que a escola pratica exames (classificatórios) em vez de avaliação (diagnóstica e inclusiva)."
+        },
+        {
+            author: "Cipriano Luckesi",
+            text: "Os 'Exames Escolares' têm como característica:",
+            options: ["Serem dinâmicos e inclusivos.", "Serem pontuais, classificatórios e excludentes.", "Visarem o crescimento do aluno.", "Permitirem a reorientação imediata da aprendizagem."],
+            correct: 1,
+            explanation: "O exame apenas verifica uma nota em um momento final, separando aprovados e reprovados sem tratar a aprendizagem."
+        },
+        {
+            author: "Cipriano Luckesi",
+            text: "A avaliação deve ser um 'ato amoroso' no sentido de que:",
+            options: ["O professor deve beijar os alunos.", "O professor deve aprovar todos por pena.", "Ela acolhe o aluno como ele está para ajudá-lo a avançar.", "Ela ignora os erros para não magoar."],
+            correct: 2,
+            explanation: "Acolher a realidade do aluno (mesmo que insatisfatória) é o primeiro passo para intervir e construir o conhecimento."
+        },
+        {
+            author: "Cipriano Luckesi",
+            text: "A função constitutiva da avaliação é:",
+            options: ["O Diagnóstico.", "A Punição.", "A Premiação.", "A Seleção."],
+            correct: 0,
+            explanation: "A avaliação diagnostica a realidade para tomar decisões de como intervir e melhorar."
+        },
+        {
+            author: "Cipriano Luckesi",
+            text: "O erro na aprendizagem deve ser encarado como:",
+            options: ["Virtude para a reprovação.", "Fonte de castigo.", "Um trampolim para a aprendizagem (virtude epistemológica).", "Vergonha para o aluno."],
+            correct: 2,
+            explanation: "O erro mostra como o aluno está pensando e indica onde o professor deve atuar."
+        },
+        {
+            author: "Cipriano Luckesi",
+            text: "A 'Pedagogia do Exame' gera:",
+            options: ["Sucesso escolar universal.", "Ansiedade, cola e foco apenas na nota.", "Aprendizagem profunda.", "Cooperação entre alunos."],
+            correct: 1,
+            explanation: "Quando o foco é a nota (exame), o processo de aprender é desviado para a obtenção de aprovação a qualquer custo."
+        },
+        {
+            author: "Cipriano Luckesi",
+            text: "Para Luckesi, planejar é:",
+            options: ["Preencher diários de classe.", "O ato pelo qual decidimos o que fazer.", "Copiar o plano do ano anterior.", "Uma exigência burocrática inútil."],
+            correct: 1,
+            explanation: "Planejamento é um ato político-pedagógico de decisão sobre os objetivos e meios da ação educativa."
+        },
+        {
+            author: "Cipriano Luckesi",
+            text: "A avaliação deve ser 'inclusiva' porque:",
+            options: ["Ela coloca todos para dentro da escola sem critério.", "Ao diagnosticar e intervir, ela traz quem não aprendeu para a aprendizagem.", "Ela impede a reprovação por lei.", "Ela agrada aos pais."],
+            correct: 1,
+            explanation: "Inclusiva no sentido epistemológico: garante que o aluno aprenda o que não sabia."
+        },
+        {
+            author: "Cipriano Luckesi",
+            text: "A culpa pelo fracasso escolar, na lógica dos exames, recai sobre:",
+            options: ["O sistema.", "O método.", "O aluno (individualização do fracasso).", "O governo."],
+            correct: 2,
+            explanation: "Os exames julgam o aluno como incapaz, isentando o método de ensino ou o sistema de responsabilidade."
+        },
+        {
+            author: "Cipriano Luckesi",
+            text: "Qual instrumento de avaliação é o melhor segundo Luckesi?",
+            options: ["A prova escrita.", "O seminário.", "Não há instrumento ideal, depende do que se quer avaliar.", "A chamada oral."],
+            correct: 2,
+            explanation: "Os instrumentos devem ser adequados ao objeto de conhecimento e variados; não existe um único método perfeito."
+        },
+
+        // --- 4. Celso dos Santos Vasconcellos ---
+        {
+            author: "Celso Vasconcellos",
+            text: "Vasconcellos propõe a superação da metodologia expositiva através da:",
+            options: ["Metodologia Dialética de Construção do Conhecimento.", "Metodologia da Memorização.", "Tecnologia Educacional.", "Educação a Distância."],
+            correct: 0,
+            explanation: "Ele defende um método que parta da realidade (síncrese), analise (análise) e volte à realidade transformada (síntese)."
+        },
+        {
+            author: "Celso Vasconcellos",
+            text: "Os três momentos do método dialético em sala de aula são:",
+            options: ["Início, Meio e Fim.", "Mobilização, Construção e Síntese.", "Leitura, Cópia e Prova.", "Planejamento, Execução e Férias."],
+            correct: 1,
+            explanation: "Mobilização (despertar interesse), Construção (interação com o objeto) e Síntese (elaboração do novo saber)."
+        },
+        {
+            author: "Celso Vasconcellos",
+            text: "Sobre o Planejamento, Vasconcellos critica:",
+            options: ["O planejamento participativo.", "O planejamento como mera formalidade burocrática.", "O planejamento reflexivo.", "A falta de papel."],
+            correct: 1,
+            explanation: "Ele critica o 'fazer de conta' do planejamento que não altera a prática real da sala de aula."
+        },
+        {
+            author: "Celso Vasconcellos",
+            text: "A avaliação deve estar articulada com:",
+            options: ["O pagamento da mensalidade.", "O Projeto Político-Pedagógico e o Planejamento.", "A direção da escola apenas.", "O humor do professor."],
+            correct: 1,
+            explanation: "A avaliação não é um ato isolado, ela deve responder aos objetivos traçados no planejamento e no PPP."
+        },
+        {
+            author: "Celso Vasconcellos",
+            text: "Para transformar a prática avaliativa, é necessário:",
+            options: ["Mudar apenas os instrumentos (provas).", "Alterar a postura e a concepção do professor.", "Comprar computadores.", "Aumentar a média de aprovação."],
+            correct: 1,
+            explanation: "Não adianta mudar a técnica se a concepção do professor continua sendo classificatória e autoritária."
+        },
+        {
+            author: "Celso Vasconcellos",
+            text: "A 'Mobilização para o Conhecimento' visa:",
+            options: ["Fazer os alunos correrem.", "Criar necessidades e disposições para aprender (vínculo).", "Obrigar o estudo.", "Dar nota de participação."],
+            correct: 1,
+            explanation: "É o momento inicial de engajar o aluno, dando sentido ao que será estudado."
+        },
+        {
+            author: "Celso Vasconcellos",
+            text: "O autoritarismo na sala de aula:",
+            options: ["É necessário para manter a ordem.", "Dificulta a construção da autonomia e da cidadania.", "É a melhor forma de ensino.", "Não existe mais no Brasil."],
+            correct: 1,
+            explanation: "Vasconcellos defende a construção da disciplina consciente e interativa, oposta ao autoritarismo."
+        },
+        {
+            author: "Celso Vasconcellos",
+            text: "A 'Síntese do Conhecimento' é:",
+            options: ["O resumo do livro.", "A apropriação efetiva do saber pelo aluno, expressa de forma pessoal.", "A cópia da lousa.", "A nota final."],
+            correct: 1,
+            explanation: "É quando o aluno consegue expressar o que aprendeu com suas próprias palavras e aplicar em novas situações."
+        },
+        {
+            author: "Celso Vasconcellos",
+            text: "O Conselho de Classe deve ser:",
+            options: ["Um momento para falar mal dos alunos.", "Um espaço de reflexão coletiva para avaliar a prática e o progresso dos alunos.", "Uma reunião para somar notas.", "Um café da tarde dos professores."],
+            correct: 1,
+            explanation: "Deve ser um espaço diagnóstico e deliberativo sobre o processo ensino-aprendizagem global."
+        },
+        {
+            author: "Celso Vasconcellos",
+            text: "A relação professor-aluno deve pautar-se na:",
+            options: ["Indiferença.", "Amizade sem limites.", "Interação mediadora e respeito mútuo.", "Submissão."],
+            correct: 2,
+            explanation: "O professor é o mediador entre o aluno e o conhecimento, numa relação de respeito e construção."
+        },
+
+        // --- 5. Pedro Demo ---
+        {
+            author: "Pedro Demo",
+            text: "A tese central de Pedro Demo é:",
+            options: ["Educar pela Pesquisa.", "Educar pela Cópia.", "Escola sem partido.", "Ensino Técnico."],
+            correct: 0,
+            explanation: "Para Demo, só se aprende de verdade pesquisando e elaborando conhecimento, não copiando."
+        },
+        {
+            author: "Pedro Demo",
+            text: "Qualidade formal e qualidade política são:",
+            options: ["Opostas.", "Indissociáveis.", "Irrelevantes.", "Coisas de partidos políticos."],
+            correct: 1,
+            explanation: "Não há qualidade educacional sem competência técnica (formal) e sem compromisso social (política)."
+        },
+        {
+            author: "Pedro Demo",
+            text: "O que Pedro Demo chama de 'Aula-Cópia'?",
+            options: ["A aula em que o professor dita ou resume e o aluno copia e devolve na prova.", "A aula de artes.", "A aula com fotocópias.", "A aula ideal."],
+            correct: 0,
+            explanation: "É a crítica severa à reprodução de conhecimento alheio sem reconstrução crítica."
+        },
+        {
+            author: "Pedro Demo",
+            text: "A avaliação qualitativa deve focar:",
+            options: ["Na quantidade de folhas escritas.", "No processo de produção e reconstrução do conhecimento.", "Na média estatística.", "No comportamento silencioso."],
+            correct: 1,
+            explanation: "Avaliar é acompanhar a evolução da capacidade do aluno de produzir e argumentar."
+        },
+        {
+            author: "Pedro Demo",
+            text: "O professor deve ser, antes de tudo:",
+            options: ["Um repassador de aula.", "Um pesquisador.", "Um burocrata.", "Um amigo."],
+            correct: 1,
+            explanation: "Para ensinar a pesquisar, o professor precisa ter a postura de pesquisador, de autoria própria."
+        },
+        {
+            author: "Pedro Demo",
+            text: "A 'Pobreza Política' do brasileiro está ligada a:",
+            options: ["Falta de dinheiro.", "Falta de qualidade educacional que gere cidadania ativa e crítica.", "Falta de políticos honestos apenas.", "Falta de tecnologia."],
+            correct: 1,
+            explanation: "O brasileiro é 'pobre politicamente' porque a educação falha em formar sujeitos históricos autônomos."
+        },
+        {
+            author: "Pedro Demo",
+            text: "Aprender é:",
+            options: ["Escutar.", "Reconstruir conhecimento.", "Decorar.", "Passar de ano."],
+            correct: 1,
+            explanation: "A aprendizagem ocorre na reconstrução interna do saber, não na absorção passiva."
+        },
+        {
+            author: "Pedro Demo",
+            text: "A avaliação deve ser 'intensiva', o que significa:",
+            options: ["Muitas provas por semana.", "Acompanhamento passo a passo do processo de produção do aluno.", "Provas muito difíceis.", "Avaliação externa do MEC."],
+            correct: 1,
+            explanation: "O professor deve acompanhar de perto a elaboração do aluno (cuidar do aluno)."
+        },
+        {
+            author: "Pedro Demo",
+            text: "Para Demo, a função principal da escola básica é:",
+            options: ["Preparar para o vestibular.", "Formar competência humana e cidadã.", "Guardar as crianças.", "Ensinar boas maneiras."],
+            correct: 1,
+            explanation: "A escola deve formar o sujeito competente e cidadão para atuar na sociedade."
+        },
+        {
+            author: "Pedro Demo",
+            text: "O questionamento reconstrutivo é base para:",
+            options: ["A bagunça.", "A autonomia intelectual.", "A reprovação.", "A indisciplina."],
+            correct: 1,
+            explanation: "Questionar e reconstruir saberes gera a capacidade de pensar por si mesmo (autonomia)."
+        },
+
+        // --- 6. Jussara Hoffmann ---
+        {
+            author: "Jussara Hoffmann",
+            text: "Hoffmann é a principal defensora da:",
+            options: ["Avaliação Classificatória.", "Avaliação Mediadora.", "Avaliação Punitiva.", "Avaliação Somativa."],
+            correct: 1,
+            explanation: "Sua obra central é 'Avaliação Mediadora', que propõe a avaliação a serviço da aprendizagem."
+        },
+        {
+            author: "Jussara Hoffmann",
+            text: "Avaliar para mediar significa:",
+            options: ["Ficar no meio da sala.", "Observar o aluno e intervir para que ele avance.", "Dar a média para todos.", "Mediar conflitos de briga."],
+            correct: 1,
+            explanation: "É a ação pedagógica de desafiar o aluno a partir do entendimento de suas hipóteses provisórias."
+        },
+        {
+            author: "Jussara Hoffmann",
+            text: "As provas e testes, segundo Hoffmann:",
+            options: ["Devem ser abolidos.", "São momentos terminais de julgamento.", "São apenas um dos momentos de investigação do processo de aprendizagem.", "São a única verdade sobre o aluno."],
+            correct: 2,
+            explanation: "Provas não são fins em si mesmas, mas instrumentos para o professor entender como o aluno pensa."
+        },
+        {
+            author: "Jussara Hoffmann",
+            text: "O 'Parecer Descritivo' é importante porque:",
+            options: ["Dá mais trabalho ao professor.", "Registra a história do processo de aprendizagem do aluno qualitativamente.", "Substitui a nota por letras.", "É mais bonito."],
+            correct: 1,
+            explanation: "Ao descrever, o professor reflete sobre a caminhada do aluno, diferente de apenas dar um número (nota)."
+        },
+        {
+            author: "Jussara Hoffmann",
+            text: "A postura do professor avaliador deve ser de:",
+            options: ["Juiz.", "Investigador e provocador.", "Carrasco.", "Espectador."],
+            correct: 1,
+            explanation: "O professor investiga as respostas do aluno e provoca novas reflexões (desequilíbrios) para gerar conhecimento."
+        },
+        {
+            author: "Jussara Hoffmann",
+            text: "Hoffmann critica a média (nota 5,0 ou 7,0) porque:",
+            options: ["É muito alta.", "A aprendizagem é um processo contínuo e não um ponto estatístico.", "Deveria ser 10 para todos.", "Os pais não entendem."],
+            correct: 1,
+            explanation: "A nota muitas vezes encerra o processo, enquanto a aprendizagem deveria continuar evoluindo."
+        },
+        {
+            author: "Jussara Hoffmann",
+            text: "A avaliação mediadora exige:",
+            options: ["Turmas homogêneas.", "Acompanhamento individualizado.", "Provas de múltipla escolha.", "Silêncio absoluto."],
+            correct: 1,
+            explanation: "Exige olhar para cada aluno e suas dificuldades específicas."
+        },
+        {
+            author: "Jussara Hoffmann",
+            text: "Quando o aluno erra, o professor mediador deve:",
+            options: ["Dar zero.", "Devolver a prova com um 'X' vermelho.", "Questionar o aluno sobre seu raciocínio para levá-lo a perceber a contradição.", "Mandar estudar mais."],
+            correct: 2,
+            explanation: "A correção deve ser dialógica, fazendo o aluno refletir sobre o porquê do erro."
+        },
+        {
+            author: "Jussara Hoffmann",
+            text: "A 'Educação Infantil' na visão de Hoffmann:",
+            options: ["Não precisa de avaliação.", "Deve ter avaliação focada no acompanhamento do desenvolvimento da criança.", "Deve preparar para provas futuras.", "É apenas recreação."],
+            correct: 1,
+            explanation: "A avaliação na infância é essencialmente observação e registro do desenvolvimento, sem retenção."
+        },
+        {
+            author: "Jussara Hoffmann",
+            text: "Avaliação é reflexão transformada em:",
+            options: ["Nota.", "Ação.", "Arquivo.", "Reunião."],
+            correct: 1,
+            explanation: "Não basta refletir; a avaliação só tem sentido se levar a uma nova ação pedagógica (intervenção)."
+        }
+    ];
+
+    // LÓGICA DO QUIZ
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let isAnswered = false;
+
+    // Elementos DOM
+    const startScreen = document.getElementById('start-screen');
+    const quizScreen = document.getElementById('quiz-screen');
+    const endScreen = document.getElementById('end-screen');
+    
+    const questionCounter = document.getElementById('question-counter');
+    const scoreEl = document.getElementById('score');
+    const authorNameEl = document.getElementById('author-name');
+    const questionTextEl = document.getElementById('question-text');
+    const optionsContainer = document.getElementById('options-container');
+    const explanationBox = document.getElementById('explanation');
+    const explanationText = document.getElementById('explanation-text');
+    const nextBtn = document.getElementById('next-btn');
+    const finalScoreEl = document.getElementById('final-score');
+    const finalMessageEl = document.getElementById('final-message');
+
+    function startQuiz() {
+        startScreen.style.display = 'none';
+        quizScreen.style.display = 'block';
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        isAnswered = false;
+        const q = questions[currentQuestionIndex];
+        
+        // Resetar UI
+        explanationBox.style.display = 'none';
+        nextBtn.classList.add('disabled');
+        optionsContainer.innerHTML = '';
+        
+        // Preencher dados
+        questionCounter.innerText = `Questão ${currentQuestionIndex + 1}/${questions.length}`;
+        authorNameEl.innerText = q.author;
+        questionTextEl.innerText = q.text;
+
+        // Gerar Botões
+        q.options.forEach((opt, index) => {
+            const btn = document.createElement('button');
+            btn.className = 'btn btn-outline-dark option-btn';
+            btn.innerText = opt;
+            btn.onclick = () => checkAnswer(index, btn);
+            optionsContainer.appendChild(btn);
+        });
+    }
+
+    function checkAnswer(selectedIndex, btnElement) {
+        if (isAnswered) return;
+        isAnswered = true;
+
+        const q = questions[currentQuestionIndex];
+        const buttons = optionsContainer.querySelectorAll('button');
+
+        if (selectedIndex === q.correct) {
+            btnElement.classList.remove('btn-outline-dark');
+            btnElement.classList.add('btn-success');
+            score++;
+            scoreEl.innerText = score;
+        } else {
+            btnElement.classList.remove('btn-outline-dark');
+            btnElement.classList.add('btn-danger');
+            // Mostrar a correta
+            buttons[q.correct].classList.remove('btn-outline-dark');
+            buttons[q.correct].classList.add('btn-success');
+        }
+
+        // Mostrar explicação
+        explanationText.innerText = q.explanation;
+        explanationBox.style.display = 'block';
+        
+        // Habilitar botão Próximo
+        nextBtn.classList.remove('disabled');
+    }
+
+    function nextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            loadQuestion();
+        } else {
+            showResults();
+        }
+    }
+
+    function showResults() {
+        quizScreen.style.display = 'none';
+        endScreen.style.display = 'block';
+        finalScoreEl.innerText = score;
+
+        const percentage = (score / questions.length) * 100;
+        let message = "";
+        
+        if (percentage >= 90) message = "Excelente! Você é um mestre da pedagogia!";
+        else if (percentage >= 70) message = "Muito bom! Você tem um ótimo domínio dos autores.";
+        else if (percentage >= 50) message = "Bom. Você conhece os conceitos, mas pode aprofundar.";
+        else message = "Continue estudando! Esses autores são densos e exigem leitura constante.";
+        
+        finalMessageEl.innerText = message;
+    }
+</script>
+
+</body>
+</html>
