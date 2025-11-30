@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz: Referenciais de Qualidade EaD (MEC 2025)</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --success-color: #10b981;
+            --error-color: #ef4444;
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            color: #1f2937;
+            padding-bottom: 80px;
+        }
+
+        .quiz-card {
+            max-width: 600px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background: var(--card-bg);
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 20px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            border-radius: 0;
+        }
+
+        .score-display {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--success-color);
+        }
+
+        .author-badge {
+            background-color: #e0e7ff;
+            color: var(--primary-color);
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .question-text {
+            font-size: 1.25rem;
+            font-weight: 700;
+            line-height: 1.4;
+            margin-bottom: 25px;
+            color: #111827;
+        }
+
+        .option-btn {
+            width: 100%;
+            text-align: left;
+            margin-bottom: 12px;
+            padding: 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            background: white;
+            color: #4b5563;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+            font-size: 1.08rem;
+        }
+
+        .option-btn:hover, .option-btn:focus {
+            background-color: #f9fafb;
+            border-color: #d1d5db;
+        }
+
+        .btn-success, .btn-success:focus {
+            background: var(--success-color) !important;
+            border-color: var(--success-color) !important;
+            color: #fff !important;
+        }
+        .btn-danger, .btn-danger:focus {
+            background: var(--error-color) !important;
+            border-color: var(--error-color) !important;
+            color: #fff !important;
+        }
+
+        .explanation-box {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #eff6ff;
+            border-left: 4px solid var(--primary-color);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            color: #1f2937;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(79, 70, 229, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0); }
+        }
+
+        .footer-action {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px 20px;
+            background: white;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.05);
+            z-index: 100;
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            .quiz-card {
+                min-height: auto;
+                margin-top: 40px;
+                margin-bottom: 40px;
+            }
+            body { padding-bottom: 0; }
+            .footer-action {
+                position: static;
+                box-shadow: none;
+                border-top: 1px solid #e5e7eb;
+            }
+        }
+    </style>
+</head>
+<body>
+
+
+<div class="container">
+    <div class="card quiz-card">
+        <div class="d-flex justify-content-between align-items-center p-2">
+            <a href="index.html" class="btn btn-pedagogia">
+                <i class="bi bi-arrow-left-circle"></i> Primeira Página
+            </a>
+            <a href="#" class="btn btn-dark" onclick="location.reload()">
+                <i class="bi bi-house-door"></i> Reiniciar Quiz
+            </a>
+        </div>
+        <div class="card-header bg-primary text-white text-center">
+            <h3>Quiz: Referenciais de Qualidade EaD</h3>
+            <p class="mb-0">Baseado no documento oficial do MEC (2025) &bull; 30 Questões</p>
+        </div>
+        <div class="card-body">
+            <div id="start-screen" class="text-center">
+                <p>Este quiz contém 30 perguntas baseadas nos novos Referenciais de Qualidade para Cursos de Graduação a Distância, cobrindo os seguintes tópicos:</p>
+                <ul class="list-inline">
+                    <li class="list-inline-item badge bg-secondary">Concepção do Curso</li>
+                    <li class="list-inline-item badge bg-secondary">Experiência do Estudante</li>
+                    <li class="list-inline-item badge bg-secondary">Docência e Tutoria</li>
+                    <li class="list-inline-item badge bg-secondary">Ensino e Avaliação</li>
+                    <li class="list-inline-item badge bg-secondary">Polos e Infraestrutura</li>
+                    <li class="list-inline-item badge bg-secondary">Gestão da Qualidade</li>
+                </ul>
+                <button class="btn btn-lg btn-success mt-3" onclick="startQuiz()">Iniciar Quiz Completo</button>
+            </div>
+
+            <div id="quiz-screen" style="display: none;">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="badge bg-info text-dark" id="question-counter">Questão 1/30</span>
+                    <span class="score-display">Acertos: <span id="score">0</span></span>
+                </div>
+                
+                <h5 id="author-name" class="text-primary author-badge">Tópico</h5>
+                <h4 id="question-text" class="mb-4">Texto da Pergunta</h4>
+
+                <div id="options-container" class="d-grid gap-2">
+                    </div>
+
+                <div id="explanation" class="explanation-box">
+                    <strong>Explicação:</strong> <span id="explanation-text"></span>
+                </div>
+
+                <div class="d-flex justify-content-end mt-3">
+                    <button id="next-btn" class="btn btn-primary disabled" onclick="nextQuestion()">Próxima Pergunta</button>
+                </div>
+            </div>
+
+            <div id="end-screen" class="text-center" style="display: none;">
+                <h2>Quiz Finalizado!</h2>
+                <p class="lead">Sua pontuação final:</p>
+                <h1 class="display-4"><span id="final-score">0</span> / 30</h1>
+                <div id="final-message" class="mt-3"></div>
+                <button class="btn btn-warning mt-4" onclick="location.reload()">Reiniciar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // BANCO DE DADOS COM 30 QUESTÕES SOBRE REFERENCIAIS DE QUALIDADE EAD (MEC 2025)
+    const questions = [
+        // --- 1. Conceituação e Concepção ---
+        {
+            author: "Conceituação e Concepção",
+            text: "Segundo o documento, qual é a definição correta de Educação a Distância (EaD)?",
+            options: ["É o ensino onde não há nenhuma interação presencial.", "É a oferta educacional mediada por tecnologias onde estudantes e docentes podem estar em lugares ou tempos diversos.", "É a modalidade exclusiva para cursos tecnológicos.", "É o ensino baseado apenas em envio de apostilas por correio."],
+            correct: 1,
+            text_ref: "Referenciais p. 7",
+            explanation: "EaD é definida como oferta organizada onde processos de ensino e aprendizagem ocorrem com meios e tecnologias, permitindo que estudantes e docentes estejam em lugares/tempos diversos."
+        },
+        {
+            author: "Conceituação e Concepção",
+            text: "Sobre a presencialidade nos cursos a distância, o documento afirma que:",
+            options: ["A EaD significa ausência total de presencialidade.", "Atividades presenciais são proibidas na EaD.", "Haverá situações em que o aluno deve estar fisicamente presente (laboratórios, avaliações, extensão).", "A presencialidade é opcional para todos os cursos."],
+            correct: 2,
+            text_ref: "Referenciais p. 7",
+            explanation: "O texto enfatiza que EaD não significa ausência de presencialidade; atividades como laboratórios e avaliações exigem presença física."
+        },
+        {
+            author: "Conceituação e Concepção",
+            text: "Em relação ao tempo de duração das Unidades Curriculares, recomenda-se:",
+            options: ["Que sejam cursadas em no mínimo 4 semanas.", "Que sejam integralizadas no período mínimo de 10 semanas.", "Que não tenham prazo mínimo.", "Que durem o semestre inteiro obrigatoriamente."],
+            correct: 1,
+            text_ref: "Referenciais p. 9",
+            explanation: "Para garantir tempo de reflexão e maturação, recomenda-se que as unidades curriculares sejam integralizadas no mínimo em 10 semanas."
+        },
+        {
+            author: "Conceituação e Concepção",
+            text: "Para fortalecer o sentimento de pertencimento, o ingresso de novos estudantes deve ocorrer:",
+            options: ["A qualquer momento (entrada contínua).", "Apenas uma vez por ano.", "No máximo até o início do segundo semestre do primeiro ano do curso.", "Apenas quando formar uma turma de 50 alunos."],
+            correct: 2,
+            text_ref: "Referenciais p. 9",
+            explanation: "Para criar comunidade de aprendizagem, o ingresso deve ocorrer até o início do 2º semestre do 1º ano, evitando a entrada contínua desordenada."
+        },
+        {
+            author: "Conceituação e Concepção",
+            text: "O Projeto Pedagógico de Curso (PPC) na EaD deve:",
+            options: ["Ser padronizado para todas as instituições.", "Refletir dinâmicas próprias da EaD e não ser padronizado.", "Ignorar as diretrizes curriculares nacionais.", "Ser idêntico ao do curso presencial."],
+            correct: 1,
+            text_ref: "Referenciais p. 8",
+            explanation: "Os PPCs não podem ser padronizados e devem expressar a consistência da oferta articulada com o PDI da instituição."
+        },
+
+        // --- 2. Experiência do Estudante ---
+        {
+            author: "Experiência do Estudante",
+            text: "Qual é o papel da mediação pedagógica na experiência do estudante?",
+            options: ["Apenas corrigir provas.", "Orientar o estudante, identificar pontos fortes/fracos e prover suporte estruturado.", "Vender cursos adicionais.", "Substituir o material didático."],
+            correct: 1,
+            text_ref: "Referenciais p. 11",
+            explanation: "A mediação orienta a jornada de aprendizagem e oferece suporte para o sucesso acadêmico e profissional."
+        },
+        {
+            author: "Experiência do Estudante",
+            text: "Sobre a acessibilidade e inclusão digital, as IES devem:",
+            options: ["Exigir que o aluno compre seu próprio computador de última geração.", "Assegurar acesso a materiais e fomentar a inclusão digital ativa (capacitação básica).", "Ignorar as limitações tecnológicas dos alunos.", "Fornecer internet apenas na sede."],
+            correct: 1,
+            text_ref: "Referenciais p. 12",
+            explanation: "As IES devem garantir acesso a recursos e promover inclusão digital através de aconselhamento e capacitação."
+        },
+        {
+            author: "Experiência do Estudante",
+            text: "Os estudantes de EaD têm quais direitos em relação aos do presencial?",
+            options: ["Menos direitos, pois pagam menos.", "Direitos parciais, sem acesso à pesquisa.", "Os mesmos direitos (carteirinha, pesquisa, e-mail institucional, assistência).", "Não têm direito a voto nos órgãos colegiados."],
+            correct: 2,
+            text_ref: "Referenciais p. 12-13",
+            explanation: "É imprescindível garantir a preservação dos mesmos direitos, incluindo identificação estudantil e participação em pesquisa."
+        },
+        {
+            author: "Experiência do Estudante",
+            text: "O uso de tecnologias como 'Learning Analytics' serve para:",
+            options: ["Vigiar os alunos para punição.", "Diagnóstico ágil em tempo real com feedback sobre pontos fortes e fracos.", "Aumentar a mensalidade.", "Substituir professores por robôs."],
+            correct: 1,
+            text_ref: "Referenciais p. 13-14",
+            explanation: "Essas tecnologias permitem diagnóstico e devolutivas pedagógicas personalizadas baseadas em dados."
+        },
+        {
+            author: "Experiência do Estudante",
+            text: "Para reduzir a sensação de isolamento, recomenda-se:",
+            options: ["Acabar com os polos físicos.", "Criar redes de apoio, mediadores e fomentar o sentimento de pertencimento à turma.", "Aumentar a carga de leitura.", "Tornar o curso totalmente assíncrono."],
+            correct: 1,
+            text_ref: "Referenciais p. 13",
+            explanation: "Suporte acadêmico, psicológico e interação em turmas ajudam a reduzir o isolamento comum na EaD."
+        },
+
+        // --- 3. Docência ---
+        {
+            author: "Docência",
+            text: "Qual profissional é responsável por planejar o Plano de Ensino e coordenar as ações docentes?",
+            options: ["Tutor.", "Professor Conteudista.", "Professor Regente.", "Coordenador de Polo."],
+            correct: 2,
+            text_ref: "Referenciais p. 18",
+            explanation: "O Professor Regente é o responsável pelo Plano de Ensino, avaliação e coordenação da unidade curricular."
+        },
+        {
+            author: "Docência",
+            text: "Qual a função principal do Professor Conteudista?",
+            options: ["Corrigir provas.", "Gerir o polo.", "Elaborar materiais didáticos autorais e selecionar temas da área.", "Atender alunos no chat."],
+            correct: 2,
+            text_ref: "Referenciais p. 17",
+            explanation: "O Conteudista é especializado nos conteúdos e redige materiais didáticos autorais."
+        },
+        {
+            author: "Docência",
+            text: "Os Mediadores Pedagógicos (tutores) devem atuar sob supervisão de quem?",
+            options: ["Do pessoal administrativo.", "Do Professor Regente.", "Dos próprios alunos.", "Do Ministério da Educação."],
+            correct: 1,
+            text_ref: "Referenciais p. 19",
+            explanation: "O Mediador atua sob supervisão do Professor Regente, mediando o processo pedagógico."
+        },
+        {
+            author: "Docência",
+            text: "Qual é a titulação sugerida para Professores Regentes e Conteudistas?",
+            options: ["Apenas Graduação.", "Pós-graduação Lato Sensu.", "Pós-graduação Stricto Sensu (predominantemente doutores).", "Ensino Médio."],
+            correct: 2,
+            text_ref: "Referenciais p. 17-19",
+            explanation: "O documento sugere que esses professores tenham formação stricto sensu, predominantemente doutores."
+        },
+        {
+            author: "Docência",
+            text: "O Mediador Pedagógico Presencial atua principalmente onde?",
+            options: ["Na sede da IES.", "No ambiente virtual apenas.", "Nos polos e ambientes profissionais.", "No MEC."],
+            correct: 2,
+            text_ref: "Referenciais p. 20",
+            explanation: "O Mediador Presencial promove atividades nos polos ou ambientes profissionais para aprofundamento prático."
+        },
+
+        // --- 4. Ensino e Aprendizagem ---
+        {
+            author: "Ensino e Aprendizagem",
+            text: "As atividades síncronas reguladas são aquelas que:",
+            options: ["Ocorrem a qualquer hora.", "Acontecem em tempo real, com limite de participação e controle de frequência.", "São gravadas para assistir depois.", "Não têm interação."],
+            correct: 1,
+            text_ref: "Referenciais p. 6-7 e 25",
+            explanation: "Definem-se pela interação em tempo real (áudio/vídeo) com controle de frequência e limite de alunos."
+        },
+        {
+            author: "Ensino e Aprendizagem",
+            text: "Sobre as práticas laboratoriais exigidas pelas DCN, elas devem:",
+            options: ["Ser substituídas por vídeos.", "Ser oferecidas presencialmente nos polos com qualidade equivalente ao presencial.", "Ser opcionais.", "Ser feitas em casa pelo aluno."],
+            correct: 1,
+            text_ref: "Referenciais p. 24",
+            explanation: "Cursos que exigem laboratórios (DCN) devem oferecê-los presencialmente nos polos com equipamentos adequados."
+        },
+        {
+            author: "Ensino e Aprendizagem",
+            text: "A avaliação presencial deve ter qual peso na nota final?",
+            options: ["Peso menor que as atividades online.", "Peso igual.", "Peso majoritário (maior parte da nota).", "Não conta nota."],
+            correct: 2,
+            text_ref: "Referenciais p. 32",
+            explanation: "A avaliação presencial deve ter peso majoritário na composição da nota final para garantir a integridade da avaliação."
+        },
+        {
+            author: "Ensino e Aprendizagem",
+            text: "Pelo menos um terço da avaliação presencial deve ser composta por:",
+            options: ["Questões de múltipla escolha.", "Questões discursivas de análise e síntese.", "Autoavaliação.", "Chamada oral."],
+            correct: 1,
+            text_ref: "Referenciais p. 32",
+            explanation: "Para evitar apenas testes objetivos, exige-se questões discursivas que avaliem análise e síntese."
+        },
+        {
+            author: "Ensino e Aprendizagem",
+            text: "Plataformas de Laboratórios Virtuais:",
+            options: ["Substituem totalmente a prática presencial.", "Não servem para nada.", "São ambientes simulados que complementam, mas não substituem as práticas presenciais obrigatórias.", "São videogames."],
+            correct: 2,
+            text_ref: "Referenciais p. 29",
+            explanation: "Eles permitem experimentos controlados e interativos, mas não substituem práticas presenciais exigidas."
+        },
+
+        // --- 5. Polos e Infraestrutura ---
+        {
+            author: "Polos e Infraestrutura",
+            text: "O polo de EaD é definido como:",
+            options: ["Apenas um local para fazer matrícula.", "Espaço educativo essencial para contato, avaliações, laboratórios e socialização.", "Um escritório administrativo.", "Um local opcional."],
+            correct: 1,
+            text_ref: "Referenciais p. 34",
+            explanation: "O polo é parte da identidade institucional, local de avaliações, práticas e socialização."
+        },
+        {
+            author: "Polos e Infraestrutura",
+            text: "Quanto à gestão, o polo deve contar com:",
+            options: ["Apenas um segurança.", "Um gestor acadêmico capacitado pela IES.", "Um vendedor de cursos.", "Nenhum funcionário."],
+            correct: 1,
+            text_ref: "Referenciais p. 35",
+            explanation: "Deve haver um gestor acadêmico para acolhimento, orientação e ponte com atividades de extensão."
+        },
+        {
+            author: "Polos e Infraestrutura",
+            text: "Sobre a infraestrutura dos polos:",
+            options: ["Pode ser qualquer sala alugada.", "Deve atender normas da ABNT e ter laboratórios físicos se o curso exigir.", "Não precisa de internet.", "Basta ter um computador."],
+            correct: 1,
+            text_ref: "Referenciais p. 34",
+            explanation: "Devem ter infraestrutura adequada (biblioteca, laboratórios, acessibilidade) conforme o número de alunos e cursos."
+        },
+        {
+            author: "Polos e Infraestrutura",
+            text: "Ambientes Profissionais (empresas, clínicas) podem ser usados?",
+            options: ["Não, tudo deve ser na sede.", "Sim, mediante convênio, para práticas supervisionadas.", "Sim, sem necessidade de formalização.", "Apenas para cursos de gestão."],
+            correct: 1,
+            text_ref: "Referenciais p. 26",
+            explanation: "Parcerias formalizadas com ambientes profissionais são incentivadas para vivência prática real."
+        },
+        {
+            author: "Polos e Infraestrutura",
+            text: "Os polos devem ser preferencialmente:",
+            options: ["Terceirizados para várias faculdades ao mesmo tempo.", "Próprios da instituição ou parceiros exclusivos.", "Virtuais.", "Itinerantes."],
+            correct: 1,
+            text_ref: "Referenciais p. 35",
+            explanation: "Devem ser preferencialmente próprios ou mantidos por parceiros que atendam unicamente a uma IES."
+        },
+
+        // --- 6. Gestão e Qualidade ---
+        {
+            author: "Gestão e Qualidade",
+            text: "A autoavaliação institucional (SINAES) na EaD deve:",
+            options: ["Ser feita apenas para cumprir lei.", "Orientar a revisão periódica de processos e práticas educacionais.", "Ser sigilosa.", "Focar apenas no lucro."],
+            correct: 1,
+            text_ref: "Referenciais p. 38",
+            explanation: "A autoavaliação deve gerar relatórios reflexivos que orientem melhorias contínuas nos cursos."
+        },
+        {
+            author: "Gestão e Qualidade",
+            text: "Sobre a empregabilidade dos egressos:",
+            options: ["Não é problema da IES.", "É um indicador de sucesso e impacto socioeconômico que deve ser monitorado.", "Depende apenas da sorte.", "Só importa para cursos tecnológicos."],
+            correct: 1,
+            text_ref: "Referenciais p. 39-40",
+            explanation: "A IES deve monitorar a empregabilidade como evidência da relevância e qualidade do curso."
+        },
+        {
+            author: "Gestão e Qualidade",
+            text: "A internacionalização na EaD envolve:",
+            options: ["Apenas viagens ao exterior.", "Mobilidade física e virtual, e currículos comparados a padrões globais.", "Apenas traduzir o site.", "Não se aplica a EaD."],
+            correct: 1,
+            text_ref: "Referenciais p. 40-41",
+            explanation: "Inclui mobilidade virtual, intercâmbio de práticas e currículos alinhados a tendências globais."
+        },
+        {
+            author: "Gestão e Qualidade",
+            text: "Para garantir a integridade acadêmica nas avaliações, a IES deve:",
+            options: ["Confiar na honestidade de todos.", "Garantir a identidade do estudante (ex: biometria, presencialidade) e coerência com o plano de ensino.", "Eliminar as provas.", "Fazer apenas provas em grupo."],
+            correct: 1,
+            text_ref: "Referenciais p. 32",
+            explanation: "É fundamental certificar a identidade do estudante, especialmente nas avaliações presenciais e online."
+        },
+        {
+            author: "Gestão e Qualidade",
+            text: "O Plano de Desenvolvimento Institucional (PDI) deve:",
+            options: ["Tratar a EaD como algo separado.", "Integrar a oferta EaD ao planejamento estratégico da instituição.", "Ser um documento secreto.", "Focar apenas no presencial."],
+            correct: 1,
+            text_ref: "Referenciais p. 36",
+            explanation: "A oferta EaD deve ser fruto de planejamento estratégico expresso no PDI e PPI da instituição."
+        }
+    ];
+
+    // LÓGICA DO QUIZ
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let isAnswered = false;
+
+    // Elementos DOM
+    const startScreen = document.getElementById('start-screen');
+    const quizScreen = document.getElementById('quiz-screen');
+    const endScreen = document.getElementById('end-screen');
+    
+    const questionCounter = document.getElementById('question-counter');
+    const scoreEl = document.getElementById('score');
+    const authorNameEl = document.getElementById('author-name');
+    const questionTextEl = document.getElementById('question-text');
+    const optionsContainer = document.getElementById('options-container');
+    const explanationBox = document.getElementById('explanation');
+    const explanationText = document.getElementById('explanation-text');
+    const nextBtn = document.getElementById('next-btn');
+    const finalScoreEl = document.getElementById('final-score');
+    const finalMessageEl = document.getElementById('final-message');
+
+    function startQuiz() {
+        startScreen.style.display = 'none';
+        quizScreen.style.display = 'block';
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        isAnswered = false;
+        const q = questions[currentQuestionIndex];
+        
+        // Resetar UI
+        explanationBox.style.display = 'none';
+        nextBtn.classList.add('disabled');
+        optionsContainer.innerHTML = '';
+        
+        // Preencher dados
+        questionCounter.innerText = `Questão ${currentQuestionIndex + 1}/${questions.length}`;
+        authorNameEl.innerText = q.author; // Usando Tópico como Autor
+        questionTextEl.innerText = q.text;
+
+        // Gerar Botões
+        q.options.forEach((opt, index) => {
+            const btn = document.createElement('button');
+            btn.className = 'btn btn-outline-dark option-btn';
+            btn.innerText = opt;
+            btn.onclick = () => checkAnswer(index, btn);
+            optionsContainer.appendChild(btn);
+        });
+    }
+
+    function checkAnswer(selectedIndex, btnElement) {
+        if (isAnswered) return;
+        isAnswered = true;
+
+        const q = questions[currentQuestionIndex];
+        const buttons = optionsContainer.querySelectorAll('button');
+
+        if (selectedIndex === q.correct) {
+            btnElement.classList.remove('btn-outline-dark');
+            btnElement.classList.add('btn-success');
+            score++;
+            scoreEl.innerText = score;
+        } else {
+            btnElement.classList.remove('btn-outline-dark');
+            btnElement.classList.add('btn-danger');
+            // Mostrar a correta
+            buttons[q.correct].classList.remove('btn-outline-dark');
+            buttons[q.correct].classList.add('btn-success');
+        }
+
+        // Mostrar explicação
+        explanationText.innerText = q.explanation;
+        explanationBox.style.display = 'block';
+        
+        // Habilitar botão Próximo
+        nextBtn.classList.remove('disabled');
+    }
+
+    function nextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            loadQuestion();
+        } else {
+            showResults();
+        }
+    }
+
+    function showResults() {
+        quizScreen.style.display = 'none';
+        endScreen.style.display = 'block';
+        finalScoreEl.innerText = score;
+
+        const percentage = (score / questions.length) * 100;
+        let message = "";
+        
+        if (percentage >= 90) message = "Excelente! Você domina os novos Referenciais de Qualidade EaD!";
+        else if (percentage >= 70) message = "Muito bom! Você tem um bom conhecimento sobre as diretrizes.";
+        else if (percentage >= 50) message = "Bom. Mas vale a pena reler o documento para fixar os detalhes técnicos.";
+        else message = "Atenção! É recomendável estudar o documento do MEC com mais profundidade.";
+        
+        finalMessageEl.innerText = message;
+    }
+</script>
+
+</body>
+</html>

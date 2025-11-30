@@ -2,612 +2,709 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mega Quiz Pedagógico: Métodos e Avaliação</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Quiz: Resumo 2ª Unidade</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
     <style>
-        body { background-color: #f8f9fa; }
-        .quiz-card { max-width: 800px; margin: 30px auto; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        .author-badge { font-size: 0.9rem; margin-bottom: 10px; }
-        .option-btn { text-align: left; margin-bottom: 8px; transition: all 0.3s; }
-        .explanation-box { display: none; margin-top: 15px; border-left: 5px solid #0d6efd; background-color: #e7f1ff; padding: 15px; border-radius: 5px; }
-        .score-display { font-size: 1.2rem; font-weight: bold; color: #198754; }
+        :root {
+            --primary-color: #4f46e5;
+            --success-color: #10b981;
+            --error-color: #ef4444;
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            color: #1f2937;
+            padding-bottom: 80px; /* Espaço para o botão flutuante */
+        }
+
+        /* Container Principal - Estilo App */
+        .app-container {
+            max-width: 600px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background: var(--card-bg);
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media (min-width: 768px) {
+            .app-container {
+                min-height: auto;
+                margin-top: 40px;
+                margin-bottom: 40px;
+                border-radius: 20px;
+                overflow: hidden;
+            }
+            body { padding-bottom: 0; }
+        }
+
+        /* Header */
+        .quiz-header {
+            padding: 20px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .progress {
+            height: 8px;
+            border-radius: 4px;
+            background-color: #e5e7eb;
+            margin-top: 10px;
+        }
+
+        .progress-bar {
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        /* Corpo do Quiz */
+        .quiz-body {
+            padding: 25px 20px;
+            flex-grow: 1;
+        }
+
+        .author-badge {
+            background-color: #e0e7ff;
+            color: var(--primary-color);
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .question-text {
+            font-size: 1.25rem;
+            font-weight: 700;
+            line-height: 1.4;
+            margin-bottom: 25px;
+            color: #111827;
+        }
+
+        /* Botões de Opção */
+        .option-btn {
+            width: 100%;
+            text-align: left;
+            margin-bottom: 12px;
+            padding: 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            background: white;
+            color: #4b5563;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .option-btn:hover {
+            background-color: #f9fafb;
+            border-color: #d1d5db;
+        }
+
+        .option-btn:active {
+            transform: scale(0.98);
+        }
+
+        .option-btn.correct {
+            background-color: #ecfdf5;
+            border-color: var(--success-color);
+            color: #065f46;
+        }
+
+        .option-btn.wrong {
+            background-color: #fef2f2;
+            border-color: var(--error-color);
+            color: #991b1b;
+        }
+
+        /* Caixa de Explicação */
+        .explanation-box {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #eff6ff;
+            border-left: 4px solid var(--primary-color);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        /* Botão Próximo (Sticky Footer no Mobile) */
+        .footer-action {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px 20px;
+            background: white;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.05);
+            z-index: 100;
+            display: none; /* Só aparece quando responder */
+        }
+
+        @media (min-width: 768px) {
+            .footer-action {
+                position: static;
+                box-shadow: none;
+                border-top: 1px solid #e5e7eb;
+            }
+        }
+
+        /* Animações */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(79, 70, 229, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0); }
+        }
+
+        /* Tela Inicial e Final */
+        .screen-centered {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .score-big {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--primary-color);
+        }
+
+        .btn-custom-primary {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            width: 100%;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+            transition: transform 0.2s;
+        }
+        
+        .btn-custom-primary:active {
+            transform: scale(0.98);
+        }
+
+        .btn-home {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            text-decoration: none;
+            color: #6b7280;
+            font-size: 1.5rem;
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="card quiz-card">
-        <div class="card-header bg-primary text-white text-center">
-            <h3>Quiz: Métodos de Ensino e Avaliação</h3>
-            <p class="mb-0">6 Autores &bull; 60 Questões</p>
-        </div>
-        <div class="card-body">
-            <div id="start-screen" class="text-center">
-                <p>Este quiz contém 10 perguntas de cada um dos seguintes autores:</p>
-                <ul class="list-inline">
-                    <li class="list-inline-item badge bg-secondary">Perrenoud</li>
-                    <li class="list-inline-item badge bg-secondary">Freire</li>
-                    <li class="list-inline-item badge bg-secondary">Luckesi</li>
-                    <li class="list-inline-item badge bg-secondary">Vasconcellos</li>
-                    <li class="list-inline-item badge bg-secondary">Demo</li>
-                    <li class="list-inline-item badge bg-secondary">Hoffmann</li>
-                </ul>
-                <button class="btn btn-lg btn-success mt-3" onclick="startQuiz()">Iniciar Quiz Completo</button>
+    <div class="app-container">
+        
+        <div id="start-screen" class="screen-centered">
+            <a href="/home" class="btn-home"><i class="bi bi-house"></i></a>
+            
+            <div class="mb-4">
+                <i class="bi bi-journal-check" style="font-size: 4rem; color: var(--primary-color);"></i>
+            </div>
+            
+            <h2 class="mb-2 fw-bold">Quiz: 2ª Unidade</h2>
+            <p class="text-muted mb-4 small">Baseado no resumo oficial. O quiz cobre os seguintes tópicos:</p>
+            
+            <div class="row g-2 mb-4 w-100 px-2">
+                
+                <div class="col-6">
+                    <div class="p-2 border rounded bg-white text-dark shadow-sm" style="font-size: 0.8rem;">
+                        <i class="bi bi-lightbulb text-primary d-block mb-1" style="font-size: 1.2rem;"></i>
+                        Conceito de Didática
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="p-2 border rounded bg-white text-dark shadow-sm" style="font-size: 0.8rem;">
+                        <i class="bi bi-arrows-angle-contract text-primary d-block mb-1" style="font-size: 1.2rem;"></i>
+                        Didática e Pedagogia
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="p-2 border rounded bg-white text-dark shadow-sm" style="font-size: 0.8rem;">
+                        <i class="bi bi-person-workspace text-primary d-block mb-1" style="font-size: 1.2rem;"></i>
+                        Processo Educativo
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="p-2 border rounded bg-white text-dark shadow-sm" style="font-size: 0.8rem;">
+                        <i class="bi bi-diagram-3 text-primary d-block mb-1" style="font-size: 1.2rem;"></i>
+                        Interdisciplinaridade
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="p-2 border rounded bg-white text-dark shadow-sm" style="font-size: 0.8rem;">
+                        <i class="bi bi-globe-americas text-primary d-block mb-1" style="font-size: 1.2rem;"></i>
+                        Multidimensionalidade
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="p-2 border rounded bg-white text-dark shadow-sm" style="font-size: 0.8rem;">
+                        <i class="bi bi-calendar-check text-primary d-block mb-1" style="font-size: 1.2rem;"></i>
+                        Planejamento
+                    </div>
+                </div>
+
             </div>
 
-            <div id="quiz-screen" style="display: none;">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="badge bg-info text-dark" id="question-counter">Questão 1/60</span>
-                    <span class="score-display">Acertos: <span id="score">0</span></span>
-                </div>
-                
-                <h5 id="author-name" class="text-primary author-badge">Autor</h5>
-                <h4 id="question-text" class="mb-4">Texto da Pergunta</h4>
+            <button class="btn btn-custom-primary pulse-animation mb-2" onclick="startQuiz()">
+                Iniciar Revisão
+            </button>
+            <a href="segundex.html" class="btn btn-outline-primary w-100" style="font-weight:600; font-size:1.05rem;">
+                <i class="bi bi-arrow-right-circle me-2"></i> Ir para Quiz 2 (Referenciais EaD)
+            </a>
+        </div>
 
-                <div id="options-container" class="d-grid gap-2">
+        <div id="quiz-screen" style="display: none;">
+            <div class="quiz-header">
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                    <span class="fw-bold text-secondary" style="font-size: 0.9rem;">Questão <span id="current-q-num">1</span> de 30</span>
+                    <span class="badge bg-success rounded-pill" id="score-badge">Acertos: 0</span>
+                </div>
+                <div class="progress">
+                    <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <div class="quiz-body">
+                <div id="author-badge" class="author-badge">TEMA</div>
+                <h3 id="question-text" class="question-text">Pergunta...</h3>
+
+                <div id="options-container">
                     </div>
 
                 <div id="explanation" class="explanation-box">
-                    <strong>Explicação:</strong> <span id="explanation-text"></span>
-                </div>
-
-                <div class="d-flex justify-content-end mt-3">
-                    <button id="next-btn" class="btn btn-primary disabled" onclick="nextQuestion()">Próxima Pergunta</button>
+                    <div class="d-flex align-items-start">
+                        <i class="bi bi-lightbulb-fill text-warning me-2 mt-1"></i>
+                        <div>
+                            <strong>Explicação:</strong><br>
+                            <span id="explanation-text"></span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div id="end-screen" class="text-center" style="display: none;">
-                <h2>Quiz Finalizado!</h2>
-                <p class="lead">Sua pontuação final:</p>
-                <h1 class="display-4"><span id="final-score">0</span> / 60</h1>
-                <div id="final-message" class="mt-3"></div>
-                <button class="btn btn-warning mt-4" onclick="location.reload()">Reiniciar</button>
+            <div id="footer-action" class="footer-action">
+                <button id="next-btn" class="btn btn-custom-primary" onclick="nextQuestion()">
+                    Próxima <i class="bi bi-arrow-right ms-2"></i>
+                </button>
             </div>
         </div>
+
+        <div id="end-screen" class="screen-centered" style="display: none;">
+            <div class="mb-3">
+                <i class="bi bi-trophy-fill text-warning" style="font-size: 4rem;"></i>
+            </div>
+            <h2 class="fw-bold">Quiz Finalizado!</h2>
+            <p class="text-muted">Sua pontuação final foi:</p>
+            <div class="score-big mb-2"><span id="final-score">0</span><span style="font-size: 1.5rem; color: #9ca3af;">/30</span></div>
+            
+            <p id="final-message" class="fw-medium px-4 mb-4"></p>
+            
+            <button class="btn btn-outline-primary btn-lg w-100" onclick="location.reload()">
+                <i class="bi bi-arrow-clockwise me-2"></i> Tentar Novamente
+            </button>
+            <a href="/home" class="btn btn-link text-muted mt-3">Voltar para Home</a>
+        </div>
+
     </div>
-</div>
 
-<script>
-    // BANCO DE DADOS COM 60 QUESTÕES (10 por autor)
-    const questions = [
-        // --- 1. Philippe Perrenoud ---
-        {
-            author: "Philippe Perrenoud",
-            text: "Para Perrenoud, a avaliação formativa deve estar focada primariamente em:",
-            options: ["Classificar os alunos em ordem de desempenho.", "Regular as aprendizagens e auxiliar o aluno a superar dificuldades.", "Punir comportamentos inadequados.", "Cumprir as exigências burocráticas da escola."],
-            correct: 1,
-            explanation: "Para Perrenoud, a avaliação formativa serve para regular o processo de ensino-aprendizagem, oferecendo feedback para que o aluno avance."
-        },
-        {
-            author: "Philippe Perrenoud",
-            text: "O conceito de 'Competência' para Perrenoud envolve:",
-            options: ["Apenas o domínio de teorias.", "A capacidade de mobilizar recursos cognitivos para enfrentar situações complexas.", "A memorização de conteúdos factuais.", "A obediência às regras escolares."],
-            correct: 1,
-            explanation: "Competência é a faculdade de mobilizar um conjunto de recursos cognitivos (saberes, capacidades, informações) para solucionar com pertinência uma série de situações."
-        },
-        {
-            author: "Philippe Perrenoud",
-            text: "Sobre os ciclos de aprendizagem, Perrenoud defende que:",
-            options: ["Devem ser eliminados em favor da seriação rígida.", "São eficazes apenas se houver reprovação anual.", "Permitem respeitar os diferentes ritmos de aprendizagem dos alunos ao longo de vários anos.", "Não funcionam na prática escolar."],
-            correct: 2,
-            explanation: "Os ciclos plurianuais são vistos como uma estrutura que permite gerir a progressão das aprendizagens respeitando os ritmos individuais."
-        },
-        {
-            author: "Philippe Perrenoud",
-            text: "Qual destas é uma das '10 Novas Competências para Ensinar'?",
-            options: ["Administrar a própria carreira.", "Ensinar apenas aulas expositivas.", "Observar e avaliar os alunos em situações de aprendizagem (avaliação formativa).", "Ignorar a tecnologia."],
-            correct: 2,
-            explanation: "Gerir a progressão das aprendizagens através da observação e avaliação formativa é uma das competências centrais listadas pelo autor."
-        },
-        {
-            author: "Philippe Perrenoud",
-            text: "A 'diferenciação pedagógica' busca:",
-            options: ["Dar a mesma aula para todos para garantir igualdade.", "Criar situações de aprendizagem variadas para atender à heterogeneidade da turma.", "Separar os alunos fracos dos fortes em salas diferentes.", "Diminuir o conteúdo para facilitar a aprovação."],
-            correct: 1,
-            explanation: "Diferenciar é organizar as interações e atividades de modo que cada aluno tenha situações fecundas de aprendizagem."
-        },
-        {
-            author: "Philippe Perrenoud",
-            text: "Perrenoud critica a 'fabricação da excelência escolar' porque:",
-            options: ["A escola valoriza normas arbitrárias que nem sempre refletem competências reais.", "A excelência é impossível de atingir.", "Todos os alunos já são excelentes naturalmente.", "A escola não deveria ensinar nada."],
-            correct: 0,
-            explanation: "Ele analisa como a escola define o que é sucesso ou fracasso baseada em normas que muitas vezes privilegiam certas classes sociais ou habilidades específicas."
-        },
-        {
-            author: "Philippe Perrenoud",
-            text: "No ensino por competências, o papel do erro é:",
-            options: ["Uma falha que deve ser punida com nota baixa.", "Um indicador de falta de inteligência.", "Uma ferramenta essencial de aprendizagem e regulação.", "Irrelevante para o processo."],
-            correct: 2,
-            explanation: "O erro é visto como sintoma de como o aluno pensa e uma oportunidade para ajustar o ensino (regulação)."
-        },
-        {
-            author: "Philippe Perrenoud",
-            text: "O 'Ofício de Aluno' refere-se a:",
-            options: ["Trabalhar fora da escola.", "As estratégias que os estudantes desenvolvem para sobreviver e ter sucesso no sistema escolar.", "A profissão futura do estudante.", "Ser monitor da sala."],
-            correct: 1,
-            explanation: "É o conjunto de comportamentos e estratégias (como entender o que o professor quer) que o aluno adota para 'jogar o jogo' da escola."
-        },
-        {
-            author: "Philippe Perrenoud",
-            text: "Para trabalhar com projetos, o professor deve:",
-            options: ["Negociar com os alunos e partir de questões reais.", "Seguir estritamente o livro didático.", "Evitar a interdisciplinaridade.", "Fazer todo o trabalho pelos alunos."],
-            correct: 0,
-            explanation: "A pedagogia de projetos envolve a participação ativa dos alunos e a conexão com problemas reais."
-        },
-        {
-            author: "Philippe Perrenoud",
-            text: "A prática reflexiva no ensino implica que o professor:",
-            options: ["Siga manuais sem questionar.", "Analise sua própria prática para ajustá-la e melhorá-la continuamente.", "Reclame dos alunos na sala dos professores.", "Apenas cumpra o horário."],
-            correct: 1,
-            explanation: "O professor reflexivo é aquele que pensa sobre o que faz, por que faz e como pode fazer melhor, adaptando-se às situações."
-        },
+    <script>
+        // --- DADOS DAS QUESTÕES DO PDF (30 Questões) ---
+        const questions = [
+            // --- TEMA 01: DIDÁTICA ---
+            {
+                author: "Tema 01 - Didática",
+                text: "Como o texto define o conceito de Didática?",
+                options: ["É a ciência responsável apenas pela administração escolar.", "Consiste na análise e desenvolvimento de técnicas e métodos para ensinar determinado conteúdo.", "É o estudo exclusivo da legislação educacional.", "Refere-se apenas às atividades recreativas na escola."],
+                correct: 1,
+                explanation: "Conforme o texto, a didática consiste na análise e desenvolvimento de técnicas e métodos que podem ser utilizados para ensinar determinado conteúdo."
+            },
+            {
+                author: "Tema 01 - Didática",
+                text: "Qual é o principal objetivo da formação continuada de professores?",
+                options: ["Substituir a formação inicial.", "Assegurar um ensino de qualidade cada vez maior aos alunos, sendo um processo permanente.", "Garantir o aumento salarial imediato.", "Cumprir apenas exigências burocráticas sem impacto prático."],
+                correct: 1,
+                explanation: "A formação continuada é entendida como um processo permanente de aperfeiçoamento para assegurar um ensino de qualidade."
+            },
+            {
+                author: "Tema 01 - Didática",
+                text: "Dentre as 'Habilidades de Vida e Carreira' propostas, qual das opções abaixo está incluída?",
+                options: ["Memorização de datas.", "Flexibilidade e Adaptação.", "Programação avançada.", "Uso de ferramentas manuais."],
+                correct: 1,
+                explanation: "O texto lista Flexibilidade e Adaptação, Iniciativa, Interação social, Produtividade e Liderança como habilidades de vida e carreira."
+            },
+            {
+                author: "Tema 01 - Didática",
+                text: "O que caracteriza a 'Automatização de escolhas' como um fator que impactará a educação do futuro?",
+                options: ["O uso exclusivo de livros físicos.", "A proibição de computadores na sala de aula.", "O uso de Inteligência Artificial e algoritmos para realizar tarefas e personalizar a interação.", "A volta do ensino totalmente manual."],
+                correct: 2,
+                explanation: "A automatização envolve sistemas inteligentes e algoritmos que permitem às máquinas realizarem tarefas antes impensadas."
+            },
+            {
+                author: "Tema 01 - Didática",
+                text: "O termo 'Narrativas tóxicas', mencionado como impacto na educação, refere-se a:",
+                options: ["Histórias de ficção científica.", "Narrativas e métricas que geram prejuízos à sociedade, aos indivíduos e às instituições de ensino.", "Livros didáticos antigos.", "Fofocas entre professores."],
+                correct: 1,
+                explanation: "Narrativas tóxicas são aquelas que estão fazendo sucesso mas são prejudiciais a comportamentos e escolhas."
+            },
 
-        // --- 2. Paulo Freire ---
-        {
-            author: "Paulo Freire",
-            text: "O conceito de 'Educação Bancária' descreve o método onde:",
-            options: ["O aluno aprende sobre economia.", "O professor 'deposita' o conhecimento no aluno, visto como passivo.", "A escola paga os alunos para estudar.", "Há troca mútua de saberes."],
-            correct: 1,
-            explanation: "Na educação bancária, o saber é uma doação dos que se julgam sábios aos que julgam nada saber."
-        },
-        {
-            author: "Paulo Freire",
-            text: "Para Freire, ensinar não é transferir conhecimento, mas:",
-            options: ["Criar as possibilidades para a sua própria produção ou construção.", "Impor a verdade científica.", "Treinar habilidades técnicas.", "Decorar fórmulas."],
-            correct: 0,
-            explanation: "Frase célebre de 'Pedagogia da Autonomia'. O aluno deve ser sujeito da construção do saber."
-        },
-        {
-            author: "Paulo Freire",
-            text: "A avaliação na perspectiva freireana deve ser:",
-            options: ["Punitiva e excludente.", "Burocrática e quantitativa.", "Dialógica e investigativa da prática.", "Usada para silenciar os alunos."],
-            correct: 2,
-            explanation: "A avaliação deve servir para refletir sobre a prática (ação-reflexão-ação) e não para classificar."
-        },
-        {
-            author: "Paulo Freire",
-            text: "O que são 'Temas Geradores'?",
-            options: ["Assuntos aleatórios escolhidos pelo livro.", "Temas extraídos da realidade de vida dos educandos para basear o ensino.", "Temas que geram polêmica inútil.", "Tópicos obrigatórios do governo."],
-            correct: 1,
-            explanation: "São temas que partem da análise do contexto existencial dos alunos, servindo de base para a alfabetização e conscientização."
-        },
-        {
-            author: "Paulo Freire",
-            text: "A 'leitura do mundo' precede a:",
-            options: ["Leitura da palavra.", "Escrita de números.", "Formação universitária.", "Prática esportiva."],
-            correct: 0,
-            explanation: "Freire defende que entender o contexto social e político (ler o mundo) é pré-requisito para a alfabetização real (ler a palavra)."
-        },
-        {
-            author: "Paulo Freire",
-            text: "A 'Educação Problematizadora' visa:",
-            options: ["Criar problemas matemáticos difíceis.", "Desenvolver a consciência crítica e a liberdade.", "Manter o status quo social.", "Adaptar o aluno ao mercado de trabalho acriticamente."],
-            correct: 1,
-            explanation: "Ao contrário da bancária, a problematizadora estimula a reflexão crítica sobre a realidade para transformá-la."
-        },
-        {
-            author: "Paulo Freire",
-            text: "Segundo Freire, a autoridade do professor:",
-            options: ["Deve ser absoluta e inquestionável.", "Não deve existir, todos são iguais.", "Não deve degenerar em autoritarismo, mas dialogar com a liberdade do aluno.", "Depende do medo que ele impõe."],
-            correct: 2,
-            explanation: "Freire não nega a autoridade do professor, mas defende que ela deve ser democrática e respeitar a autonomia do aluno."
-        },
-        {
-            author: "Paulo Freire",
-            text: "O 'Inédito Viável' refere-se a:",
-            options: ["Algo impossível de realizar.", "Uma ação transformadora possível diante de uma situação limite.", "Um projeto escolar não aprovado.", "Uma utopia inalcançável."],
-            correct: 1,
-            explanation: "É a ação concreta que se torna possível quando se toma consciência da realidade e se busca superá-la."
-        },
-        {
-            author: "Paulo Freire",
-            text: "A rigorosidade metódica para Freire significa:",
-            options: ["Ser rígido e bravo com os alunos.", "Não ter método nenhum.", "Estudar e ensinar com profundidade, não superficialmente.", "Seguir o horário rigidamente."],
-            correct: 2,
-            explanation: "Ensinar exige rigorosidade metódica: o professor deve aproximar o aluno do objeto de conhecimento com seriedade e profundidade crítica."
-        },
-        {
-            author: "Paulo Freire",
-            text: "Ninguém educa ninguém, ninguém educa a si mesmo...",
-            options: ["Os homens se educam em comunhão, mediatizados pelo mundo.", "A escola é que educa todos.", "O governo educa o povo.", "A internet educa a todos."],
-            correct: 0,
-            explanation: "Frase clássica que resume a natureza social e dialógica da educação."
-        },
+            // --- TEMA 02: DIDÁTICA E PEDAGOGIA ---
+            {
+                author: "Tema 02 - Didática e Pedagogia",
+                text: "Qual é a definição de Pedagogia apresentada no resumo?",
+                options: ["A ciência que tem como função o estudo da educação em sua totalidade.", "Uma técnica isolada de ensino.", "O estudo exclusivo da alfabetização.", "A parte administrativa da escola."],
+                correct: 0,
+                explanation: "A Pedagogia constitui-se na ciência que tem como função o estudo da educação, abrangendo sua natureza e objetivos."
+            },
+            {
+                author: "Tema 02 - Didática e Pedagogia",
+                text: "Qual a diferença de foco entre Didática e Pedagogia?",
+                options: ["A Pedagogia foca na prática e a Didática na teoria.", "A Pedagogia define diretrizes e finalidades, enquanto a Didática foca na ação do professor e apropriação do conhecimento.", "Não há diferença, são sinônimos.", "A Didática foca na gestão escolar e a Pedagogia na sala de aula."],
+                correct: 1,
+                explanation: "O texto estabelece que a Pedagogia foca nas diretrizes e finalidades da educação, enquanto a Didática liga a teoria à prática de ensino."
+            },
+            {
+                author: "Tema 02 - Didática e Pedagogia",
+                text: "Um dos papéis da didática para o professor é o 'Conhecimento Pedagógico do Conteúdo', que significa:",
+                options: ["Saber o conteúdo e não se importar com o aluno.", "Dominar o conteúdo e saber adaptá-lo em atividades que facilitem a aprendizagem.", "Apenas ler o livro didático para a turma.", "Decorar a matéria."],
+                correct: 1,
+                explanation: "É a capacidade de transformar o conteúdo da matéria em atividades que facilitem a aprendizagem dos alunos."
+            },
+            {
+                author: "Tema 02 - Didática e Pedagogia",
+                text: "Para o aluno, a didática favorece uma 'Formação Integral'. O que isso implica?",
+                options: ["Apenas a transmissão de conteúdo.", "Formar indivíduos críticos, reflexivos, autônomos e participativos.", "O aluno ficar na escola em tempo integral.", "O estudo apenas de matemática e português."],
+                correct: 1,
+                explanation: "A didática não se limita à transmissão, mas visa formar indivíduos críticos e autônomos."
+            },
+            {
+                author: "Tema 02 - Didática e Pedagogia",
+                text: "Quais são elementos da ação didática destacados no texto?",
+                options: ["Diretor, secretário e porteiro.", "O aluno, o professor, a disciplina, o contexto e as estratégias metodológicas.", "Apenas o professor e o livro.", "A prova e a nota."],
+                correct: 1,
+                explanation: "O resumo destaca: aluno, professor, disciplina (conteúdo), contexto de aprendizagem e estratégias metodológicas."
+            },
 
-        // --- 3. Cipriano Luckesi ---
-        {
-            author: "Cipriano Luckesi",
-            text: "Luckesi faz uma distinção crucial entre:",
-            options: ["Prova e Teste.", "Avaliação da Aprendizagem e Exames Escolares.", "Ensino e Educação.", "Professor e Educador."],
-            correct: 1,
-            explanation: "Sua principal tese é que a escola pratica exames (classificatórios) em vez de avaliação (diagnóstica e inclusiva)."
-        },
-        {
-            author: "Cipriano Luckesi",
-            text: "Os 'Exames Escolares' têm como característica:",
-            options: ["Serem dinâmicos e inclusivos.", "Serem pontuais, classificatórios e excludentes.", "Visarem o crescimento do aluno.", "Permitirem a reorientação imediata da aprendizagem."],
-            correct: 1,
-            explanation: "O exame apenas verifica uma nota em um momento final, separando aprovados e reprovados sem tratar a aprendizagem."
-        },
-        {
-            author: "Cipriano Luckesi",
-            text: "A avaliação deve ser um 'ato amoroso' no sentido de que:",
-            options: ["O professor deve beijar os alunos.", "O professor deve aprovar todos por pena.", "Ela acolhe o aluno como ele está para ajudá-lo a avançar.", "Ela ignora os erros para não magoar."],
-            correct: 2,
-            explanation: "Acolher a realidade do aluno (mesmo que insatisfatória) é o primeiro passo para intervir e construir o conhecimento."
-        },
-        {
-            author: "Cipriano Luckesi",
-            text: "A função constitutiva da avaliação é:",
-            options: ["O Diagnóstico.", "A Punição.", "A Premiação.", "A Seleção."],
-            correct: 0,
-            explanation: "A avaliação diagnostica a realidade para tomar decisões de como intervir e melhorar."
-        },
-        {
-            author: "Cipriano Luckesi",
-            text: "O erro na aprendizagem deve ser encarado como:",
-            options: ["Virtude para a reprovação.", "Fonte de castigo.", "Um trampolim para a aprendizagem (virtude epistemológica).", "Vergonha para o aluno."],
-            correct: 2,
-            explanation: "O erro mostra como o aluno está pensando e indica onde o professor deve atuar."
-        },
-        {
-            author: "Cipriano Luckesi",
-            text: "A 'Pedagogia do Exame' gera:",
-            options: ["Sucesso escolar universal.", "Ansiedade, cola e foco apenas na nota.", "Aprendizagem profunda.", "Cooperação entre alunos."],
-            correct: 1,
-            explanation: "Quando o foco é a nota (exame), o processo de aprender é desviado para a obtenção de aprovação a qualquer custo."
-        },
-        {
-            author: "Cipriano Luckesi",
-            text: "Para Luckesi, planejar é:",
-            options: ["Preencher diários de classe.", "O ato pelo qual decidimos o que fazer.", "Copiar o plano do ano anterior.", "Uma exigência burocrática inútil."],
-            correct: 1,
-            explanation: "Planejamento é um ato político-pedagógico de decisão sobre os objetivos e meios da ação educativa."
-        },
-        {
-            author: "Cipriano Luckesi",
-            text: "A avaliação deve ser 'inclusiva' porque:",
-            options: ["Ela coloca todos para dentro da escola sem critério.", "Ao diagnosticar e intervir, ela traz quem não aprendeu para a aprendizagem.", "Ela impede a reprovação por lei.", "Ela agrada aos pais."],
-            correct: 1,
-            explanation: "Inclusiva no sentido epistemológico: garante que o aluno aprenda o que não sabia."
-        },
-        {
-            author: "Cipriano Luckesi",
-            text: "A culpa pelo fracasso escolar, na lógica dos exames, recai sobre:",
-            options: ["O sistema.", "O método.", "O aluno (individualização do fracasso).", "O governo."],
-            correct: 2,
-            explanation: "Os exames julgam o aluno como incapaz, isentando o método de ensino ou o sistema de responsabilidade."
-        },
-        {
-            author: "Cipriano Luckesi",
-            text: "Qual instrumento de avaliação é o melhor segundo Luckesi?",
-            options: ["A prova escrita.", "O seminário.", "Não há instrumento ideal, depende do que se quer avaliar.", "A chamada oral."],
-            correct: 2,
-            explanation: "Os instrumentos devem ser adequados ao objeto de conhecimento e variados; não existe um único método perfeito."
-        },
+            // --- TEMA 03: PROCESSO DIDÁTICO EDUCATIVO ---
+            {
+                author: "Tema 03 - Processo Didático",
+                text: "O que caracteriza a 'Aprendizagem Casual'?",
+                options: ["É planejada e sistemática.", "Acontece na escola com horário marcado.", "É espontânea, surgindo da interação social e observação do ambiente.", "Depende de provas e notas."],
+                correct: 2,
+                explanation: "A aprendizagem casual é quase sempre espontânea e surge naturalmente da convivência e interação com o ambiente."
+            },
+            {
+                author: "Tema 03 - Processo Didático",
+                text: "Qual a finalidade da 'Aprendizagem Organizada' transmitida pela escola?",
+                options: ["Aprender o que se quer, sem regras.", "Aprender determinados conhecimentos, habilidades e normas de forma intencional e planejada.", "Apenas socializar com amigos.", "Observar a natureza sem orientação."],
+                correct: 1,
+                explanation: "A escola promove uma aprendizagem intencional, planejada e sistemática de conhecimentos específicos."
+            },
+            {
+                author: "Tema 03 - Processo Didático",
+                text: "Sobre os 'Objetivos' como componente da aula, o texto afirma que:",
+                options: ["São metas que se deseja alcançar e expressam propósitos definidos.", "São opcionais e o professor decide na hora.", "Devem ser secretos para os alunos.", "Servem apenas para preencher o diário."],
+                correct: 0,
+                explanation: "Objetivos são metas definidas previamente pelo professor para guiar o que se deseja alcançar na aula."
+            },
+            {
+                author: "Tema 03 - Processo Didático",
+                text: "Os 'Conteúdos' de ensino são advindos de:",
+                options: ["Apenas da opinião pessoal do professor.", "Um conjunto social formado pela cultura, ciência, técnica e arte.", "Somente livros de ficção.", "Decisões aleatórias dos alunos."],
+                correct: 1,
+                explanation: "Os conteúdos expostos pelo professor vêm do conjunto de saberes culturais, científicos e técnicos da sociedade."
+            },
+            {
+                author: "Tema 03 - Processo Didático",
+                text: "Segundo o texto, a avaliação escolar não deve se resumir a:",
+                options: ["Identificar progressos.", "Orientar os alunos.", "Realização de provas e atribuição de notas.", "Diagnosticar dificuldades."],
+                correct: 2,
+                explanation: "A avaliação é uma tarefa complexa que vai além de provas e notas, cumprindo funções pedagógico-didáticas de diagnóstico."
+            },
 
-        // --- 4. Celso dos Santos Vasconcellos ---
-        {
-            author: "Celso Vasconcellos",
-            text: "Vasconcellos propõe a superação da metodologia expositiva através da:",
-            options: ["Metodologia Dialética de Construção do Conhecimento.", "Metodologia da Memorização.", "Tecnologia Educacional.", "Educação a Distância."],
-            correct: 0,
-            explanation: "Ele defende um método que parta da realidade (síncrese), analise (análise) e volte à realidade transformada (síntese)."
-        },
-        {
-            author: "Celso Vasconcellos",
-            text: "Os três momentos do método dialético em sala de aula são:",
-            options: ["Início, Meio e Fim.", "Mobilização, Construção e Síntese.", "Leitura, Cópia e Prova.", "Planejamento, Execução e Férias."],
-            correct: 1,
-            explanation: "Mobilização (despertar interesse), Construção (interação com o objeto) e Síntese (elaboração do novo saber)."
-        },
-        {
-            author: "Celso Vasconcellos",
-            text: "Sobre o Planejamento, Vasconcellos critica:",
-            options: ["O planejamento participativo.", "O planejamento como mera formalidade burocrática.", "O planejamento reflexivo.", "A falta de papel."],
-            correct: 1,
-            explanation: "Ele critica o 'fazer de conta' do planejamento que não altera a prática real da sala de aula."
-        },
-        {
-            author: "Celso Vasconcellos",
-            text: "A avaliação deve estar articulada com:",
-            options: ["O pagamento da mensalidade.", "O Projeto Político-Pedagógico e o Planejamento.", "A direção da escola apenas.", "O humor do professor."],
-            correct: 1,
-            explanation: "A avaliação não é um ato isolado, ela deve responder aos objetivos traçados no planejamento e no PPP."
-        },
-        {
-            author: "Celso Vasconcellos",
-            text: "Para transformar a prática avaliativa, é necessário:",
-            options: ["Mudar apenas os instrumentos (provas).", "Alterar a postura e a concepção do professor.", "Comprar computadores.", "Aumentar a média de aprovação."],
-            correct: 1,
-            explanation: "Não adianta mudar a técnica se a concepção do professor continua sendo classificatória e autoritária."
-        },
-        {
-            author: "Celso Vasconcellos",
-            text: "A 'Mobilização para o Conhecimento' visa:",
-            options: ["Fazer os alunos correrem.", "Criar necessidades e disposições para aprender (vínculo).", "Obrigar o estudo.", "Dar nota de participação."],
-            correct: 1,
-            explanation: "É o momento inicial de engajar o aluno, dando sentido ao que será estudado."
-        },
-        {
-            author: "Celso Vasconcellos",
-            text: "O autoritarismo na sala de aula:",
-            options: ["É necessário para manter a ordem.", "Dificulta a construção da autonomia e da cidadania.", "É a melhor forma de ensino.", "Não existe mais no Brasil."],
-            correct: 1,
-            explanation: "Vasconcellos defende a construção da disciplina consciente e interativa, oposta ao autoritarismo."
-        },
-        {
-            author: "Celso Vasconcellos",
-            text: "A 'Síntese do Conhecimento' é:",
-            options: ["O resumo do livro.", "A apropriação efetiva do saber pelo aluno, expressa de forma pessoal.", "A cópia da lousa.", "A nota final."],
-            correct: 1,
-            explanation: "É quando o aluno consegue expressar o que aprendeu com suas próprias palavras e aplicar em novas situações."
-        },
-        {
-            author: "Celso Vasconcellos",
-            text: "O Conselho de Classe deve ser:",
-            options: ["Um momento para falar mal dos alunos.", "Um espaço de reflexão coletiva para avaliar a prática e o progresso dos alunos.", "Uma reunião para somar notas.", "Um café da tarde dos professores."],
-            correct: 1,
-            explanation: "Deve ser um espaço diagnóstico e deliberativo sobre o processo ensino-aprendizagem global."
-        },
-        {
-            author: "Celso Vasconcellos",
-            text: "A relação professor-aluno deve pautar-se na:",
-            options: ["Indiferença.", "Amizade sem limites.", "Interação mediadora e respeito mútuo.", "Submissão."],
-            correct: 2,
-            explanation: "O professor é o mediador entre o aluno e o conhecimento, numa relação de respeito e construção."
-        },
+            // --- TEMA 04: FORMAS DE ABORDAGENS ---
+            {
+                author: "Tema 04 - Abordagens",
+                text: "A abordagem 'Disciplinar' é caracterizada por:",
+                options: ["Conhecimentos isolados sem ligação com outras áreas.", "Forte integração entre matérias.", "Visão holística do conhecimento.", "Projetos em grupo entre professores."],
+                correct: 0,
+                explanation: "É a forma tradicional onde as disciplinas são isoladas e ensinadas de maneira independente."
+            },
+            {
+                author: "Tema 04 - Abordagens",
+                text: "O que define a abordagem 'Interdisciplinar'?",
+                options: ["Cada disciplina fica no seu canto.", "Integração de duas ou mais disciplinas para abordar um tema com fronteiras flexíveis.", "Mistura total sem distinção de matérias.", "Apenas uma disciplina estuda tudo."],
+                correct: 1,
+                explanation: "A interdisciplinaridade visa a integração e colaboração entre disciplinas para aprofundar um tema."
+            },
+            {
+                author: "Tema 04 - Abordagens",
+                text: "A abordagem 'Transdisciplinar' busca:",
+                options: ["Manter as fronteiras rígidas.", "Uma visão fragmentada.", "Ultrapassar as fronteiras disciplinares com uma visão holística.", "Eliminar todas as matérias da escola."],
+                correct: 2,
+                explanation: "A transdisciplinaridade lida com a complexidade e busca uma integração que vai além das disciplinas (visão holística)."
+            },
+            {
+                author: "Tema 04 - Abordagens",
+                text: "Qual a principal diferença entre Multidisciplinaridade e Pluridisciplinaridade?",
+                options: ["Na Multi há muita cooperação, na Pluri nenhuma.", "Na Multi não há cooperação direta; na Pluri há cooperação mas as fronteiras se mantêm.", "São exatamente a mesma coisa.", "A Pluridisciplinaridade é mais isolada que a Multidisciplinaridade."],
+                correct: 1,
+                explanation: "A multidisciplinaridade não envolve cooperação (cada um por si), enquanto a pluridisciplinaridade envolve certo grau de cooperação/diálogo."
+            },
+            {
+                author: "Tema 04 - Abordagens",
+                text: "Na abordagem 'Pluridisciplinar', as disciplinas:",
+                options: ["Se fundem completamente.", "Mantêm sua autonomia mas cooperam em um projeto comum.", "Não se comunicam.", "São extintas."],
+                correct: 1,
+                explanation: "Envolve várias disciplinas em um projeto comum com cooperação, mas cada uma mantém sua autonomia."
+            },
 
-        // --- 5. Pedro Demo ---
-        {
-            author: "Pedro Demo",
-            text: "A tese central de Pedro Demo é:",
-            options: ["Educar pela Pesquisa.", "Educar pela Cópia.", "Escola sem partido.", "Ensino Técnico."],
-            correct: 0,
-            explanation: "Para Demo, só se aprende de verdade pesquisando e elaborando conhecimento, não copiando."
-        },
-        {
-            author: "Pedro Demo",
-            text: "Qualidade formal e qualidade política são:",
-            options: ["Opostas.", "Indissociáveis.", "Irrelevantes.", "Coisas de partidos políticos."],
-            correct: 1,
-            explanation: "Não há qualidade educacional sem competência técnica (formal) e sem compromisso social (política)."
-        },
-        {
-            author: "Pedro Demo",
-            text: "O que Pedro Demo chama de 'Aula-Cópia'?",
-            options: ["A aula em que o professor dita ou resume e o aluno copia e devolve na prova.", "A aula de artes.", "A aula com fotocópias.", "A aula ideal."],
-            correct: 0,
-            explanation: "É a crítica severa à reprodução de conhecimento alheio sem reconstrução crítica."
-        },
-        {
-            author: "Pedro Demo",
-            text: "A avaliação qualitativa deve focar:",
-            options: ["Na quantidade de folhas escritas.", "No processo de produção e reconstrução do conhecimento.", "Na média estatística.", "No comportamento silencioso."],
-            correct: 1,
-            explanation: "Avaliar é acompanhar a evolução da capacidade do aluno de produzir e argumentar."
-        },
-        {
-            author: "Pedro Demo",
-            text: "O professor deve ser, antes de tudo:",
-            options: ["Um repassador de aula.", "Um pesquisador.", "Um burocrata.", "Um amigo."],
-            correct: 1,
-            explanation: "Para ensinar a pesquisar, o professor precisa ter a postura de pesquisador, de autoria própria."
-        },
-        {
-            author: "Pedro Demo",
-            text: "A 'Pobreza Política' do brasileiro está ligada a:",
-            options: ["Falta de dinheiro.", "Falta de qualidade educacional que gere cidadania ativa e crítica.", "Falta de políticos honestos apenas.", "Falta de tecnologia."],
-            correct: 1,
-            explanation: "O brasileiro é 'pobre politicamente' porque a educação falha em formar sujeitos históricos autônomos."
-        },
-        {
-            author: "Pedro Demo",
-            text: "Aprender é:",
-            options: ["Escutar.", "Reconstruir conhecimento.", "Decorar.", "Passar de ano."],
-            correct: 1,
-            explanation: "A aprendizagem ocorre na reconstrução interna do saber, não na absorção passiva."
-        },
-        {
-            author: "Pedro Demo",
-            text: "A avaliação deve ser 'intensiva', o que significa:",
-            options: ["Muitas provas por semana.", "Acompanhamento passo a passo do processo de produção do aluno.", "Provas muito difíceis.", "Avaliação externa do MEC."],
-            correct: 1,
-            explanation: "O professor deve acompanhar de perto a elaboração do aluno (cuidar do aluno)."
-        },
-        {
-            author: "Pedro Demo",
-            text: "Para Demo, a função principal da escola básica é:",
-            options: ["Preparar para o vestibular.", "Formar competência humana e cidadã.", "Guardar as crianças.", "Ensinar boas maneiras."],
-            correct: 1,
-            explanation: "A escola deve formar o sujeito competente e cidadão para atuar na sociedade."
-        },
-        {
-            author: "Pedro Demo",
-            text: "O questionamento reconstrutivo é base para:",
-            options: ["A bagunça.", "A autonomia intelectual.", "A reprovação.", "A indisciplina."],
-            correct: 1,
-            explanation: "Questionar e reconstruir saberes gera a capacidade de pensar por si mesmo (autonomia)."
-        },
+            // --- TEMA 05: MULTIDIMENSIONALIDADE ---
+            {
+                author: "Tema 05 - Multidimensionalidade",
+                text: "A 'Dimensão Psicológica' do ser humano refere-se a:",
+                options: ["Ao corpo físico.", "Às emoções, mente, sentimentos e subjetividade.", "Às leis e instituições.", "À produção de bens e serviços."],
+                correct: 1,
+                explanation: "A dimensão psicológica engloba o mundo interior: emoções, sentimentos e a singularidade de cada indivíduo."
+            },
+            {
+                author: "Tema 05 - Multidimensionalidade",
+                text: "A 'Dimensão Política' do ser humano envolve:",
+                options: ["Apenas votar a cada 4 anos.", "A capacidade de agir e intervir na sociedade, expressando opiniões.", "Não se envolver em questões públicas.", "Apenas obedecer leis."],
+                correct: 1,
+                explanation: "Refere-se à capacidade de participação na vida pública e intervenção na sociedade."
+            },
+            {
+                author: "Tema 05 - Multidimensionalidade",
+                text: "Por que a escola é considerada multidimensional?",
+                options: ["Porque tem muitas salas.", "Porque é um espaço onde múltiplas dimensões (humana, social, política) se encontram e articulam.", "Porque ensina muitas matérias.", "Porque tem vários andares."],
+                correct: 1,
+                explanation: "A escola reflete tensões sociais, influencia a formação humana e envolve aspectos técnicos, humanos e políticos."
+            },
+            {
+                author: "Tema 05 - Multidimensionalidade",
+                text: "Sobre a relação entre sociedade e escola, o texto afirma que:",
+                options: ["A escola é isolada da sociedade.", "A sociedade molda a escola, refletindo suas necessidades e valores.", "A escola não influencia a sociedade.", "A sociedade não interfere na escola."],
+                correct: 1,
+                explanation: "Existe um ciclo de influências: a sociedade molda a escola, que por sua vez forma o homem que transforma a sociedade."
+            },
+            {
+                author: "Tema 05 - Multidimensionalidade",
+                text: "O 'Aspecto Histórico' da sociedade diz respeito a:",
+                options: ["Apenas datas comemorativas.", "Conjunto de experiências passadas que determinam o presente e influenciam o futuro.", "O estudo de guerras antigas apenas.", "O futuro distante."],
+                correct: 1,
+                explanation: "É o conjunto de experiências que constroem a identidade temporal da sociedade, influenciando presente e futuro."
+            },
 
-        // --- 6. Jussara Hoffmann ---
-        {
-            author: "Jussara Hoffmann",
-            text: "Hoffmann é a principal defensora da:",
-            options: ["Avaliação Classificatória.", "Avaliação Mediadora.", "Avaliação Punitiva.", "Avaliação Somativa."],
-            correct: 1,
-            explanation: "Sua obra central é 'Avaliação Mediadora', que propõe a avaliação a serviço da aprendizagem."
-        },
-        {
-            author: "Jussara Hoffmann",
-            text: "Avaliar para mediar significa:",
-            options: ["Ficar no meio da sala.", "Observar o aluno e intervir para que ele avance.", "Dar a média para todos.", "Mediar conflitos de briga."],
-            correct: 1,
-            explanation: "É a ação pedagógica de desafiar o aluno a partir do entendimento de suas hipóteses provisórias."
-        },
-        {
-            author: "Jussara Hoffmann",
-            text: "As provas e testes, segundo Hoffmann:",
-            options: ["Devem ser abolidos.", "São momentos terminais de julgamento.", "São apenas um dos momentos de investigação do processo de aprendizagem.", "São a única verdade sobre o aluno."],
-            correct: 2,
-            explanation: "Provas não são fins em si mesmas, mas instrumentos para o professor entender como o aluno pensa."
-        },
-        {
-            author: "Jussara Hoffmann",
-            text: "O 'Parecer Descritivo' é importante porque:",
-            options: ["Dá mais trabalho ao professor.", "Registra a história do processo de aprendizagem do aluno qualitativamente.", "Substitui a nota por letras.", "É mais bonito."],
-            correct: 1,
-            explanation: "Ao descrever, o professor reflete sobre a caminhada do aluno, diferente de apenas dar um número (nota)."
-        },
-        {
-            author: "Jussara Hoffmann",
-            text: "A postura do professor avaliador deve ser de:",
-            options: ["Juiz.", "Investigador e provocador.", "Carrasco.", "Espectador."],
-            correct: 1,
-            explanation: "O professor investiga as respostas do aluno e provoca novas reflexões (desequilíbrios) para gerar conhecimento."
-        },
-        {
-            author: "Jussara Hoffmann",
-            text: "Hoffmann critica a média (nota 5,0 ou 7,0) porque:",
-            options: ["É muito alta.", "A aprendizagem é um processo contínuo e não um ponto estatístico.", "Deveria ser 10 para todos.", "Os pais não entendem."],
-            correct: 1,
-            explanation: "A nota muitas vezes encerra o processo, enquanto a aprendizagem deveria continuar evoluindo."
-        },
-        {
-            author: "Jussara Hoffmann",
-            text: "A avaliação mediadora exige:",
-            options: ["Turmas homogêneas.", "Acompanhamento individualizado.", "Provas de múltipla escolha.", "Silêncio absoluto."],
-            correct: 1,
-            explanation: "Exige olhar para cada aluno e suas dificuldades específicas."
-        },
-        {
-            author: "Jussara Hoffmann",
-            text: "Quando o aluno erra, o professor mediador deve:",
-            options: ["Dar zero.", "Devolver a prova com um 'X' vermelho.", "Questionar o aluno sobre seu raciocínio para levá-lo a perceber a contradição.", "Mandar estudar mais."],
-            correct: 2,
-            explanation: "A correção deve ser dialógica, fazendo o aluno refletir sobre o porquê do erro."
-        },
-        {
-            author: "Jussara Hoffmann",
-            text: "A 'Educação Infantil' na visão de Hoffmann:",
-            options: ["Não precisa de avaliação.", "Deve ter avaliação focada no acompanhamento do desenvolvimento da criança.", "Deve preparar para provas futuras.", "É apenas recreação."],
-            correct: 1,
-            explanation: "A avaliação na infância é essencialmente observação e registro do desenvolvimento, sem retenção."
-        },
-        {
-            author: "Jussara Hoffmann",
-            text: "Avaliação é reflexão transformada em:",
-            options: ["Nota.", "Ação.", "Arquivo.", "Reunião."],
-            correct: 1,
-            explanation: "Não basta refletir; a avaliação só tem sentido se levar a uma nova ação pedagógica (intervenção)."
-        }
-    ];
+            // --- TEMA 06: PLANEJAMENTO ---
+            {
+                author: "Tema 06 - Planejamento",
+                text: "O planejamento pedagógico orienta o professor sobre 'O que ensinar', que se refere a:",
+                options: ["Métodos e recursos.", "Conteúdos e habilidades a serem desenvolvidas.", "Perfil dos alunos.", "Estratégias de avaliação."],
+                correct: 1,
+                explanation: "'O que ensinar' diz respeito à seleção dos conteúdos e das habilidades que os alunos devem adquirir."
+            },
+            {
+                author: "Tema 06 - Planejamento",
+                text: "Qual é uma das consequências de um plano de ensino bem estruturado?",
+                options: ["Aumento da improvisação.", "Aulas mais organizadas, coerentes e adaptadas à realidade.", "Rigidez total sem possibilidade de mudanças.", "Alunos entediados."],
+                correct: 1,
+                explanation: "O planejamento traz clareza e organização, evitando improvisos que comprometam o aprendizado."
+            },
+            {
+                author: "Tema 06 - Planejamento",
+                text: "Para alinhar teoria e prática, uma das dicas é 'Conhecer o perfil da turma'. Isso serve para:",
+                options: ["Julgar os alunos.", "Adaptar a linguagem e os exemplos à realidade dos alunos.", "Saber quem vai reprovar.", "Escolher o representante de classe."],
+                correct: 1,
+                explanation: "Conhecer a turma permite conectar o conteúdo com a vida e interesses dos estudantes."
+            },
+            {
+                author: "Tema 06 - Planejamento",
+                text: "No exemplo prático sobre Revolução Industrial, o uso de 'jogos ou simulações' serve para:",
+                options: ["Passar o tempo.", "Reforçar o conteúdo de forma dinâmica.", "Substituir a aula teórica totalmente.", "Distrair os alunos do estudo."],
+                correct: 1,
+                explanation: "Jogos e simulações são estratégias planejadas para reforçar o aprendizado e engajar os alunos."
+            },
+            {
+                author: "Tema 06 - Planejamento",
+                text: "A avaliação no planejamento responde à pergunta:",
+                options: ["Como ensinar?", "Para quem ensinar?", "Como avaliar o aprendizado?", "Onde ensinar?"],
+                correct: 2,
+                explanation: "O planejamento deve prever estratégias de avaliação para verificar se os objetivos foram alcançados."
+            }
+        ];
 
-    // LÓGICA DO QUIZ
-    let currentQuestionIndex = 0;
-    let score = 0;
-    let isAnswered = false;
+        // --- LÓGICA DO APP ---
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let isAnswered = false;
 
-    // Elementos DOM
-    const startScreen = document.getElementById('start-screen');
-    const quizScreen = document.getElementById('quiz-screen');
-    const endScreen = document.getElementById('end-screen');
-    
-    const questionCounter = document.getElementById('question-counter');
-    const scoreEl = document.getElementById('score');
-    const authorNameEl = document.getElementById('author-name');
-    const questionTextEl = document.getElementById('question-text');
-    const optionsContainer = document.getElementById('options-container');
-    const explanationBox = document.getElementById('explanation');
-    const explanationText = document.getElementById('explanation-text');
-    const nextBtn = document.getElementById('next-btn');
-    const finalScoreEl = document.getElementById('final-score');
-    const finalMessageEl = document.getElementById('final-message');
-
-    function startQuiz() {
-        startScreen.style.display = 'none';
-        quizScreen.style.display = 'block';
-        loadQuestion();
-    }
-
-    function loadQuestion() {
-        isAnswered = false;
-        const q = questions[currentQuestionIndex];
+        // Elementos DOM
+        const startScreen = document.getElementById('start-screen');
+        const quizScreen = document.getElementById('quiz-screen');
+        const endScreen = document.getElementById('end-screen');
         
-        // Resetar UI
-        explanationBox.style.display = 'none';
-        nextBtn.classList.add('disabled');
-        optionsContainer.innerHTML = '';
+        const currentQNum = document.getElementById('current-q-num');
+        const scoreBadge = document.getElementById('score-badge');
+        const progressBar = document.getElementById('progress-bar');
         
-        // Preencher dados
-        questionCounter.innerText = `Questão ${currentQuestionIndex + 1}/${questions.length}`;
-        authorNameEl.innerText = q.author;
-        questionTextEl.innerText = q.text;
-
-        // Gerar Botões
-        q.options.forEach((opt, index) => {
-            const btn = document.createElement('button');
-            btn.className = 'btn btn-outline-dark option-btn';
-            btn.innerText = opt;
-            btn.onclick = () => checkAnswer(index, btn);
-            optionsContainer.appendChild(btn);
-        });
-    }
-
-    function checkAnswer(selectedIndex, btnElement) {
-        if (isAnswered) return;
-        isAnswered = true;
-
-        const q = questions[currentQuestionIndex];
-        const buttons = optionsContainer.querySelectorAll('button');
-
-        if (selectedIndex === q.correct) {
-            btnElement.classList.remove('btn-outline-dark');
-            btnElement.classList.add('btn-success');
-            score++;
-            scoreEl.innerText = score;
-        } else {
-            btnElement.classList.remove('btn-outline-dark');
-            btnElement.classList.add('btn-danger');
-            // Mostrar a correta
-            buttons[q.correct].classList.remove('btn-outline-dark');
-            buttons[q.correct].classList.add('btn-success');
-        }
-
-        // Mostrar explicação
-        explanationText.innerText = q.explanation;
-        explanationBox.style.display = 'block';
+        const authorBadge = document.getElementById('author-badge');
+        const questionTextEl = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
         
-        // Habilitar botão Próximo
-        nextBtn.classList.remove('disabled');
-    }
+        const explanationBox = document.getElementById('explanation');
+        const explanationText = document.getElementById('explanation-text');
+        
+        const footerAction = document.getElementById('footer-action');
+        const nextBtn = document.getElementById('next-btn');
+        
+        const finalScoreEl = document.getElementById('final-score');
+        const finalMessageEl = document.getElementById('final-message');
 
-    function nextQuestion() {
-        currentQuestionIndex++;
-        if (currentQuestionIndex < questions.length) {
+        function startQuiz() {
+            startScreen.style.display = 'none';
+            quizScreen.style.display = 'block';
             loadQuestion();
-        } else {
-            showResults();
         }
-    }
 
-    function showResults() {
-        quizScreen.style.display = 'none';
-        endScreen.style.display = 'block';
-        finalScoreEl.innerText = score;
+        function loadQuestion() {
+            isAnswered = false;
+            footerAction.style.display = 'none'; // Esconde botão próximo
+            explanationBox.style.display = 'none'; // Esconde explicação
+            
+            const q = questions[currentQuestionIndex];
+            
+            // Atualizar UI Header
+            currentQNum.innerText = currentQuestionIndex + 1;
+            const progressPercent = ((currentQuestionIndex) / questions.length) * 100;
+            progressBar.style.width = `${progressPercent}%`;
 
-        const percentage = (score / questions.length) * 100;
-        let message = "";
-        
-        if (percentage >= 90) message = "Excelente! Você é um mestre da pedagogia!";
-        else if (percentage >= 70) message = "Muito bom! Você tem um ótimo domínio dos autores.";
-        else if (percentage >= 50) message = "Bom. Você conhece os conceitos, mas pode aprofundar.";
-        else message = "Continue estudando! Esses autores são densos e exigem leitura constante.";
-        
-        finalMessageEl.innerText = message;
-    }
-</script>
+            // Preencher Pergunta
+            authorBadge.innerText = q.author;
+            questionTextEl.innerText = q.text;
+
+            // Gerar Botões
+            optionsContainer.innerHTML = '';
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerHTML = `<span class="me-2 text-secondary fw-bold">${['A','B','C','D'][index]}.</span> ${opt}`;
+                btn.onclick = () => checkAnswer(index, btn);
+                optionsContainer.appendChild(btn);
+            });
+            
+            // Scroll suave para o topo da pergunta (bom para mobile)
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function checkAnswer(selectedIndex, btnElement) {
+            if (isAnswered) return;
+            isAnswered = true;
+
+            const q = questions[currentQuestionIndex];
+            const buttons = optionsContainer.querySelectorAll('button');
+
+            if (selectedIndex === q.correct) {
+                btnElement.classList.add('correct');
+                btnElement.innerHTML += ' <i class="bi bi-check-circle-fill ms-auto"></i>';
+                score++;
+                scoreBadge.innerText = `Acertos: ${score}`;
+            } else {
+                btnElement.classList.add('wrong');
+                btnElement.innerHTML += ' <i class="bi bi-x-circle-fill ms-auto"></i>';
+                // Destacar a correta
+                const correctBtn = buttons[q.correct];
+                correctBtn.classList.add('correct');
+                correctBtn.innerHTML += ' <i class="bi bi-check-circle-fill ms-auto"></i>';
+            }
+
+            // Mostrar Explicação
+            explanationText.innerText = q.explanation;
+            explanationBox.style.display = 'block';
+            
+            // Mostrar Footer com botão Próximo
+            footerAction.style.display = 'block';
+            
+            // Pequeno scroll para mostrar o botão se necessário
+            setTimeout(() => {
+                footerAction.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            }, 100);
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            quizScreen.style.display = 'none';
+            endScreen.style.display = 'flex'; // Flex para centralizar
+            finalScoreEl.innerText = score;
+
+            const percentage = (score / questions.length) * 100;
+            let message = "";
+            let icon = "";
+            
+            if (percentage >= 90) {
+                message = "Excelente! Você dominou o conteúdo do PDF!";
+                icon = "bi-stars text-warning";
+            } else if (percentage >= 70) {
+                message = "Muito bom! Você entendeu bem os conceitos principais.";
+                icon = "bi-hand-thumbs-up-fill text-primary";
+            } else if (percentage >= 50) {
+                message = "Bom, mas revise os temas de Didática e Planejamento.";
+                icon = "bi-emoji-smile text-info";
+            } else {
+                message = "Releia o resumo e tente novamente. A base é importante!";
+                icon = "bi-book text-secondary";
+            }
+            
+            finalMessageEl.innerText = message;
+        }
+    </script>
 
 </body>
 </html>
