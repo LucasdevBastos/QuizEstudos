@@ -348,230 +348,336 @@
     </div>
 
     <script>
-        // --- DADOS DAS QUESTÕES DO PDF (30 Questões) ---
+        // --- DADOS DAS QUESTÕES DO RESUMO - 30 QUESTÕES ---
         const questions = [
-            // --- TEMA 01: DIDÁTICA ---
-            {
-                author: "Tema 01 - Didática",
-                text: "Como o texto define o conceito de Didática?",
-                options: ["É a ciência responsável apenas pela administração escolar.", "Consiste na análise e desenvolvimento de técnicas e métodos para ensinar determinado conteúdo.", "É o estudo exclusivo da legislação educacional.", "Refere-se apenas às atividades recreativas na escola."],
-                correct: 1,
-                explanation: "Conforme o texto, a didática consiste na análise e desenvolvimento de técnicas e métodos que podem ser utilizados para ensinar determinado conteúdo."
-            },
-            {
-                author: "Tema 01 - Didática",
-                text: "Qual é o principal objetivo da formação continuada de professores?",
-                options: ["Substituir a formação inicial.", "Assegurar um ensino de qualidade cada vez maior aos alunos, sendo um processo permanente.", "Garantir o aumento salarial imediato.", "Cumprir apenas exigências burocráticas sem impacto prático."],
-                correct: 1,
-                explanation: "A formação continuada é entendida como um processo permanente de aperfeiçoamento para assegurar um ensino de qualidade."
-            },
-            {
-                author: "Tema 01 - Didática",
-                text: "Dentre as 'Habilidades de Vida e Carreira' propostas, qual das opções abaixo está incluída?",
-                options: ["Memorização de datas.", "Flexibilidade e Adaptação.", "Programação avançada.", "Uso de ferramentas manuais."],
-                correct: 1,
-                explanation: "O texto lista Flexibilidade e Adaptação, Iniciativa, Interação social, Produtividade e Liderança como habilidades de vida e carreira."
-            },
-            {
-                author: "Tema 01 - Didática",
-                text: "O que caracteriza a 'Automatização de escolhas' como um fator que impactará a educação do futuro?",
-                options: ["O uso exclusivo de livros físicos.", "A proibição de computadores na sala de aula.", "O uso de Inteligência Artificial e algoritmos para realizar tarefas e personalizar a interação.", "A volta do ensino totalmente manual."],
-                correct: 2,
-                explanation: "A automatização envolve sistemas inteligentes e algoritmos que permitem às máquinas realizarem tarefas antes impensadas."
-            },
-            {
-                author: "Tema 01 - Didática",
-                text: "O termo 'Narrativas tóxicas', mencionado como impacto na educação, refere-se a:",
-                options: ["Histórias de ficção científica.", "Narrativas e métricas que geram prejuízos à sociedade, aos indivíduos e às instituições de ensino.", "Livros didáticos antigos.", "Fofocas entre professores."],
-                correct: 1,
-                explanation: "Narrativas tóxicas são aquelas que estão fazendo sucesso mas são prejudiciais a comportamentos e escolhas."
-            },
-
-            // --- TEMA 02: DIDÁTICA E PEDAGOGIA ---
-            {
-                author: "Tema 02 - Didática e Pedagogia",
-                text: "Qual é a definição de Pedagogia apresentada no resumo?",
-                options: ["A ciência que tem como função o estudo da educação em sua totalidade.", "Uma técnica isolada de ensino.", "O estudo exclusivo da alfabetização.", "A parte administrativa da escola."],
-                correct: 0,
-                explanation: "A Pedagogia constitui-se na ciência que tem como função o estudo da educação, abrangendo sua natureza e objetivos."
-            },
-            {
-                author: "Tema 02 - Didática e Pedagogia",
-                text: "Qual a diferença de foco entre Didática e Pedagogia?",
-                options: ["A Pedagogia foca na prática e a Didática na teoria.", "A Pedagogia define diretrizes e finalidades, enquanto a Didática foca na ação do professor e apropriação do conhecimento.", "Não há diferença, são sinônimos.", "A Didática foca na gestão escolar e a Pedagogia na sala de aula."],
-                correct: 1,
-                explanation: "O texto estabelece que a Pedagogia foca nas diretrizes e finalidades da educação, enquanto a Didática liga a teoria à prática de ensino."
-            },
-            {
-                author: "Tema 02 - Didática e Pedagogia",
-                text: "Um dos papéis da didática para o professor é o 'Conhecimento Pedagógico do Conteúdo', que significa:",
-                options: ["Saber o conteúdo e não se importar com o aluno.", "Dominar o conteúdo e saber adaptá-lo em atividades que facilitem a aprendizagem.", "Apenas ler o livro didático para a turma.", "Decorar a matéria."],
-                correct: 1,
-                explanation: "É a capacidade de transformar o conteúdo da matéria em atividades que facilitem a aprendizagem dos alunos."
-            },
-            {
-                author: "Tema 02 - Didática e Pedagogia",
-                text: "Para o aluno, a didática favorece uma 'Formação Integral'. O que isso implica?",
-                options: ["Apenas a transmissão de conteúdo.", "Formar indivíduos críticos, reflexivos, autônomos e participativos.", "O aluno ficar na escola em tempo integral.", "O estudo apenas de matemática e português."],
-                correct: 1,
-                explanation: "A didática não se limita à transmissão, mas visa formar indivíduos críticos e autônomos."
-            },
-            {
-                author: "Tema 02 - Didática e Pedagogia",
-                text: "Quais são elementos da ação didática destacados no texto?",
-                options: ["Diretor, secretário e porteiro.", "O aluno, o professor, a disciplina, o contexto e as estratégias metodológicas.", "Apenas o professor e o livro.", "A prova e a nota."],
-                correct: 1,
-                explanation: "O resumo destaca: aluno, professor, disciplina (conteúdo), contexto de aprendizagem e estratégias metodológicas."
-            },
-
-            // --- TEMA 03: PROCESSO DIDÁTICO EDUCATIVO ---
-            {
-                author: "Tema 03 - Processo Didático",
-                text: "O que caracteriza a 'Aprendizagem Casual'?",
-                options: ["É planejada e sistemática.", "Acontece na escola com horário marcado.", "É espontânea, surgindo da interação social e observação do ambiente.", "Depende de provas e notas."],
-                correct: 2,
-                explanation: "A aprendizagem casual é quase sempre espontânea e surge naturalmente da convivência e interação com o ambiente."
-            },
-            {
-                author: "Tema 03 - Processo Didático",
-                text: "Qual a finalidade da 'Aprendizagem Organizada' transmitida pela escola?",
-                options: ["Aprender o que se quer, sem regras.", "Aprender determinados conhecimentos, habilidades e normas de forma intencional e planejada.", "Apenas socializar com amigos.", "Observar a natureza sem orientação."],
-                correct: 1,
-                explanation: "A escola promove uma aprendizagem intencional, planejada e sistemática de conhecimentos específicos."
-            },
-            {
-                author: "Tema 03 - Processo Didático",
-                text: "Sobre os 'Objetivos' como componente da aula, o texto afirma que:",
-                options: ["São metas que se deseja alcançar e expressam propósitos definidos.", "São opcionais e o professor decide na hora.", "Devem ser secretos para os alunos.", "Servem apenas para preencher o diário."],
-                correct: 0,
-                explanation: "Objetivos são metas definidas previamente pelo professor para guiar o que se deseja alcançar na aula."
-            },
-            {
-                author: "Tema 03 - Processo Didático",
-                text: "Os 'Conteúdos' de ensino são advindos de:",
-                options: ["Apenas da opinião pessoal do professor.", "Um conjunto social formado pela cultura, ciência, técnica e arte.", "Somente livros de ficção.", "Decisões aleatórias dos alunos."],
-                correct: 1,
-                explanation: "Os conteúdos expostos pelo professor vêm do conjunto de saberes culturais, científicos e técnicos da sociedade."
-            },
-            {
-                author: "Tema 03 - Processo Didático",
-                text: "Segundo o texto, a avaliação escolar não deve se resumir a:",
-                options: ["Identificar progressos.", "Orientar os alunos.", "Realização de provas e atribuição de notas.", "Diagnosticar dificuldades."],
-                correct: 2,
-                explanation: "A avaliação é uma tarefa complexa que vai além de provas e notas, cumprindo funções pedagógico-didáticas de diagnóstico."
-            },
-
-            // --- TEMA 04: FORMAS DE ABORDAGENS ---
-            {
-                author: "Tema 04 - Abordagens",
-                text: "A abordagem 'Disciplinar' é caracterizada por:",
-                options: ["Conhecimentos isolados sem ligação com outras áreas.", "Forte integração entre matérias.", "Visão holística do conhecimento.", "Projetos em grupo entre professores."],
-                correct: 0,
-                explanation: "É a forma tradicional onde as disciplinas são isoladas e ensinadas de maneira independente."
-            },
-            {
-                author: "Tema 04 - Abordagens",
-                text: "O que define a abordagem 'Interdisciplinar'?",
-                options: ["Cada disciplina fica no seu canto.", "Integração de duas ou mais disciplinas para abordar um tema com fronteiras flexíveis.", "Mistura total sem distinção de matérias.", "Apenas uma disciplina estuda tudo."],
-                correct: 1,
-                explanation: "A interdisciplinaridade visa a integração e colaboração entre disciplinas para aprofundar um tema."
-            },
-            {
-                author: "Tema 04 - Abordagens",
-                text: "A abordagem 'Transdisciplinar' busca:",
-                options: ["Manter as fronteiras rígidas.", "Uma visão fragmentada.", "Ultrapassar as fronteiras disciplinares com uma visão holística.", "Eliminar todas as matérias da escola."],
-                correct: 2,
-                explanation: "A transdisciplinaridade lida com a complexidade e busca uma integração que vai além das disciplinas (visão holística)."
-            },
-            {
-                author: "Tema 04 - Abordagens",
-                text: "Qual a principal diferença entre Multidisciplinaridade e Pluridisciplinaridade?",
-                options: ["Na Multi há muita cooperação, na Pluri nenhuma.", "Na Multi não há cooperação direta; na Pluri há cooperação mas as fronteiras se mantêm.", "São exatamente a mesma coisa.", "A Pluridisciplinaridade é mais isolada que a Multidisciplinaridade."],
-                correct: 1,
-                explanation: "A multidisciplinaridade não envolve cooperação (cada um por si), enquanto a pluridisciplinaridade envolve certo grau de cooperação/diálogo."
-            },
-            {
-                author: "Tema 04 - Abordagens",
-                text: "Na abordagem 'Pluridisciplinar', as disciplinas:",
-                options: ["Se fundem completamente.", "Mantêm sua autonomia mas cooperam em um projeto comum.", "Não se comunicam.", "São extintas."],
-                correct: 1,
-                explanation: "Envolve várias disciplinas em um projeto comum com cooperação, mas cada uma mantém sua autonomia."
-            },
-
-            // --- TEMA 05: MULTIDIMENSIONALIDADE ---
-            {
-                author: "Tema 05 - Multidimensionalidade",
-                text: "A 'Dimensão Psicológica' do ser humano refere-se a:",
-                options: ["Ao corpo físico.", "Às emoções, mente, sentimentos e subjetividade.", "Às leis e instituições.", "À produção de bens e serviços."],
-                correct: 1,
-                explanation: "A dimensão psicológica engloba o mundo interior: emoções, sentimentos e a singularidade de cada indivíduo."
-            },
-            {
-                author: "Tema 05 - Multidimensionalidade",
-                text: "A 'Dimensão Política' do ser humano envolve:",
-                options: ["Apenas votar a cada 4 anos.", "A capacidade de agir e intervir na sociedade, expressando opiniões.", "Não se envolver em questões públicas.", "Apenas obedecer leis."],
-                correct: 1,
-                explanation: "Refere-se à capacidade de participação na vida pública e intervenção na sociedade."
-            },
-            {
-                author: "Tema 05 - Multidimensionalidade",
-                text: "Por que a escola é considerada multidimensional?",
-                options: ["Porque tem muitas salas.", "Porque é um espaço onde múltiplas dimensões (humana, social, política) se encontram e articulam.", "Porque ensina muitas matérias.", "Porque tem vários andares."],
-                correct: 1,
-                explanation: "A escola reflete tensões sociais, influencia a formação humana e envolve aspectos técnicos, humanos e políticos."
-            },
-            {
-                author: "Tema 05 - Multidimensionalidade",
-                text: "Sobre a relação entre sociedade e escola, o texto afirma que:",
-                options: ["A escola é isolada da sociedade.", "A sociedade molda a escola, refletindo suas necessidades e valores.", "A escola não influencia a sociedade.", "A sociedade não interfere na escola."],
-                correct: 1,
-                explanation: "Existe um ciclo de influências: a sociedade molda a escola, que por sua vez forma o homem que transforma a sociedade."
-            },
-            {
-                author: "Tema 05 - Multidimensionalidade",
-                text: "O 'Aspecto Histórico' da sociedade diz respeito a:",
-                options: ["Apenas datas comemorativas.", "Conjunto de experiências passadas que determinam o presente e influenciam o futuro.", "O estudo de guerras antigas apenas.", "O futuro distante."],
-                correct: 1,
-                explanation: "É o conjunto de experiências que constroem a identidade temporal da sociedade, influenciando presente e futuro."
-            },
-
-            // --- TEMA 06: PLANEJAMENTO ---
-            {
-                author: "Tema 06 - Planejamento",
-                text: "O planejamento pedagógico orienta o professor sobre 'O que ensinar', que se refere a:",
-                options: ["Métodos e recursos.", "Conteúdos e habilidades a serem desenvolvidas.", "Perfil dos alunos.", "Estratégias de avaliação."],
-                correct: 1,
-                explanation: "'O que ensinar' diz respeito à seleção dos conteúdos e das habilidades que os alunos devem adquirir."
-            },
-            {
-                author: "Tema 06 - Planejamento",
-                text: "Qual é uma das consequências de um plano de ensino bem estruturado?",
-                options: ["Aumento da improvisação.", "Aulas mais organizadas, coerentes e adaptadas à realidade.", "Rigidez total sem possibilidade de mudanças.", "Alunos entediados."],
-                correct: 1,
-                explanation: "O planejamento traz clareza e organização, evitando improvisos que comprometam o aprendizado."
-            },
-            {
-                author: "Tema 06 - Planejamento",
-                text: "Para alinhar teoria e prática, uma das dicas é 'Conhecer o perfil da turma'. Isso serve para:",
-                options: ["Julgar os alunos.", "Adaptar a linguagem e os exemplos à realidade dos alunos.", "Saber quem vai reprovar.", "Escolher o representante de classe."],
-                correct: 1,
-                explanation: "Conhecer a turma permite conectar o conteúdo com a vida e interesses dos estudantes."
-            },
-            {
-                author: "Tema 06 - Planejamento",
-                text: "No exemplo prático sobre Revolução Industrial, o uso de 'jogos ou simulações' serve para:",
-                options: ["Passar o tempo.", "Reforçar o conteúdo de forma dinâmica.", "Substituir a aula teórica totalmente.", "Distrair os alunos do estudo."],
-                correct: 1,
-                explanation: "Jogos e simulações são estratégias planejadas para reforçar o aprendizado e engajar os alunos."
-            },
-            {
-                author: "Tema 06 - Planejamento",
-                text: "A avaliação no planejamento responde à pergunta:",
-                options: ["Como ensinar?", "Para quem ensinar?", "Como avaliar o aprendizado?", "Onde ensinar?"],
-                correct: 2,
-                explanation: "O planejamento deve prever estratégias de avaliação para verificar se os objetivos foram alcançados."
-            }
+        {
+            author: "Tema 01 - Didática",
+            text: "Qual é a principal função da didática na prática docente?",
+            options: [
+            "Organizar exclusivamente a parte administrativa da escola.",
+            "Converter objetivos pedagógicos em procedimentos de ensino.",
+            "Substituir a avaliação por notas automáticas.",
+            "Garantir que todos os alunos tenham a mesma aprendizagem."
+            ],
+            correct: 1,
+            explanation: "A didática transforma objetivos sociopolíticos e pedagógicos em objetivos e procedimentos de ensino."
+        },
+        {
+            author: "Tema 01 - Didática",
+            text: "Formação continuada de professores refere-se a:",
+            options: [
+            "Cursos obrigatórios apenas para quem é inexperiente.",
+            "Um processo permanente de aperfeiçoamento profissional.",
+            "Uma atividade opcional sem impacto na prática docente.",
+            "Somente cursos de pós-graduação."
+            ],
+            correct: 1,
+            explanation: "A formação continuada é um processo permanente que visa aperfeiçoar os saberes necessários à atividade docente."
+        },
+        {
+            author: "Tema 01 - Didática",
+            text: "Qual habilidade NÃO faz parte das 'Habilidades de Vida e Carreira' listadas no resumo?",
+            options: [
+            "Flexibilidade e adaptação",
+            "Liderança e responsabilidade",
+            "Memorização automática sem reflexão",
+            "Interação social e intercultural"
+            ],
+            correct: 2,
+            explanation: "Memorização automática não é listada como habilidade de vida e carreira no resumo."
+        },
+        {
+            author: "Tema 01 - Didática",
+            text: "As 'Habilidades de Aprendizagem e Inovação' incluem:",
+            options: [
+            "Apenas leitura rápida",
+            "Pensamento crítico e criatividade",
+            "Somente treinamentos técnicos",
+            "Exclusivamente trabalhos manuais"
+            ],
+            correct: 1,
+            explanation: "Estas habilidades abrangem pensamento crítico, resolução de problemas, comunicação, colaboração, criatividade e inovação."
+        },
+        {
+            author: "Tema 01 - Didática",
+            text: "No contexto da educação do futuro, 'automatização de escolhas' refere-se a:",
+            options: [
+            "Proibir o uso de tecnologia na escola.",
+            "Uso de IA e algoritmos para automatizar e personalizar experiências.",
+            "Apenas digitalizar livros.",
+            "Eliminar avaliação humana."
+            ],
+            correct: 1,
+            explanation: "Automatização envolve IA e algoritmos que tornam processos mais automáticos e personalizados."
+        },
+        {
+            author: "Tema 01 - Didática",
+            text: "O que significa 'superpotências cívicas' no resumo?",
+            options: [
+            "Aumento do poder de governos centrais.",
+            "Tecnologias que ampliam a participação cidadã em causas coletivas.",
+            "Campanhas eleitorais tradicionais.",
+            "Isolamento digital das comunidades."
+            ],
+            correct: 1,
+            explanation: "Refere-se ao encurtamento de fronteiras e ao aumento da participação por meio de tecnologia."
+        },
+        {
+            author: "Tema 02 - Pedagogia",
+            text: "A etimologia de 'pedagogia' aponta para o significado de:",
+            options: [
+            "Líder das massas.",
+            "Conduzir a criança.",
+            "Ensinar adultos.",
+            "Escrever livros."
+            ],
+            correct: 1,
+            explanation: "A palavra vem do grego e significa conduzir a criança ('paidos' + 'agein')."
+        },
+        {
+            author: "Tema 02 - Pedagogia",
+            text: "Qual elemento NÃO é citado como componente da ação didática?",
+            options: [
+            "O aluno",
+            "O contexto de aprendizagem",
+            "A disciplina",
+            "A cor das cadeiras"
+            ],
+            correct: 3,
+            explanation: "Os elementos são aluno, professor, disciplina, contexto de aprendizagem e estratégias metodológicas; cor das cadeiras não é mencionada."
+        },
+        {
+            author: "Tema 02 - Pedagogia",
+            text: "A diferença essencial entre pedagogia e didática é que:",
+            options: [
+            "Pedagogia é prática e didática é teoria.",
+            "Pedagogia abrange a educação em totalidade; didática foca nos processos de ensino.",
+            "Não existe diferença.",
+            "Didática é maior que pedagogia."
+            ],
+            correct: 1,
+            explanation: "Pedagogia tem escopo amplo; didática trata de métodos e organização do ensino."
+        },
+        {
+            author: "Tema 02 - Pedagogia",
+            text: "O 'Conhecimento Pedagógico do Conteúdo' pressupõe que o professor:",
+            options: [
+            "Decore o conteúdo sem adaptá-lo.",
+            "Domine o conteúdo e saiba transformá-lo em atividades didáticas.",
+            "Evite usar exemplos do cotidiano.",
+            "Substitua teoria por jogos sempre."
+            ],
+            correct: 1,
+            explanation: "Envolve dominar o conteúdo e adaptá-lo em atividades que facilitem a aprendizagem."
+        },
+        {
+            author: "Tema 03 - Processo Didático",
+            text: "Aprendizagem casual é caracterizada por:",
+            options: [
+            "Atividades planejadas pela escola.",
+            "Aprendizagem espontânea pela interação com o ambiente.",
+            "Avaliações formais regulares.",
+            "Aulas expositivas apenas."
+            ],
+            correct: 1,
+            explanation: "Aprendizagem casual surge naturalmente da interação social e do ambiente."
+        },
+        {
+            author: "Tema 03 - Processo Didático",
+            text: "Qual é a característica principal da aprendizagem organizada?",
+            options: [
+            "É espontânea e não planejada.",
+            "Tem finalidade específica e é planejada pela escola.",
+            "Não pode ser avaliada.",
+            "Ocorre apenas fora da escola."
+            ],
+            correct: 1,
+            explanation: "Aprendizagem organizada é intencional, planejada e sistemática, típica da escola."
+        },
+        {
+            author: "Tema 03 - Organização da Aula",
+            text: "Entre os componentes da aula, 'objetivos' referem-se a:",
+            options: [
+            "Metas de aprendizagem que se deseja alcançar.",
+            "Somente o número de exercícios.",
+            "A decoração da sala.",
+            "Horário de recreio."
+            ],
+            correct: 0,
+            explanation: "Objetivos são as metas que orientam o planejamento e as atividades da aula."
+        },
+        {
+            author: "Tema 03 - Organização da Aula",
+            text: "A avaliação escolar é descrita no resumo como:",
+            options: [
+            "Uma tarefa simples que só atribui notas.",
+            "Uma tarefa didática complexa que orienta o processo de ensino e aprendizagem.",
+            "Algo dispensável na prática docente.",
+            "Exclusivamente exames finais."
+            ],
+            correct: 1,
+            explanation: "A avaliação é complexa e cumpre funções pedagógicas, diagnósticas e de controle."
+        },
+        {
+            author: "Tema 04 - Abordagens de Conhecimento",
+            text: "Qual abordagem busca integrar disciplinas ultrapassando fronteiras disciplinares (visão holística)?",
+            options: [
+            "Disciplinar",
+            "Multidisciplinar",
+            "Transdisciplinar",
+            "Pluridisciplinar"
+            ],
+            correct: 2,
+            explanation: "A transdisciplinaridade busca integração ampla e visão holística além das fronteiras disciplinares."
+        },
+        {
+            author: "Tema 04 - Abordagens de Conhecimento",
+            text: "A pluridisciplinaridade caracteriza-se por:",
+            options: [
+            "Nenhuma colaboração entre disciplinas.",
+            "Várias disciplinas num projeto comum mantendo autonomia.",
+            "Fusão total das disciplinas em uma só.",
+            "Substituição do professor por especialistas externos."
+            ],
+            correct: 1,
+            explanation: "Pluridisciplinaridade reúne disciplinas num projeto comum, mas cada uma mantém seus objetivos."
+        },
+        {
+            author: "Tema 04 - Abordagens de Conhecimento",
+            text: "A principal diferença entre multidisciplinaridade e interdisciplinaridade é:",
+            options: [
+            "Multidisciplinaridade envolve integração profunda; interdisciplinaridade não.",
+            "Interdisciplinaridade envolve colaboração e articulação entre áreas; multidisciplinaridade reúne perspectivas sem integração forte.",
+            "São sinônimos exatos.",
+            "Ambas evitam qualquer colaboração."
+            ],
+            correct: 1,
+            explanation: "Interdisciplinaridade promove integração e diálogo; multidisciplinaridade reúne perspectivas sem integração profunda."
+        },
+        {
+            author: "Tema 05 - Multidimensionalidade",
+            text: "Qual dimensão NÃO pertence à multidimensionalidade do ser humano segundo o resumo?",
+            options: [
+            "Dimensão biológica",
+            "Dimensão psicológica",
+            "Dimensão tecnológica",
+            "Dimensão cultural"
+            ],
+            correct: 2,
+            explanation: "Dimensão tecnológica não foi listada explicitamente; as citadas incluem biológica, psicológica, social, cultural e política."
+        },
+        {
+            author: "Tema 05 - Multidimensionalidade",
+            text: "A escola, como instituição multidimensional, tem entre suas funções:",
+            options: [
+            "Apenas transmitir conteúdos sem influenciar valores.",
+            "Refletir tensões sociais e contribuir para formação integral.",
+            "Substituir a família em todas as funções sociais.",
+            "Ignorar diferenças culturais."
+            ],
+            correct: 1,
+            explanation: "A escola reflete tensões sociais e influencia a formação humana em múltiplas dimensões."
+        },
+        {
+            author: "Tema 05 - Multidimensionalidade",
+            text: "A inter-relação entre sociedade, escola e indivíduo inclui:",
+            options: [
+            "Sociedade molda a escola; escola forma o homem; homem pode transformar a sociedade.",
+            "Escola isola o indivíduo da sociedade.",
+            "Homem é criado sem influência escolar.",
+            "Sociedade e escola são separados e independentes."
+            ],
+            correct: 0,
+            explanation: "As três esferas interagem: a sociedade molda a escola; a escola forma o homem; o homem pode transformá-las."
+        },
+        {
+            author: "Tema 06 - Planejamento",
+            text: "No planejamento pedagógico, 'para quem ensinar' refere-se a:",
+            options: [
+            "Ao perfil e necessidades dos alunos.",
+            "Apenas à idade cronológica.",
+            "Somente ao currículo nacional.",
+            "Ao calendário escolar."
+            ],
+            correct: 0,
+            explanation: "Planejar envolve considerar o perfil e as necessidades específicas dos alunos."
+        },
+        {
+            author: "Tema 06 - Planejamento",
+            text: "Uma dica prática para alinhar teoria e prática em sala é:",
+            options: [
+            "Usar sempre o mesmo método independente da turma.",
+            "Conhecer o perfil da turma e variar métodos.",
+            "Eliminar participação dos alunos.",
+            "Não avaliar o que foi ensinado."
+            ],
+            correct: 1,
+            explanation: "Conhecer a turma e variar métodos facilita alinhar teoria à prática e engajar os alunos."
+        },
+        {
+            author: "Tema 06 - Planejamento",
+            text: "Ao planejar uma aula sobre Revolução Industrial, uma estratégia sugerida é:",
+            options: [
+            "Somente leitura de um texto sem atividades.",
+            "Combinar exposição teórica, vídeos e atividades em grupo.",
+            "Evitar qualquer recurso audiovisual.",
+            "Proibir discussões em sala."
+            ],
+            correct: 1,
+            explanation: "Combinar exposições, vídeos e atividades em grupo enriquece o aprendizado e evita improvisação."
+        },
+        {
+            author: "Tema Extra - Avaliação",
+            text: "Segundo o resumo, a avaliação escolar deve ser usada para:",
+            options: [
+            "Somente atribuir uma nota final.",
+            "Identificar progressos, dificuldades e orientar correções ao longo do processo.",
+            "Punir alunos com baixo desempenho.",
+            "Evitar intervenções pedagógicas."
+            ],
+            correct: 1,
+            explanation: "A avaliação tem função diagnóstica e orientadora para promover ajustes no ensino e aprendizagem."
+        },
+        {
+            author: "Tema Extra - Papel do Professor",
+            text: "Refletir sobre a própria prática docente significa:",
+            options: [
+            "Repetir sempre as mesmas estratégias.",
+            "Analisar e ajustar ações pedagógicas para melhorar a qualidade do ensino.",
+            "Delegar todo o planejamento a terceiros.",
+            "Evitar o contato com os alunos."
+            ],
+            correct: 1,
+            explanation: "A reflexão permite ao professor analisar suas práticas e buscar melhoria contínua."
+        },
+        {
+            author: "Tema Extra - Tecnologia e Educação",
+            text: "No resumo, 'cérebros acelerados' relaciona-se a:",
+            options: [
+            "Desaceleração cognitiva por excesso de estudo.",
+            "Transformação cognitiva relacionada a tecnologia e neurociência.",
+            "Exclusivo uso de livros impressos.",
+            "Proibição de dispositivos em sala."
+            ],
+            correct: 1,
+            explanation: "Cérebros acelerados descrevem como tecnologia e neurociência estão afetando capacidades cognitivas."
+        },
+        {
+            author: "Tema Extra - Narrativas",
+            text: "Narrativas tóxicas na educação podem provocar:",
+            options: [
+            "Melhoria imediata no rendimento.",
+            "Prejuízos na tomada de decisão e nos comportamentos sociais.",
+            "Maior coesão social sem riscos.",
+            "Eliminar a necessidade de professores."
+            ],
+            correct: 1,
+            explanation: "Narrativas e métricas tóxicas podem gerar prejuízos a indivíduos, instituições e práticas educativas."
+        }
         ];
+
+
+
 
         // --- LÓGICA DO APP ---
         let currentQuestionIndex = 0;
