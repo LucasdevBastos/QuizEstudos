@@ -223,259 +223,360 @@
 
 <script>
     // BANCO DE DADOS COM 30 QUESTÕES SOBRE REFERENCIAIS DE QUALIDADE EAD (MEC 2025)
-    const questions = [
-        // --- 1. Conceituação e Concepção ---
+    // --- +30 QUESTÕES ADICIONAIS (Referenciais de Qualidade EaD - MEC 2025) ---
+        const questions = [
         {
-            author: "Conceituação e Concepção",
-            text: "Segundo o documento, qual é a definição correta de Educação a Distância (EaD)?",
-            options: ["É o ensino onde não há nenhuma interação presencial.", "É a oferta educacional mediada por tecnologias onde estudantes e docentes podem estar em lugares ou tempos diversos.", "É a modalidade exclusiva para cursos tecnológicos.", "É o ensino baseado apenas em envio de apostilas por correio."],
+            author: "Concepção do Curso",
+            text: "Segundo os Referenciais, qual é a função central do Projeto Pedagógico de Curso (PPC) para a EaD?",
+            options: [
+            "Padronizar todos os cursos da IES de forma idêntica.",
+            "Expressar a concepção específica da oferta EaD, articulando com o PDI e PPI.",
+            "Substituir as Diretrizes Curriculares Nacionais (DCN).",
+            "Definir apenas as escalas de trabalho dos mediadores."
+            ],
             correct: 1,
-            text_ref: "Referenciais p. 7",
-            explanation: "EaD é definida como oferta organizada onde processos de ensino e aprendizagem ocorrem com meios e tecnologias, permitindo que estudantes e docentes estejam em lugares/tempos diversos."
+            text_ref: "Pág. 8",
+            explanation: "O PPC deve refletir dinâmicas próprias da EaD e articular-se com o PDI/PPI, não ser padronizado."
         },
         {
-            author: "Conceituação e Concepção",
-            text: "Sobre a presencialidade nos cursos a distância, o documento afirma que:",
-            options: ["A EaD significa ausência total de presencialidade.", "Atividades presenciais são proibidas na EaD.", "Haverá situações em que o aluno deve estar fisicamente presente (laboratórios, avaliações, extensão).", "A presencialidade é opcional para todos os cursos."],
+            author: "Concepção do Curso",
+            text: "Qual recomendaçao o documento faz sobre a duração mínima de integralização das unidades curriculares?",
+            options: [
+            "Sem limite mínimo definido.",
+            "Mínimo de 4 semanas.",
+            "Mínimo de 10 semanas.",
+            "Duração obrigatória de um semestre inteiro."
+            ],
             correct: 2,
-            text_ref: "Referenciais p. 7",
-            explanation: "O texto enfatiza que EaD não significa ausência de presencialidade; atividades como laboratórios e avaliações exigem presença física."
+            text_ref: "Pág. 9",
+            explanation: "Recomenda-se que unidades curriculares sejam integralizadas em no mínimo 10 semanas para reflexão e maturação."
         },
         {
-            author: "Conceituação e Concepção",
-            text: "Em relação ao tempo de duração das Unidades Curriculares, recomenda-se:",
-            options: ["Que sejam cursadas em no mínimo 4 semanas.", "Que sejam integralizadas no período mínimo de 10 semanas.", "Que não tenham prazo mínimo.", "Que durem o semestre inteiro obrigatoriamente."],
-            correct: 1,
-            text_ref: "Referenciais p. 9",
-            explanation: "Para garantir tempo de reflexão e maturação, recomenda-se que as unidades curriculares sejam integralizadas no mínimo em 10 semanas."
-        },
-        {
-            author: "Conceituação e Concepção",
-            text: "Para fortalecer o sentimento de pertencimento, o ingresso de novos estudantes deve ocorrer:",
-            options: ["A qualquer momento (entrada contínua).", "Apenas uma vez por ano.", "No máximo até o início do segundo semestre do primeiro ano do curso.", "Apenas quando formar uma turma de 50 alunos."],
+            author: "Concepção do Curso",
+            text: "Para favorecer sentimento de pertença, quando deve ocorrer o ingresso de novos estudantes?",
+            options: [
+            "Em entrada contínua durante todo o ano.",
+            "A qualquer momento após três meses.",
+            "No início do curso, até o início do 2º semestre do 1º ano.",
+            "Somente no início do último ano."
+            ],
             correct: 2,
-            text_ref: "Referenciais p. 9",
-            explanation: "Para criar comunidade de aprendizagem, o ingresso deve ocorrer até o início do 2º semestre do 1º ano, evitando a entrada contínua desordenada."
-        },
-        {
-            author: "Conceituação e Concepção",
-            text: "O Projeto Pedagógico de Curso (PPC) na EaD deve:",
-            options: ["Ser padronizado para todas as instituições.", "Refletir dinâmicas próprias da EaD e não ser padronizado.", "Ignorar as diretrizes curriculares nacionais.", "Ser idêntico ao do curso presencial."],
-            correct: 1,
-            text_ref: "Referenciais p. 8",
-            explanation: "Os PPCs não podem ser padronizados e devem expressar a consistência da oferta articulada com o PDI da instituição."
-        },
-
-        // --- 2. Experiência do Estudante ---
-        {
-            author: "Experiência do Estudante",
-            text: "Qual é o papel da mediação pedagógica na experiência do estudante?",
-            options: ["Apenas corrigir provas.", "Orientar o estudante, identificar pontos fortes/fracos e prover suporte estruturado.", "Vender cursos adicionais.", "Substituir o material didático."],
-            correct: 1,
-            text_ref: "Referenciais p. 11",
-            explanation: "A mediação orienta a jornada de aprendizagem e oferece suporte para o sucesso acadêmico e profissional."
+            text_ref: "Pág. 9",
+            explanation: "O documento recomenda ingresso até o início do 2º semestre do 1º ano para construir comunidade de aprendizagem."
         },
         {
             author: "Experiência do Estudante",
-            text: "Sobre a acessibilidade e inclusão digital, as IES devem:",
-            options: ["Exigir que o aluno compre seu próprio computador de última geração.", "Assegurar acesso a materiais e fomentar a inclusão digital ativa (capacitação básica).", "Ignorar as limitações tecnológicas dos alunos.", "Fornecer internet apenas na sede."],
+            text: "O que o documento entende por 'mediação pedagógica' na experiência estudantil?",
+            options: [
+            "Atividade exclusiva de correção de provas.",
+            "Ação de orientar, identificar dificuldades e prover suporte ao estudante.",
+            "Um serviço administrativo de matrícula.",
+            "Substituição do professor por meios digitais."
+            ],
             correct: 1,
-            text_ref: "Referenciais p. 12",
-            explanation: "As IES devem garantir acesso a recursos e promover inclusão digital através de aconselhamento e capacitação."
+            text_ref: "Pág. 11",
+            explanation: "A mediação orienta a jornada de aprendizagem e oferece suporte estruturado para sucesso acadêmico."
         },
         {
             author: "Experiência do Estudante",
-            text: "Os estudantes de EaD têm quais direitos em relação aos do presencial?",
-            options: ["Menos direitos, pois pagam menos.", "Direitos parciais, sem acesso à pesquisa.", "Os mesmos direitos (carteirinha, pesquisa, e-mail institucional, assistência).", "Não têm direito a voto nos órgãos colegiados."],
-            correct: 2,
-            text_ref: "Referenciais p. 12-13",
-            explanation: "É imprescindível garantir a preservação dos mesmos direitos, incluindo identificação estudantil e participação em pesquisa."
+            text: "Quanto a acessibilidade digital, as IES devem:",
+            options: [
+            "Exigir equipamento topo de linha dos estudantes.",
+            "Assegurar acesso a materiais e promover inclusão digital ativa e capacitação.",
+            "Fornecer apenas pdfs sem adaptações.",
+            "Evitar oferecer suporte técnico."
+            ],
+            correct: 1,
+            text_ref: "Pág. 12",
+            explanation: "IES devem garantir acesso a materiais e fomentar inclusão digital com capacitação e recursos adaptados."
         },
         {
             author: "Experiência do Estudante",
-            text: "O uso de tecnologias como 'Learning Analytics' serve para:",
-            options: ["Vigiar os alunos para punição.", "Diagnóstico ágil em tempo real com feedback sobre pontos fortes e fracos.", "Aumentar a mensalidade.", "Substituir professores por robôs."],
+            text: "Qual é a finalidade do uso de Learning Analytics e tecnologias similares, segundo o documento?",
+            options: [
+            "Aumentar a vigilância punitiva dos alunos.",
+            "Gerar diagnósticos ágeis e feedbacks sobre pontos fortes e fracos para devolutivas pedagógicas.",
+            "Substituir totalmente a avaliação humana.",
+            "Aumentar a carga administrativa sem retorno pedagógico."
+            ],
             correct: 1,
-            text_ref: "Referenciais p. 13-14",
-            explanation: "Essas tecnologias permitem diagnóstico e devolutivas pedagógicas personalizadas baseadas em dados."
+            text_ref: "Pág. 13-14",
+            explanation: "Learning Analytics permite diagnóstico em tempo real e personalização das devolutivas pedagógicas."
         },
         {
-            author: "Experiência do Estudante",
-            text: "Para reduzir a sensação de isolamento, recomenda-se:",
-            options: ["Acabar com os polos físicos.", "Criar redes de apoio, mediadores e fomentar o sentimento de pertencimento à turma.", "Aumentar a carga de leitura.", "Tornar o curso totalmente assíncrono."],
+            author: "Docência",
+            text: "Quem é o responsável pelo Plano de Ensino e pela coordenação das ações docentes em uma unidade curricular?",
+            options: [
+            "Tutor online.",
+            "Professor Regente.",
+            "Professor Conteudista.",
+            "Coordenador do polo."
+            ],
             correct: 1,
-            text_ref: "Referenciais p. 13",
-            explanation: "Suporte acadêmico, psicológico e interação em turmas ajudam a reduzir o isolamento comum na EaD."
-        },
-
-        // --- 3. Docência ---
-        {
-            author: "Docência",
-            text: "Qual profissional é responsável por planejar o Plano de Ensino e coordenar as ações docentes?",
-            options: ["Tutor.", "Professor Conteudista.", "Professor Regente.", "Coordenador de Polo."],
-            correct: 2,
-            text_ref: "Referenciais p. 18",
-            explanation: "O Professor Regente é o responsável pelo Plano de Ensino, avaliação e coordenação da unidade curricular."
+            text_ref: "Pág. 18",
+            explanation: "O Professor Regente concebe, implementa e coordena o Plano de Ensino e as ações docentes da unidade."
         },
         {
             author: "Docência",
-            text: "Qual a função principal do Professor Conteudista?",
-            options: ["Corrigir provas.", "Gerir o polo.", "Elaborar materiais didáticos autorais e selecionar temas da área.", "Atender alunos no chat."],
-            correct: 2,
-            text_ref: "Referenciais p. 17",
-            explanation: "O Conteudista é especializado nos conteúdos e redige materiais didáticos autorais."
-        },
-        {
-            author: "Docência",
-            text: "Os Mediadores Pedagógicos (tutores) devem atuar sob supervisão de quem?",
-            options: ["Do pessoal administrativo.", "Do Professor Regente.", "Dos próprios alunos.", "Do Ministério da Educação."],
+            text: "Qual papel principal é atribuído ao professor conteudista?",
+            options: [
+            "Aplicar apenas provas presenciais.",
+            "Elaborar materiais didáticos autorais e selecionar conteúdo disciplinar.",
+            "Gerir infraestrutura do polo.",
+            "Realizar atendimento financeiro aos alunos."
+            ],
             correct: 1,
-            text_ref: "Referenciais p. 19",
-            explanation: "O Mediador atua sob supervisão do Professor Regente, mediando o processo pedagógico."
+            text_ref: "Pág. 17",
+            explanation: "O conteudista é especialista no conteúdo e redige materiais didáticos alinhados ao projeto pedagógico."
         },
         {
             author: "Docência",
-            text: "Qual é a titulação sugerida para Professores Regentes e Conteudistas?",
-            options: ["Apenas Graduação.", "Pós-graduação Lato Sensu.", "Pós-graduação Stricto Sensu (predominantemente doutores).", "Ensino Médio."],
-            correct: 2,
-            text_ref: "Referenciais p. 17-19",
-            explanation: "O documento sugere que esses professores tenham formação stricto sensu, predominantemente doutores."
-        },
-        {
-            author: "Docência",
-            text: "O Mediador Pedagógico Presencial atua principalmente onde?",
-            options: ["Na sede da IES.", "No ambiente virtual apenas.", "Nos polos e ambientes profissionais.", "No MEC."],
-            correct: 2,
-            text_ref: "Referenciais p. 20",
-            explanation: "O Mediador Presencial promove atividades nos polos ou ambientes profissionais para aprofundamento prático."
-        },
-
-        // --- 4. Ensino e Aprendizagem ---
-        {
-            author: "Ensino e Aprendizagem",
-            text: "As atividades síncronas reguladas são aquelas que:",
-            options: ["Ocorrem a qualquer hora.", "Acontecem em tempo real, com limite de participação e controle de frequência.", "São gravadas para assistir depois.", "Não têm interação."],
+            text: "Os mediadores pedagógicos online atuam sob supervisão de quem?",
+            options: [
+            "Coordenador administrativo do polo.",
+            "Professor Regente.",
+            "Diretoria da IES.",
+            "Agências reguladoras."
+            ],
             correct: 1,
-            text_ref: "Referenciais p. 6-7 e 25",
-            explanation: "Definem-se pela interação em tempo real (áudio/vídeo) com controle de frequência e limite de alunos."
+            text_ref: "Pág. 19",
+            explanation: "Mediadores atuam sob supervisão do Professor Regente, mediando no AVA e promovendo interação."
+        },
+        {
+            author: "Docência",
+            text: "O documento recomenda que a titulação do corpo docente (regente e conteudista) seja, preferencialmente:",
+            options: [
+            "Ensino médio completo.",
+            "Graduação apenas.",
+            "Pós-graduação stricto sensu (predominantemente doutores).",
+            "Cursos técnicos."
+            ],
+            correct: 2,
+            text_ref: "Pág. 17-19",
+            explanation: "Sugere-se formação stricto sensu, preferencialmente doutores, para professores regentes e conteudistas."
         },
         {
             author: "Ensino e Aprendizagem",
-            text: "Sobre as práticas laboratoriais exigidas pelas DCN, elas devem:",
-            options: ["Ser substituídas por vídeos.", "Ser oferecidas presencialmente nos polos com qualidade equivalente ao presencial.", "Ser opcionais.", "Ser feitas em casa pelo aluno."],
+            text: "O que caracteriza atividades síncronas reguladas?",
+            options: [
+            "Acesso livre e sem limite de participantes.",
+            "Interação em tempo real com limite de participantes e controle de frequência.",
+            "Conteúdo gravado para assistir depois.",
+            "Atividades sem mediação docente."
+            ],
             correct: 1,
-            text_ref: "Referenciais p. 24",
-            explanation: "Cursos que exigem laboratórios (DCN) devem oferecê-los presencialmente nos polos com equipamentos adequados."
+            text_ref: "Pág. 24-25",
+            explanation: "Atividades síncronas reguladas têm limite de participação e controle de frequência, com interação em tempo real."
         },
         {
             author: "Ensino e Aprendizagem",
-            text: "A avaliação presencial deve ter qual peso na nota final?",
-            options: ["Peso menor que as atividades online.", "Peso igual.", "Peso majoritário (maior parte da nota).", "Não conta nota."],
+            text: "Segundo os Referenciais, como devem ser oferecidas as práticas laboratoriais exigidas pelas DCN?",
+            options: [
+            "Exclusivamente por simulações online.",
+            "Presencialmente nos polos com qualidade equivalente ao presencial.",
+            "Substituídas por trabalhos escritos.",
+            "Opcional para todos os alunos."
+            ],
+            correct: 1,
+            text_ref: "Pág. 24-25",
+            explanation: "Práticas laboratoriais exigidas pelas DCN devem ser oferecidas presencialmente nos polos com infraestrutura adequada."
+        },
+        {
+            author: "Ensino e Aprendizagem",
+            text: "Qual peso a avaliação presencial deve ter na composição da nota final, conforme o documento?",
+            options: [
+            "Peso menor que atividades online.",
+            "Sem importância.",
+            "Peso majoritário (a maior parte da nota).",
+            "Não deve ser considerada."
+            ],
             correct: 2,
-            text_ref: "Referenciais p. 32",
-            explanation: "A avaliação presencial deve ter peso majoritário na composição da nota final para garantir a integridade da avaliação."
+            text_ref: "Pág. 32",
+            explanation: "A avaliação presencial deve ter peso majoritário para garantir integridade e coerência da avaliação."
         },
         {
             author: "Ensino e Aprendizagem",
             text: "Pelo menos um terço da avaliação presencial deve ser composta por:",
-            options: ["Questões de múltipla escolha.", "Questões discursivas de análise e síntese.", "Autoavaliação.", "Chamada oral."],
+            options: [
+            "Provas de múltipla escolha apenas.",
+            "Questões discursivas que avaliem análise e síntese.",
+            "Autoavaliação irrestrita.",
+            "Exercícios de memorização simples."
+            ],
             correct: 1,
-            text_ref: "Referenciais p. 32",
-            explanation: "Para evitar apenas testes objetivos, exige-se questões discursivas que avaliem análise e síntese."
+            text_ref: "Pág. 32",
+            explanation: "Exige-se que pelo menos um terço da avaliação presencial inclua questões discursivas de análise e síntese."
         },
         {
-            author: "Ensino e Aprendizagem",
-            text: "Plataformas de Laboratórios Virtuais:",
-            options: ["Substituem totalmente a prática presencial.", "Não servem para nada.", "São ambientes simulados que complementam, mas não substituem as práticas presenciais obrigatórias.", "São videogames."],
-            correct: 2,
-            text_ref: "Referenciais p. 29",
-            explanation: "Eles permitem experimentos controlados e interativos, mas não substituem práticas presenciais exigidas."
+            author: "Plataformas e Tecnologia",
+            text: "Qual papel do AVA (Ambiente Virtual de Aprendizagem) na EaD, segundo o documento?",
+            options: [
+            "Armazenar apenas PDFs sem interatividade.",
+            "Ser espaço para planejamento, oferta, acompanhamento, gestão e avaliação da aprendizagem.",
+            "Substituir totalmente os mediadores pedagógicos.",
+            "Servir só para cadastro de notas."
+            ],
+            correct: 1,
+            text_ref: "Pág. 29-30",
+            explanation: "O AVA é essencial para planejar, ofertar, acompanhar e avaliar a aprendizagem, com recursos interativos."
         },
-
-        // --- 5. Polos e Infraestrutura ---
+        {
+            author: "Plataformas e Tecnologia",
+            text: "Além do AVA, que tipo de plataformas o documento destaca como importantes?",
+            options: [
+            "Plataformas de entretenimento.",
+            "Plataformas de videoconferência, bibliotecas digitais, laboratórios virtuais e de avaliação.",
+            "Apenas redes sociais comerciais.",
+            "Sistemas de vendas de cursos terceirizados."
+            ],
+            correct: 1,
+            text_ref: "Pág. 29",
+            explanation: "O documento lista videoconferência, bibliotecas digitais, laboratórios virtuais e plataformas de avaliação entre outras."
+        },
+        {
+            author: "Materiais Didáticos",
+            text: "Os materiais didáticos para EaD devem ter qual característica principal?",
+            options: [
+            "Ser idênticos aos do ensino médio.",
+            "Ter excelência autoral, multimeios e alinhamento explícito a objetivos de aprendizagem.",
+            "Ser copiados de sites sem referência.",
+            "Ser compactos e sem profundidade."
+            ],
+            correct: 1,
+            text_ref: "Pág. 27-28",
+            explanation: "Materiais devem ser autorais, multimeios, atualizados e alinhados aos objetivos e carga horária esperada."
+        },
         {
             author: "Polos e Infraestrutura",
-            text: "O polo de EaD é definido como:",
-            options: ["Apenas um local para fazer matrícula.", "Espaço educativo essencial para contato, avaliações, laboratórios e socialização.", "Um escritório administrativo.", "Um local opcional."],
+            text: "Como o documento define o polo de EaD?",
+            options: [
+            "Apenas um local para imprimir documentos.",
+            "Espaço educativo essencial para avaliações, práticas, socialização e contato.",
+            "Um escritório temporário sem função pedagógica.",
+            "Um local opcional sem vínculo com a IES."
+            ],
             correct: 1,
-            text_ref: "Referenciais p. 34",
-            explanation: "O polo é parte da identidade institucional, local de avaliações, práticas e socialização."
+            text_ref: "Pág. 34",
+            explanation: "O polo é parte da identidade institucional e serve como espaço pedagógico para avaliações e práticas."
         },
         {
             author: "Polos e Infraestrutura",
-            text: "Quanto à gestão, o polo deve contar com:",
-            options: ["Apenas um segurança.", "Um gestor acadêmico capacitado pela IES.", "Um vendedor de cursos.", "Nenhum funcionário."],
+            text: "Quanto à gestão do polo, o documento recomenda que exista:",
+            options: [
+            "Apenas um funcionário eventual.",
+            "Um gestor acadêmico capacitado pela IES para acolhimento e orientação.",
+            "Somente terceirização administrativa sem vínculo com a IES.",
+            "Nenhuma formalização."
+            ],
             correct: 1,
-            text_ref: "Referenciais p. 35",
-            explanation: "Deve haver um gestor acadêmico para acolhimento, orientação e ponte com atividades de extensão."
+            text_ref: "Pág. 35",
+            explanation: "Deve haver gestor acadêmico no polo para orientar e articular atividades pedagógicas e administrativas."
         },
         {
             author: "Polos e Infraestrutura",
-            text: "Sobre a infraestrutura dos polos:",
-            options: ["Pode ser qualquer sala alugada.", "Deve atender normas da ABNT e ter laboratórios físicos se o curso exigir.", "Não precisa de internet.", "Basta ter um computador."],
+            text: "Polos e ambientes profissionais podem ser utilizados para práticas quando:",
+            options: [
+            "Sem qualquer formalização.",
+            "Mediante convênios e parcerias formalizadas com supervisão acadêmica.",
+            "Apenas para eventos sociais.",
+            "Somente para cursos de gestão."
+            ],
             correct: 1,
-            text_ref: "Referenciais p. 34",
-            explanation: "Devem ter infraestrutura adequada (biblioteca, laboratórios, acessibilidade) conforme o número de alunos e cursos."
+            text_ref: "Pág. 26",
+            explanation: "Parcerias formalizadas com ambientes profissionais são incentivadas para práticas supervisionadas."
         },
-        {
-            author: "Polos e Infraestrutura",
-            text: "Ambientes Profissionais (empresas, clínicas) podem ser usados?",
-            options: ["Não, tudo deve ser na sede.", "Sim, mediante convênio, para práticas supervisionadas.", "Sim, sem necessidade de formalização.", "Apenas para cursos de gestão."],
-            correct: 1,
-            text_ref: "Referenciais p. 26",
-            explanation: "Parcerias formalizadas com ambientes profissionais são incentivadas para vivência prática real."
-        },
-        {
-            author: "Polos e Infraestrutura",
-            text: "Os polos devem ser preferencialmente:",
-            options: ["Terceirizados para várias faculdades ao mesmo tempo.", "Próprios da instituição ou parceiros exclusivos.", "Virtuais.", "Itinerantes."],
-            correct: 1,
-            text_ref: "Referenciais p. 35",
-            explanation: "Devem ser preferencialmente próprios ou mantidos por parceiros que atendam unicamente a uma IES."
-        },
-
-        // --- 6. Gestão e Qualidade ---
         {
             author: "Gestão e Qualidade",
-            text: "A autoavaliação institucional (SINAES) na EaD deve:",
-            options: ["Ser feita apenas para cumprir lei.", "Orientar a revisão periódica de processos e práticas educacionais.", "Ser sigilosa.", "Focar apenas no lucro."],
+            text: "A autoavaliação institucional na EaD (SINAES) deve servir para:",
+            options: [
+            "Apenas cumprir exigência legal sem uso prático.",
+            "Orientar revisão periódica de processos e melhoria contínua.",
+            "Preservar informações em sigilo absoluto.",
+            "Medir apenas a infraestrutura física."
+            ],
             correct: 1,
-            text_ref: "Referenciais p. 38",
-            explanation: "A autoavaliação deve gerar relatórios reflexivos que orientem melhorias contínuas nos cursos."
+            text_ref: "Pág. 38",
+            explanation: "A autoavaliação deve gerar relatórios reflexivos orientando melhorias contínuas nos cursos."
         },
         {
             author: "Gestão e Qualidade",
-            text: "Sobre a empregabilidade dos egressos:",
-            options: ["Não é problema da IES.", "É um indicador de sucesso e impacto socioeconômico que deve ser monitorado.", "Depende apenas da sorte.", "Só importa para cursos tecnológicos."],
+            text: "O monitoramento da empregabilidade dos egressos, segundo o documento, é:",
+            options: [
+            "Irrelevante para a qualidade do curso.",
+            "Indicador importante de sucesso e impacto socioeconômico que deve ser monitorado.",
+            "Responsabilidade exclusiva do governo.",
+            "Algo que só interessa a cursos técnicos."
+            ],
             correct: 1,
-            text_ref: "Referenciais p. 39-40",
-            explanation: "A IES deve monitorar a empregabilidade como evidência da relevância e qualidade do curso."
+            text_ref: "Pág. 39-40",
+            explanation: "A empregabilidade é evidência da relevância do curso e deve ser acompanhada pela IES."
         },
         {
             author: "Gestão e Qualidade",
             text: "A internacionalização na EaD envolve:",
-            options: ["Apenas viagens ao exterior.", "Mobilidade física e virtual, e currículos comparados a padrões globais.", "Apenas traduzir o site.", "Não se aplica a EaD."],
+            options: [
+            "Apenas tradução de materiais.",
+            "Mobilidade física e virtual, e alinhamento com padrões globais.",
+            "Desconsiderar padrões internacionais.",
+            "Somente viagens de professores."
+            ],
             correct: 1,
-            text_ref: "Referenciais p. 40-41",
-            explanation: "Inclui mobilidade virtual, intercâmbio de práticas e currículos alinhados a tendências globais."
+            text_ref: "Pág. 40-41",
+            explanation: "Inclui mobilidade virtual e física, currículos comparados e práticas em diálogo com padrões globais."
         },
         {
-            author: "Gestão e Qualidade",
-            text: "Para garantir a integridade acadêmica nas avaliações, a IES deve:",
-            options: ["Confiar na honestidade de todos.", "Garantir a identidade do estudante (ex: biometria, presencialidade) e coerência com o plano de ensino.", "Eliminar as provas.", "Fazer apenas provas em grupo."],
+            author: "Avaliação e Integridade",
+            text: "Para garantir a integridade acadêmica nas avaliações a IES deve:",
+            options: [
+            "Confiar apenas na honestidade dos estudantes.",
+            "Certificar identidade do estudante (presencial/biometria) e coerência com plano de ensino.",
+            "Eliminar avaliações presenciais.",
+            "Usar somente provas online sem controle."
+            ],
             correct: 1,
-            text_ref: "Referenciais p. 32",
-            explanation: "É fundamental certificar a identidade do estudante, especialmente nas avaliações presenciais e online."
+            text_ref: "Pág. 32",
+            explanation: "É fundamental garantir a identidade do estudante e coerência entre avaliação e plano de ensino."
         },
         {
-            author: "Gestão e Qualidade",
-            text: "O Plano de Desenvolvimento Institucional (PDI) deve:",
-            options: ["Tratar a EaD como algo separado.", "Integrar a oferta EaD ao planejamento estratégico da instituição.", "Ser um documento secreto.", "Focar apenas no presencial."],
+            author: "Planejamento Institucional",
+            text: "Como o PDI deve tratar a oferta EaD?",
+            options: [
+            "Como atividade isolada e desconectada do planejamento.",
+            "Integrando a oferta EaD ao planejamento estratégico institucional.",
+            "Sem registrar em documentos institucionais.",
+            "Apenas como projeto temporário."
+            ],
             correct: 1,
-            text_ref: "Referenciais p. 36",
-            explanation: "A oferta EaD deve ser fruto de planejamento estratégico expresso no PDI e PPI da instituição."
+            text_ref: "Pág. 36",
+            explanation: "A oferta EaD deve estar integrada ao PDI, refletindo planejamento e governança institucional."
+        },
+        {
+            author: "Materiais e Avaliação",
+            text: "Materiais didáticos para EaD devem explicitar qual métrica importante?",
+            options: [
+            "Apenas número de imagens usadas.",
+            "Tempo de dedicação esperado e métricas relativas ao tempo de exploração dos recursos.",
+            "Somente a bibliografia básica.",
+            "Quantidade de slides por aula."
+            ],
+            correct: 1,
+            text_ref: "Pág. 28",
+            explanation: "Devem explicitar a carga horária e métricas de tempo para estudo e uso dos diferentes recursos."
+        },
+        {
+            author: "Ambientes Profissionais",
+            text: "A articulação entre sede, polo e ambientes profissionais visa:",
+            options: [
+            "Separar totalmente teoria e prática.",
+            "Garantir alinhamento operacional e pedagógico e aproximar formação do mundo do trabalho.",
+            "Eliminar a necessidade de supervisão em estágios.",
+            "Reduzir a participação de professores no processo."
+            ],
+            correct: 1,
+            text_ref: "Pág. 26",
+            explanation: "A articulação fortalece fluxos e garante que práticas e estágios estejam alinhados com o PPC."
         }
-    ];
+        ];
 
     // LÓGICA DO QUIZ
     let currentQuestionIndex = 0;
