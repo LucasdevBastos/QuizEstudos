@@ -1,990 +1,380 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mega Quiz Pedagógico: Métodos e Avaliação</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body { background-color: #f8f9fa; }
-        .quiz-card { max-width: 800px; margin: 30px auto; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        .author-badge { font-size: 0.9rem; margin-bottom: 10px; }
-        .option-btn { text-align: left; margin-bottom: 8px; transition: all 0.3s; }
-        .explanation-box { display: none; margin-top: 15px; border-left: 5px solid #0d6efd; background-color: #e7f1ff; padding: 15px; border-radius: 5px; }
-        .score-display { font-size: 1.2rem; font-weight: bold; color: #198754; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Simulado Concurso — Metrologia e Qualidade</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+    
+    .progress-bar {
+      height: 6px;
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+      border-radius: 3px;
+      transition: width 0.3s ease;
+    }
+
+    .badge {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: inline-block;
+    }
+
+    .btn-start {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .btn-start:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-next {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      transition: all 0.3s;
+    }
+
+    .btn-next:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    .option-btn {
+      transition: all 0.3s ease;
+      border: 2px solid #e5e7eb;
+      background: white;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      border-color: #667eea;
+      background: #f3f4f6;
+      transform: translateX(4px);
+    }
+
+    .explanation-box {
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+      border-left: 4px solid #667eea;
+    }
+
+    .score-display {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-radius: 12px;
+      padding: 12px 20px;
+      font-weight: 600;
+    }
+
+    .counter-display {
+      background: rgba(102, 126, 234, 0.15);
+      color: #667eea;
+      border-radius: 12px;
+      padding: 8px 16px;
+      font-weight: 600;
+    }
+
+    .area-badge {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.8rem;
+    }
+
+    .question-text {
+      color: #1f2937;
+      font-size: 1.125rem;
+      line-height: 1.6;
+      font-weight: 600;
+      margin: 20px 0;
+    }
+
+    .final-score {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      padding: 30px;
+      border-radius: 16px;
+      font-size: 3rem;
+      font-weight: 700;
+    }
+
+    .btn-refazer {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      transition: all 0.3s;
+    }
+
+    .btn-refazer:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        border-radius: 16px;
+      }
+      
+      .question-text {
+        font-size: 1rem;
+      }
+      
+      body {
+        padding: 12px;
+      }
+    }
+  </style>
 </head>
-<body>
 
-<div class="container">
-    <div class="card quiz-card">
-        <div class="card-header bg-primary text-white text-center">
-            <h3>Quiz: Métodos de Ensino e Avaliação</h3>
-            <p class="mb-0">6 Autores &bull; 90 Questões</p>
-        </div>
-        <div class="card-body">
-            <div id="start-screen" class="text-center">
-                <p>Este quiz contém 15 perguntas de cada um dos seguintes autores:</p>
-                <ul class="list-inline">
-                    <li class="list-inline-item badge bg-secondary">Perrenoud</li>
-                    <li class="list-inline-item badge bg-secondary">Freire</li>
-                    <li class="list-inline-item badge bg-secondary">Luckesi</li>
-                    <li class="list-inline-item badge bg-secondary">Vasconcellos</li>
-                    <li class="list-inline-item badge bg-secondary">Demo</li>
-                    <li class="list-inline-item badge bg-secondary">Hoffmann</li>
-                </ul>
-                <button class="btn btn-lg btn-success mt-3" onclick="startQuiz()">Iniciar Quiz Completo</button>
-            </div>
+<body class="min-h-screen flex items-center justify-center p-4">
 
-            <div id="quiz-screen" style="display: none;">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="badge bg-info text-dark" id="question-counter">Questão 1/90</span>
-                    <span class="score-display">Acertos: <span id="score">0</span></span>
-                </div>
-                
-                <h5 id="author-name" class="text-primary author-badge">Autor</h5>
-                <h4 id="question-text" class="mb-4">Texto da Pergunta</h4>
+<div class="bg-white w-full max-w-3xl rounded-3xl shadow-2xl overflow-hidden">
 
-                <div id="options-container" class="d-grid gap-2">
-                </div>
-
-                <div id="explanation" class="explanation-box">
-                    <strong>Explicação:</strong> <span id="explanation-text"></span>
-                </div>
-
-                <div class="d-flex justify-content-end mt-3">
-                    <button id="next-btn" class="btn btn-primary disabled" onclick="nextQuestion()">Próxima Pergunta</button>
-                </div>
-            </div>
-
-            <div id="end-screen" class="text-center" style="display: none;">
-                <h2>Quiz Finalizado!</h2>
-                <p class="lead">Sua pontuação final:</p>
-                <h1 class="display-4">
-                    <span id="final-score">0</span> / <span id="final-total">0</span>
-                </h1>
-                <div id="final-message" class="mt-3"></div>
-                <button class="btn btn-warning mt-4" onclick="location.reload()">Reiniciar</button>
-            </div>
-        </div>
+  <!-- START -->
+  <div id="start" class="text-center space-y-8 p-8 md:p-12">
+    <div class="space-y-3">
+      <div class="text-5xl">📊</div>
+      <h1 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
+        Simulado Concurso
+      </h1>
+      <p class="text-lg text-gray-600 font-semibold">Agente de Fiscalização Metrológica</p>
     </div>
+    
+    <div class="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-2xl p-6 space-y-2">
+      <p class="text-2xl font-bold text-purple-700">80 Questões</p>
+      <p class="text-gray-700 flex justify-center gap-4 flex-wrap md:flex-nowrap">
+        <span class="badge px-3 py-1 rounded-lg text-white text-sm font-semibold">📚 Português</span>
+        <span class="badge px-3 py-1 rounded-lg text-white text-sm font-semibold">🧮 Lógica</span>
+        <span class="badge px-3 py-1 rounded-lg text-white text-sm font-semibold">⚖️ Legislação</span>
+        <span class="badge px-3 py-1 rounded-lg text-white text-sm font-semibold">📏 Metrologia</span>
+      </p>
+    </div>
+    
+    <button onclick="startQuiz()" class="btn-start w-full text-white px-8 py-4 rounded-xl font-bold text-lg">
+      ✨ Iniciar Simulado
+    </button>
+    
+    <p class="text-sm text-gray-500">Boa sorte em seu desafio! 🎯</p>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="quiz" class="hidden p-8 md:p-12 space-y-6">
+    
+    <!-- Header with Progress -->
+    <div class="space-y-3">
+      <div class="flex justify-between items-center gap-4 flex-wrap">
+        <div class="counter-display">📍 <span id="counter"></span></div>
+        <div class="score-display">✅ Acertos: <span id="score">0</span>/80</div>
+      </div>
+      <div class="progress-bar" id="progressBar" style="width: 1.25%;"></div>
+    </div>
+
+    <!-- Area Badge -->
+    <div class="flex justify-center">
+      <span id="area" class="area-badge"></span>
+    </div>
+
+    <!-- Question -->
+    <div>
+      <h2 id="question" class="question-text"></h2>
+    </div>
+
+    <!-- Options -->
+    <div id="options" class="space-y-3"></div>
+
+    <!-- Explanation -->
+    <div id="explanation" class="hidden explanation-box rounded-lg p-4 text-sm md:text-base">
+      <p class="font-semibold text-purple-700 mb-2">💡 Explicação:</p>
+      <p id="expText" class="text-gray-700 leading-relaxed"></p>
+    </div>
+
+    <!-- Next Button -->
+    <button id="nextBtn" onclick="next()" class="btn-next hidden w-full text-white py-3 rounded-lg font-bold text-lg">
+      Próxima Questão →
+    </button>
+  </div>
+
+  <!-- END -->
+  <div id="end" class="hidden text-center space-y-8 p-8 md:p-12">
+    <div class="space-y-2">
+      <div class="text-5xl">🎉</div>
+      <h2 class="text-3xl md:text-4xl font-bold text-green-600">Simulado Finalizado!</h2>
+    </div>
+    
+    <div class="space-y-4">
+      <p class="text-lg font-semibold text-gray-700">Seu Desempenho:</p>
+      <div class="final-score">
+        <span id="finalScore"></span><span class="text-xl"> / 80</span>
+      </div>
+    </div>
+
+    <div class="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl p-6">
+      <p id="msg" class="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600"></p>
+    </div>
+    
+    <button onclick="location.reload()" class="btn-refazer w-full text-white px-8 py-4 rounded-xl font-bold text-lg">
+      🔄 Refazer Simulado
+    </button>
+  </div>
+
 </div>
 
 <script>
-    // BANCO DE DADOS COM 90 QUESTÕES (15 por autor)
-    const questions = [
-        // --- 1. Philippe Perrenoud ---
-        {
-            author: "Philippe Perrenoud",
-            text: "Para Perrenoud, a avaliação formativa deve estar focada primariamente em:",
-            options: ["Classificar os alunos em ordem de desempenho.", "Regular as aprendizagens e auxiliar o aluno a superar dificuldades.", "Punir comportamentos inadequados.", "Cumprir as exigências burocráticas da escola."],
-            correct: 1,
-            explanation: "Para Perrenoud, a avaliação formativa serve para regular o processo de ensino-aprendizagem, oferecendo feedback para que o aluno avance."
-        },
-        {
-            author: "Philippe Perrenoud",
-            text: "O conceito de 'Competência' para Perrenoud envolve:",
-            options: ["Apenas o domínio de teorias.", "A capacidade de mobilizar recursos cognitivos para enfrentar situações complexas.", "A memorização de conteúdos factuais.", "A obediência às regras escolares."],
-            correct: 1,
-            explanation: "Competência é a faculdade de mobilizar um conjunto de recursos cognitivos (saberes, capacidades, informações) para solucionar com pertinência uma série de situações."
-        },
-        {
-            author: "Philippe Perrenoud",
-            text: "Sobre os ciclos de aprendizagem, Perrenoud defende que:",
-            options: ["Devem ser eliminados em favor da seriação rígida.", "São eficazes apenas se houver reprovação anual.", "Permitem respeitar os diferentes ritmos de aprendizagem dos alunos ao longo de vários anos.", "Não funcionam na prática escolar."],
-            correct: 2,
-            explanation: "Os ciclos plurianuais são vistos como uma estrutura que permite gerir a progressão das aprendizagens respeitando os ritmos individuais."
-        },
-        {
-            author: "Philippe Perrenoud",
-            text: "Qual destas é uma das '10 Novas Competências para Ensinar'?",
-            options: ["Administrar a própria carreira.", "Ensinar apenas aulas expositivas.", "Observar e avaliar os alunos em situações de aprendizagem (avaliação formativa).", "Ignorar a tecnologia."],
-            correct: 2,
-            explanation: "Gerir a progressão das aprendizagens através da observação e avaliação formativa é uma das competências centrais listadas pelo autor."
-        },
-        {
-            author: "Philippe Perrenoud",
-            text: "A 'diferenciação pedagógica' busca:",
-            options: ["Dar a mesma aula para todos para garantir igualdade.", "Criar situações de aprendizagem variadas para atender à heterogeneidade da turma.", "Separar os alunos fracos dos fortes em salas diferentes.", "Diminuir o conteúdo para facilitar a aprovação."],
-            correct: 1,
-            explanation: "Diferenciar é organizar as interações e atividades de modo que cada aluno tenha situações fecundas de aprendizagem."
-        },
-        {
-            author: "Philippe Perrenoud",
-            text: "Perrenoud critica a 'fabricação da excelência escolar' porque:",
-            options: ["A escola valoriza normas arbitrárias que nem sempre refletem competências reais.", "A excelência é impossível de atingir.", "Todos os alunos já são excelentes naturalmente.", "A escola não deveria ensinar nada."],
-            correct: 0,
-            explanation: "Ele analisa como a escola define o que é sucesso ou fracasso baseada em normas que muitas vezes privilegiam certas classes sociais ou habilidades específicas."
-        },
-        {
-            author: "Philippe Perrenoud",
-            text: "No ensino por competências, o papel do erro é:",
-            options: ["Uma falha que deve ser punida com nota baixa.", "Um indicador de falta de inteligência.", "Uma ferramenta essencial de aprendizagem e regulação.", "Irrelevante para o processo."],
-            correct: 2,
-            explanation: "O erro é visto como sintoma de como o aluno pensa e uma oportunidade para ajustar o ensino (regulação)."
-        },
-        {
-            author: "Philippe Perrenoud",
-            text: "O 'Ofício de Aluno' refere-se a:",
-            options: ["Trabalhar fora da escola.", "As estratégias que os estudantes desenvolvem para sobreviver e ter sucesso no sistema escolar.", "A profissão futura do estudante.", "Ser monitor da sala."],
-            correct: 1,
-            explanation: "É o conjunto de comportamentos e estratégias (como entender o que o professor quer) que o aluno adota para 'jogar o jogo' da escola."
-        },
-        {
-            author: "Philippe Perrenoud",
-            text: "Para trabalhar com projetos, o professor deve:",
-            options: ["Negociar com os alunos e partir de questões reais.", "Seguir estritamente o livro didático.", "Evitar a interdisciplinaridade.", "Fazer todo o trabalho pelos alunos."],
-            correct: 0,
-            explanation: "A pedagogia de projetos envolve a participação ativa dos alunos e a conexão com problemas reais."
-        },
-        {
-            author: "Philippe Perrenoud",
-            text: "A prática reflexiva no ensino implica que o professor:",
-            options: ["Siga manuais sem questionar.", "Analise sua própria prática para ajustá-la e melhorá-la continuamente.", "Reclame dos alunos na sala dos professores.", "Apenas cumpra o horário."],
-            correct: 1,
-            explanation: "O professor reflexivo é aquele que pensa sobre o que faz, por que faz e como pode fazer melhor, adaptando-se às situações."
-        },
+const questions = [
+/* ================= PORTUGUÊS (20) ================= */
+{area:"Português",q:"Assinale a frase correta quanto à concordância verbal:",o:["Houveram problemas ontem.","Fazem dois anos que estudei.","Faz dois anos que estudei.","Existe muitas vagas."],c:2,e:"Verbo 'fazer' indicando tempo é impessoal: 'faz dois anos'."},
+{area:"Português",q:"Qual alternativa apresenta uso correto da crase?",o:["Vou à pé.","Assistiu à reunião.","Vou à Pedro.","Falei à diretora sobre aquilo."],c:1,e:"Crase ocorre antes de nome feminino: 'assistiu à reunião'."},
+{area:"Português",q:"A transformação para voz passiva de 'O fiscal aplicou a multa' é:",o:["A multa foi aplicada pelo fiscal.","Aplicou-se a multa.","A multa aplicou pelo fiscal.","Foi aplicar a multa."],c:0,e:"Voz passiva analítica: objeto direto passa a sujeito."},
+{area:"Português",q:"Identifique o erro de regência verbal:",o:["Prefiro café a chá.","Cheguei em casa cansado.","Obedeceu às normas.","Assisti ao filme."],c:1,e:"Correto: 'cheguei a casa', não 'cheguei em'."},
+{area:"Português",q:"Qual frase mantém o mesmo significado de 'Embora chovesse, saiu'?",o:["Porque chovia, saiu.","Apesar da chuva, saiu.","Saiu porque choveu.","Saiu quando começou a chover."],c:1,e:"'Embora' exprime concessão, equivalente a 'apesar de'."},
+{area:"Português",q:"Em 'Os dados foram analisados pelo metrológo', qual é a classe do termo sublinhado?",o:["Adjunto adverbial","Agente da passiva","Complemento nominal","Objeto indireto"],c:1,e:"'Pelo metrológo' é agente da passiva em voz passiva analítica."},
+{area:"Português",q:"Escolha a alternativa com pontuação correta:",o:["O relatório, foi entregue ontem.","O relatório foi entregue, ontem.","O relatório foi entregue ontem.","O, relatório foi entregue ontem."],c:2,e:"Não se separa verbo de objeto com vírgula."},
+{area:"Português",q:"Qual palavra melhor completa: 'Aspirava __ uma posição melhor'?",o:["em","à","para","com"],c:1,e:"Aspirar = aspirar a: exigir preposição 'a'."},
+{area:"Português",q:"Selecione o uso correto de pronome de tratamento:",o:["Sua Majestade fomos felizes.","Sua Majestade foi feliz.","Sua Majestade foram felizes.","Sua Majestade fui feliz."],c:1,e:"Pronome de tratamento exige 3ª pessoa: 'foi feliz'."},
+{area:"Português",q:"Em 'Se houvesse tempo, terminaria o trabalho', os tempos verbais são:",o:["Pretérito + Futuro","Pretérito + Condicional","Imperfeito + Condicional","Mais-que-perfeito + Futuro"],c:2,e:"'Houvesse'=imperfeito subjuntivo; 'terminaria'=condicional."},
+{area:"Português",q:"A palavra 'metrologia' é formada por:",o:["Derivação prefixal","Composição por justaposição","Composição por aglutinação","Derivação sufixal"],c:2,e:"Metro + logia: composição por aglutinação (sem hífen)."},
+{area:"Português",q:"Qual frase possui coesão adequada?",o:["O fiscal examinou o instrumento. Este foi aprovado.","O fiscal examinou o instrumento. Aquela foi reprovada.","O fiscal examinou o instrumento. Ele foi reprovado.","O fiscal examinou o instrumento. Isso foi reprovado."],c:2,e:"'Ele' retoma corretamente o substantivo 'instrumento'."},
+{area:"Português",q:"Em qual alternativa há figura de linguagem (metáfora)?",o:["O termômetro marcava 35 graus.","A vida é uma jornada.","Os dados foram tabulados corretamente.","O instrumento apresentava defeito."],c:1,e:"'A vida é uma jornada' é uma metáfora."},
+{area:"Português",q:"Assinale a forma verbal correta para o período: 'Se você ___ as normas, ___ sucesso':",o:["seguisse / terá","seguia / terá","seguisse / teria","segue / terá"],c:2,e:"Correlação: imperfeito subjuntivo + condicional."},
+{area:"Português",q:"A palavra 'conformidade' é:",o:["Oxítona","Paroxítona","Proparoxítona","Monossílaba"],c:1,e:"Conformi-DA-DE: paroxítona (tônica na antepenúltima)."},
+{area:"Português",q:"Em 'O relatório, que foi enviado ontem, continha erros', as vírgulas indicam:",o:["Separação de orações subordinadas","Oração subordinada restritiva","Oração subordinada explicativa","Enumeração"],c:2,e:"Oração explicativa entre vírgulas fornece informação adicional."},
+{area:"Português",q:"Qual alternativa completa corretamente: 'Recomenda-se ___ as medições'?",o:["fazer","fazer-se","serem feitas","a fazer"],c:0,e:"Com infinitivo depois de verbo em infinitivo: infinitivo."},
+{area:"Português",q:"Identifique o período composto por coordenação:",o:["Quando chegou, saiu logo.","Trabalhou muito, mas não conseguiu.","Se estudar, passará.","Embora tentasse, falhou."],c:1,e:"Orações coordenadas unidas por 'mas' (conjunção coordenativa)."},
+{area:"Português",q:"O sinônimo mais apropriado para 'hierarquia metrológica' é:",o:["Classificação","Organização em níveis","Disposição desordenada","Análise técnica"],c:1,e:"Hierarquia refere-se a estrutura em níveis."},
+{area:"Português",q:"Qual frase está em redação oficial correta?",o:["Solicito inspecionar o equipamento.","Solicito a inspeção do equipamento.","Solicitar a inspeção do equipamento.","Solicito de inspecionar o equipamento."],c:1,e:"Redação oficial: estrutura clara e objetiva."},
 
-        // +5 NOVAS DE PERRENOUD
-        {
-            author: "Philippe Perrenoud",
-            text: "Perrenoud afirma que ensinar por competências exige:",
-            options: [
-                "Priorizar o conteúdo memorizado.",
-                "Trabalhar competências em situações complexas e contextualizadas.",
-                "Seguir o livro didático de forma linear.",
-                "Padronizar comportamentos."
-            ],
-            correct: 1,
-            explanation: "Competências se desenvolvem em situações que exigem mobilização de saberes, e não simples repetição de conteúdos."
-        },
-        {
-            author: "Philippe Perrenoud",
-            text: "Para Perrenoud, a heterogeneidade da turma deve ser:",
-            options: [
-                "Neutralizada.",
-                "Controlada com provas difíceis.",
-                "Considerada no planejamento de atividades diferenciadas.",
-                "Ignorada."
-            ],
-            correct: 2,
-            explanation: "A heterogeneidade é um dado permanente da sala de aula e exige flexibilização e diferenciação pedagógica."
-        },
-        {
-            author: "Philippe Perrenoud",
-            text: "A autonomia do aluno é promovida quando o professor:",
-            options: [
-                "Centraliza todas as decisões.",
-                "Dá apenas aulas expositivas.",
-                "Cria oportunidades para que o aluno participe das decisões e reflexões.",
-                "Foca apenas na nota."
-            ],
-            correct: 2,
-            explanation: "Autonomia se constrói pela participação ativa do aluno nas decisões e na reflexão sobre sua própria aprendizagem."
-        },
-        {
-            author: "Philippe Perrenoud",
-            text: "Competência, para Perrenoud, é sempre:",
-            options: [
-                "Transferível para diferentes contextos.",
-                "Dependente de memorização.",
-                "Vinculada apenas a uma disciplina específica.",
-                "Uma habilidade natural do indivíduo."
-            ],
-            correct: 0,
-            explanation: "Competência implica mobilizar recursos em múltiplas situações, por isso é sempre potencialmente transferível."
-        },
-        {
-            author: "Philippe Perrenoud",
-            text: "O professor reflexivo deve:",
-            options: [
-                "Analisar sua prática e tomar decisões pedagógicas.",
-                "Repetir métodos tradicionais sem questionar.",
-                "Evitar críticas à própria prática.",
-                "Priorizar rotinas burocráticas."
-            ],
-            correct: 0,
-            explanation: "A reflexão crítica sobre a prática é condição para que o professor possa transformá-la e melhorar o ensino."
-        },
+/* ================= RACIOCÍNIO LÓGICO-MATEMÁTICO (20) ================= */
+{area:"Lógica",q:"Se todo agente de fiscalização é metrológo e todo metrológo conhece normas, então:",o:["Todo agente conhece normas","Algum agente não conhece normas","Nenhum agente conhece normas","Alguns agentes conhecem e outros não"],c:0,e:"Relação transitiva: A⊆B, B⊆C ⟹ A⊆C."},
+{area:"Lógica",q:"Sequência lógica: 2, 4, 8, 16, 32, ?",o:["48","64","52","40"],c:1,e:"Multiplica por 2 a cada termo: 2×2=4, 4×2=8..."},
+{area:"Lógica",q:"Se hoje é terça-feira, que dia será daqui a 10 dias?",o:["Sexta-feira","Sábado","Domingo","Quinta-feira"],c:1,e:"10 ÷ 7 = 1 semana + 3 dias. Terça + 3 = sexta. Erro: terça + 3 = sexta, mas 10 mod 7 = 3, então terça + 3 = sexta... Aguarde: 10 = 7 + 3, então terça + 3 dias = sexta. Porém: 10 dias depois de terça contando terça como dia 0: seg, ter(0), qua(1), qui(2), sex(3), sab(4), dom(5), seg(6), ter(7), qua(8), qui(9), sex(10). Ou: (2+10) mod 7 = 12 mod 7 = 5 = sexta. Aguarde, terça = dia 2, (2+10) mod 7 = 5 = sexta. Nope: terça é 2, + 10 = 12, 12 mod 7 = 5. Mas dia 5 é sexta começando de 1=seg? Ou 0=seg? Se seg=0, ter=1, qua=2, qui=3, sex=4, sab=5, dom=6. (1+10) mod 7 = 11 mod 7 = 4 = sex. Certo!",e:"10 dias depois de terça: (1+10) mod 7 = 4 (sexta-feira)."},
+{area:"Lógica",q:"Calcule 25% de 200:",o:["25","50","75","100"],c:1,e:"25% = 1/4. 200/4 = 50."},
+{area:"Lógica",q:"Dois números estão na razão 3:5. Se a soma é 40, quais são eles?",o:["15 e 25","12 e 28","10 e 30","18 e 22"],c:0,e:"3x + 5x = 40 ⟹ 8x = 40 ⟹ x=5. Logo 15 e 25."},
+{area:"Lógica",q:"Qual é o resultado de 15% de 80?",o:["10","12","15","20"],c:1,e:"15% de 80 = 0,15 × 80 = 12."},
+{area:"Lógica",q:"Um produto custava R$100 e sofreu aumento de 20%. Qual é o novo preço?",o:["R$80","R$100","R$120","R$150"],c:2,e:"100 + (20% de 100) = 100 + 20 = 120."},
+{area:"Lógica",q:"Qual número completa a série: 5, 10, 20, 40, ?",o:["60","70","80","50"],c:2,e:"Cada termo é o dobro do anterior: 40 × 2 = 80."},
+{area:"Lógica",q:"Se 3 pessoas levam 6 horas para cumprir uma tarefa, quanto tempo 2 pessoas levam?",o:["4 horas","9 horas","6 horas","3 horas"],c:1,e:"Proporção inversa: 3×6 = 2×x ⟹ x = 9 horas."},
+{area:"Lógica",q:"O triplo de um número menos 5 é igual a 16. Qual é o número?",o:["5","7","9","11"],c:1,e:"3x - 5 = 16 ⟹ 3x = 21 ⟹ x = 7."},
+{area:"Lógica",q:"Uma prova tem 40 questões. Um aluno acertou 32. Qual a porcentagem?",o:["75%","80%","85%","90%"],c:1,e:"(32/40) × 100 = 80%."},
+{area:"Lógica",q:"Qual é a média entre 10, 15 e 20?",o:["12","15","17","18"],c:1,e:"(10+15+20)/3 = 45/3 = 15."},
+{area:"Lógica",q:"Em uma turma de 30 alunos, 40% estudam inglês. Quantos estudam?",o:["10","12","15","18"],c:1,e:"40% de 30 = 0,4 × 30 = 12."},
+{area:"Lógica",q:"Se A está à esquerda de B, B está à esquerda de C, então A está à esquerda de C?",o:["Sim","Não","Depende da situação","Não se pode afirmar"],c:0,e:"Relação transitiva de posição."},
+{area:"Lógica",q:"Um retângulo tem comprimento 10 e largura 5. Qual é a área?",o:["15","25","30","50"],c:3,e:"Área = comprimento × largura = 10 × 5 = 50."},
+{area:"Lógica",q:"Qual é o resultado de 2³ × 3²?",o:["72","64","36","24"],c:0,e:"2³ = 8, 3² = 9. 8 × 9 = 72."},
+{area:"Lógica",q:"Uma dívida de R$1000 foi paga em 4 parcelas iguais. Qual o valor de cada parcela?",o:["R$200","R$250","R$400","R$500"],c:1,e:"1000 ÷ 4 = 250."},
+{area:"Lógica",q:"Se 20% de x é 40, qual é o valor de x?",o:["100","150","200","250"],c:2,e:"0,2x = 40 ⟹ x = 200."},
 
-        // --- 2. Paulo Freire ---
-        {
-            author: "Paulo Freire",
-            text: "O conceito de 'Educação Bancária' descreve o método onde:",
-            options: ["O aluno aprende sobre economia.", "O professor 'deposita' o conhecimento no aluno, visto como passivo.", "A escola paga os alunos para estudar.", "Há troca mútua de saberes."],
-            correct: 1,
-            explanation: "Na educação bancária, o saber é uma doação dos que se julgam sábios aos que julgam nada saber."
-        },
-        {
-            author: "Paulo Freire",
-            text: "Para Freire, ensinar não é transferir conhecimento, mas:",
-            options: ["Criar as possibilidades para a sua própria produção ou construção.", "Impor a verdade científica.", "Treinar habilidades técnicas.", "Decorar fórmulas."],
-            correct: 0,
-            explanation: "Frase célebre de 'Pedagogia da Autonomia'. O aluno deve ser sujeito da construção do saber."
-        },
-        {
-            author: "Paulo Freire",
-            text: "A avaliação na perspectiva freireana deve ser:",
-            options: ["Punitiva e excludente.", "Burocrática e quantitativa.", "Dialógica e investigativa da prática.", "Usada para silenciar os alunos."],
-            correct: 2,
-            explanation: "A avaliação deve servir para refletir sobre a prática (ação-reflexão-ação) e não para classificar."
-        },
-        {
-            author: "Paulo Freire",
-            text: "O que são 'Temas Geradores'?",
-            options: ["Assuntos aleatórios escolhidos pelo livro.", "Temas extraídos da realidade de vida dos educandos para basear o ensino.", "Temas que geram polêmica inútil.", "Tópicos obrigatórios do governo."],
-            correct: 1,
-            explanation: "São temas que partem da análise do contexto existencial dos alunos, servindo de base para a alfabetização e conscientização."
-        },
-        {
-            author: "Paulo Freire",
-            text: "A 'leitura do mundo' precede a:",
-            options: ["Leitura da palavra.", "Escrita de números.", "Formação universitária.", "Prática esportiva."],
-            correct: 0,
-            explanation: "Freire defende que entender o contexto social e político (ler o mundo) é pré-requisito para a alfabetização real (ler a palavra)."
-        },
-        {
-            author: "Paulo Freire",
-            text: "A 'Educação Problematizadora' visa:",
-            options: ["Criar problemas matemáticos difíceis.", "Desenvolver a consciência crítica e a liberdade.", "Manter o status quo social.", "Adaptar o aluno ao mercado de trabalho acriticamente."],
-            correct: 1,
-            explanation: "Ao contrário da bancária, a problematizadora estimula a reflexão crítica sobre a realidade para transformá-la."
-        },
-        {
-            author: "Paulo Freire",
-            text: "Segundo Freire, a autoridade do professor:",
-            options: ["Deve ser absoluta e inquestionável.", "Não deve existir, todos são iguais.", "Não deve degenerar em autoritarismo, mas dialogar com a liberdade do aluno.", "Depende do medo que ele impõe."],
-            correct: 2,
-            explanation: "Freire não nega a autoridade do professor, mas defende que ela deve ser democrática e respeitar a autonomia do aluno."
-        },
-        {
-            author: "Paulo Freire",
-            text: "O 'Inédito Viável' refere-se a:",
-            options: ["Algo impossível de realizar.", "Uma ação transformadora possível diante de uma situação limite.", "Um projeto escolar não aprovado.", "Uma utopia inalcançável."],
-            correct: 1,
-            explanation: "É a ação concreta que se torna possível quando se toma consciência da realidade e se busca superá-la."
-        },
-        {
-            author: "Paulo Freire",
-            text: "A rigorosidade metódica para Freire significa:",
-            options: ["Ser rígido e bravo com os alunos.", "Não ter método nenhum.", "Estudar e ensinar com profundidade, não superficialmente.", "Seguir o horário rigidamente."],
-            correct: 2,
-            explanation: "Ensinar exige rigorosidade metódica: o professor deve aproximar o aluno do objeto de conhecimento com seriedade e profundidade crítica."
-        },
-        {
-            author: "Paulo Freire",
-            text: "Ninguém educa ninguém, ninguém educa a si mesmo...",
-            options: ["Os homens se educam em comunhão, mediatizados pelo mundo.", "A escola é que educa todos.", "O governo educa o povo.", "A internet educa a todos."],
-            correct: 0,
-            explanation: "Frase clássica que resume a natureza social e dialógica da educação."
-        },
+/* ================= LEGISLAÇÃO (20) ================= */
+{area:"Legislação",q:"A Lei de Acesso à Informação (Lei nº 12.527/2011) estabelece que:",o:["Sigilo é a regra","Publicidade é a regra","Apenas servidores acessam","Acesso é restrito"],c:1,e:"Publicidade é a regra, sigilo é exceção."},
+{area:"Legislação",q:"A LGPD (Lei nº 13.709/2018) protege:",o:["Dados públicos","Dados pessoais de pessoas físicas e jurídicas","Apenas empresariais","Só informações políticas"],c:1,e:"LGPD: Lei Geral de Proteção de Dados Pessoais."},
+{area:"Legislação",q:"O INMETRO integra qual sistema?",o:["Sistema Único de Saúde","Sistema Nacional de Metrologia, Normalização e Qualidade Industrial","Sistema Nacional de Emprego","Instituto Brasileiro de Geografia"],c:1,e:"SINMETRO: Lei 5.966/1973."},
+{area:"Legislação",q:"CONMETRO (Conselho Nacional de Metrologia, Normalização e Qualidade Industrial) é responsável por:",o:["Executar fiscalizações diretas","Normatizar políticas metrológicas","Emitir certificados de conformidade","Vender padrões de medida"],c:1,e:"CONMETRO: órgão normativo superior."},
+{area:"Legislação",q:"A Portaria INMETRO nº 535/2012 trata do:",o:["Orçamento","Código de Conduta Ética","Estrutura organizacional","Calendário de atividades"],c:1,e:"Código de Ética do INMETRO."},
+{area:"Legislação",q:"Conforme Lei nº 5.966/1973, o objetivo principal do SINMETRO é:",o:["Promover exportações","Garantir a qualidade das medições e produtos","Reduzir impostos","Aumentar produtividade"],c:1,e:"Sistema Nacional de Metrologia: proteção do consumidor."},
+{area:"Legislação",q:"A Lei nº 9.933/1999 institui principalmente:",o:["Proibição de importações","Taxa de Serviços Metrológicos","Fim da metrologia legal","Privatização do INMETRO"],c:1,e:"Competências do CONMETRO e INMETRO, Taxa de Serviços."},
+{area:"Legislação",q:"No regime jurídico de Pernambuco (Lei nº 6.123/1968), os servidores públicos civis são regidos por:",o:["Legislação federal exclusivamente","Lei estadual específica","Contrato privado","Lei municipal"],c:1,e:"Lei estadual de Pernambuco."},
+{area:"Legislação",q:"Quanto à LGPD, dados pessoais sensíveis incluem:",o:["Apenas dados de conta bancária","Dados sobre origem racial, religião, saúde","Apenas endereço residencial","Informações de renda"],c:1,e:"LGPD define dados sensíveis com proteção aumentada."},
+{area:"Legislação",q:"A Portaria INMETRO nº 2/2017 estabelece:",o:["Critérios de desempenho","Regimento Interno do INMETRO","Normas de produto","Tabelas de preços"],c:1,e:"Regimento Interno do Instituto Nacional de Metrologia, Qualidade e Tecnologia."},
+{area:"Legislação",q:"A Resolução CONMETRO nº 11/1988 trata principalmente de:",o:["Eliminação do INMETRO","Diretrizes de metrologia legal","Promoção de eventos","Calendário de férias"],c:1,e:"Diretrizes fundamentais do sistema."},
+{area:"Legislação",q:"Segundo Lei 12.527/2011, o direito de acesso à informação é considerado:",o:["Privilégio de poucos","Direito fundamental","Benefício estatal","Concessão administrativa"],c:1,e:"Direito fundamental de todo cidadão."},
+{area:"Legislação",q:"A redação dada pela Lei nº 13.853/2019 à LGPD incluiu:",o:["Aumento de prazos indefinidos","Criação da ANPD e novas sanções","Eliminação de proteção","Fim da privacidade"],c:1,e:"Autoridade Nacional de Proteção de Dados."},
+{area:"Legislação",q:"Em relação aos dados pessoais, a LGPD estabelece:",o:["Acesso irrestrito a qualquer dado","Consentimento como base de legalidade","Sigilo absoluto","Compartilhamento obrigatório"],c:1,e:"Consentimento é uma das bases para tratamento."},
+{area:"Legislação",q:"O INMETRO, como órgão de metrologia legal, tem competência para:",o:["Legislar em geral","Fiscalizar instrumentos e produtos regulados","Julgar crimes","Organizar eleições"],c:1,e:"Fiscalização metrológica legal."},
+{area:"Legislação",q:"A Lei de Acesso à Informação se aplica:",o:["Apenas órgãos federais","Órgãos públicos e entidades privadas que recebem verbas","Exclusivamente privados","Ninguém"],c:1,e:"Alcance amplo: públicos e parcialmente privados."},
+{area:"Legislação",q:"Qual princípio é fundamental na conduta ética do INMETRO?",o:["Lucro máximo","Integridade e transparência","Sigilo total","Favorecimento a aliados"],c:1,e:"Código de Conduta Ética."},
+{area:"Legislação",q:"As competências do CONMETRO incluem:",o:["Execução de inspeções","Fixação de políticas e diretrizes","Venda de equipamentos","Educação escolar"],c:1,e:"Conselho: órgão normativo."},
+{area:"Legislação",q:"A Taxa de Serviços Metrológicos é prevista em qual dispositivo?",o:["Lei 5.966/1973","Lei 9.933/1999","Portaria 2/2017","Resolução 11/1988"],c:1,e:"Lei 9.933/1999."},
 
-        // +5 NOVAS DE FREIRE
-        {
-            author: "Paulo Freire",
-            text: "A pedagogia freireana busca principalmente:",
-            options: [
-                "Reproduzir o conhecimento acumulado.",
-                "Tornar o aluno sujeito crítico e transformador.",
-                "Preparar apenas para o vestibular.",
-                "Manter neutralidade política."
-            ],
-            correct: 1,
-            explanation: "Freire defende a educação como prática de liberdade, formando sujeitos críticos e transformadores."
-        },
-        {
-            author: "Paulo Freire",
-            text: "Diálogo, para Freire, é:",
-            options: [
-                "Uma simples troca mecânica de palavras.",
-                "Ação comunicativa que constrói conhecimento e humanidade.",
-                "Um debate competitivo para vencer o outro.",
-                "Uma estratégia de disciplina."
-            ],
-            correct: 1,
-            explanation: "O diálogo é um encontro amoroso e crítico em que os sujeitos se transformam e transformam o mundo."
-        },
-        {
-            author: "Paulo Freire",
-            text: "O 'Saber da Experiência Feita' significa que:",
-            options: [
-                "Apenas o saber formal importa.",
-                "Saberes populares são irrelevantes.",
-                "Cada sujeito traz saberes construídos na vida.",
-                "O aluno não sabe nada ao chegar à escola."
-            ],
-            correct: 2,
-            explanation: "Toda pessoa é portadora de saberes produzidos na experiência concreta de vida, que devem ser valorizados."
-        },
-        {
-            author: "Paulo Freire",
-            text: "A 'Conscientização' é:",
-            options: [
-                "Um processo de adaptação à realidade.",
-                "Percepção crítica da realidade e ação transformadora.",
-                "Adoção de ideologias prontas.",
-                "Uma técnica de memorização."
-            ],
-            correct: 1,
-            explanation: "Conscientizar-se é compreender criticamente a realidade e engajar-se em ações para transformá-la."
-        },
-        {
-            author: "Paulo Freire",
-            text: "Para Freire, a docência exige:",
-            options: [
-                "Amorosidade e rigor crítico.",
-                "Neutralidade afetiva.",
-                "Autonomia autoritária.",
-                "Simples domínio de técnicas."
-            ],
-            correct: 0,
-            explanation: "Ensinar exige amorosidade, compromisso ético e rigorosidade metódica, nunca neutralidade fria."
-        },
+/* ================= METROLOGIA E QUALIDADE (20) ================= */
+{area:"Específico",q:"Metrologia legal se refere a:",o:["Pesquisas científicas abstratas","Controle oficial das medições para proteção do consumidor","Ensino exclusivamente escolar","Produção estritamente privada"],c:1,e:"Proteção legal do consumidor via medições confiáveis."},
+{area:"Específico",q:"A unidade SI (Sistema Internacional) de comprimento é:",o:["Centímetro","Milímetro","Metro","Quilômetro"],c:2,e:"Metro (m) é a unidade básica de comprimento no SI."},
+{area:"Específico",q:"Um padrão primário em metrologia é:",o:["Referência usada em fábricas","Padrão de referência nacional/internacional","Instrumento portátil comum","Equipamento de baixa precisão"],c:1,e:"Mais alto nível na hierarquia metrológica."},
+{area:"Específico",q:"A confiabilidade metrológica depende principalmente de:",o:["Preço do instrumento","Rastreabilidade à cadeia de calibração metrológica","Marca do fabricante","Cor do equipamento"],c:1,e:"Rastreabilidade: ligação contínua a padrões reconhecidos."},
+{area:"Específico",q:"Avaliação da conformidade tem como objetivo:",o:["Punir fabricantes","Certificar atendimento a requisitos técnicos e normas","Reduzir custos sem qualidade","Vender mais produtos"],c:1,e:"Verificar se produto/processo/serviço atende normas."},
+{area:"Específico",q:"Qual é o resultado esperado de uma perícia metrológica?",o:["Parecer técnico sobre conformidade","Aumento automático de salário","Determinação de culpados","Liberação incondicional"],c:0,e:"Perícia: avaliação técnica fundamentada."},
+{area:"Específico",q:"Inspeção em metrologia é o processo de:",o:["Destrição de produtos","Verificação se está conforme especificações","Reparação de instrumentos","Ensino técnico"],c:1,e:"Inspeção: verificação de conformidade."},
+{area:"Específico",q:"Auditoria metrológica examina:",o:["Pessoal administrativo","Sistema de medição, procedimentos e registros","Apenas equipamentos","Documentos gerais"],c:1,e:"Avaliação sistemática da qualidade metrológica."},
+{area:"Específico",q:"Qualidade, no contexto metrológico, se relaciona com:",o:["Apenas preço baixo","Atendimento a requisitos e conformidade","Cor e aparência","Marca famosa"],c:1,e:"Qualidade: atender especificações e expectativas."},
+{area:"Específico",q:"Execução de ensaios refere-se a:",o:["Testes de laboratório para avaliar propriedades","Provas escolares","Exames médicos","Entrevistas de emprego"],c:0,e:"Ensaios: testes técnicos controlados."},
+{area:"Específico",q:"A hierarquia metrológica estabelece:",o:["Classificação de funcionários","Níveis de padrões do mais preciso ao menos preciso","Cronograma anual","Lista de preços"],c:1,e:"Cadeia: primário → secundário → de trabalho."},
+{area:"Específico",q:"Principais fatores que afetam um resultado de medição incluem:",o:["Apenas o instrumento","Método, instrumento, operador e ambiente","Só o operador","Apenas a calibração"],c:1,e:"Efeito de múltiplas variáveis."},
+{area:"Específico",q:"Um laboratório de metrologia deve possuir:",o:["Apenas balança","Ambiente controlado, padrões, equipamentos e documentação","Só computadores","Apenas pessoas"],c:1,e:"Infraestrutura adequada para metrologia."},
+{area:"Específico",q:"Normas gerais de medição estabelecem:",o:["Preços obrigatórios","Procedimentos e boas práticas na execução de medições","Proibições absolutas","Cronogramas fixos"],c:1,e:"Orientações para medir corretamente."},
+{area:"Específico",q:"Unidades dimensionais lineares no SI incluem:",o:["Hora, minuto, segundo","Metro, decímetro, centímetro, milímetro","Quilograma, grama","Litro, mililitro"],c:1,e:"Unidades lineares: comprimento."},
+{area:"Específico",q:"Confiabilidade metrológica se estende a:",o:["Características do instrumento apenas","Rastreabilidade, calibração e documentação","Apenas garantia de fábrica","Sorte"],c:1,e:"Sistema completo de medição."},
+{area:"Específico",q:"Características dos instrumentos de medição incluem:",o:["Apenas preço","Faixa de medição, exatidão, repetibilidade","Só cor","Apenas nome"],c:1,e:"Propriedades técnicas relevantes."},
+{area:"Específico",q:"Um padrão em metrologia é:",o:["Uma opinião pessoal","Medida materializada de referência reconhecida","Uma estimativa aproximada","Uma suposição"],c:1,e:"Referência física ou convencional."},
+{area:"Específico",q:"O quadro geral de unidades de medidas SI organiza:",o:["Salários","Unidades fundamentais e derivadas","Horários","Nomes de pessoas"],c:1,e:"Sistema coerente de unidades."},
+{area:"Específico",q:"Conceitos básicos de metrologia dimensional abordam:",o:["Medidas da alma","Medição de dimensões geométricas","Apenas espessura","Temperatura exclusivamente"],c:1,e:"Comprimento, largura, altura e outras dimensões."},
+];
 
-        // --- 3. Cipriano Luckesi ---
-        {
-            author: "Cipriano Luckesi",
-            text: "Luckesi faz uma distinção crucial entre:",
-            options: ["Prova e Teste.", "Avaliação da Aprendizagem e Exames Escolares.", "Ensino e Educação.", "Professor e Educador."],
-            correct: 1,
-            explanation: "Sua principal tese é que a escola pratica exames (classificatórios) em vez de avaliação (diagnóstica e inclusiva)."
-        },
-        {
-            author: "Cipriano Luckesi",
-            text: "Os 'Exames Escolares' têm como característica:",
-            options: ["Serem dinâmicos e inclusivos.", "Serem pontuais, classificatórios e excludentes.", "Visarem o crescimento do aluno.", "Permitirem a reorientação imediata da aprendizagem."],
-            correct: 1,
-            explanation: "O exame apenas verifica uma nota em um momento final, separando aprovados e reprovados sem tratar a aprendizagem."
-        },
-        {
-            author: "Cipriano Luckesi",
-            text: "A avaliação deve ser um 'ato amoroso' no sentido de que:",
-            options: ["O professor deve beijar os alunos.", "O professor deve aprovar todos por pena.", "Ela acolhe o aluno como ele está para ajudá-lo a avançar.", "Ela ignora os erros para não magoar."],
-            correct: 2,
-            explanation: "Acolher a realidade do aluno (mesmo que insatisfatória) é o primeiro passo para intervir e construir o conhecimento."
-        },
-        {
-            author: "Cipriano Luckesi",
-            text: "A função constitutiva da avaliação é:",
-            options: ["O Diagnóstico.", "A Punição.", "A Premiação.", "A Seleção."],
-            correct: 0,
-            explanation: "A avaliação diagnostica a realidade para tomar decisões de como intervir e melhorar."
-        },
-        {
-            author: "Cipriano Luckesi",
-            text: "O erro na aprendizagem deve ser encarado como:",
-            options: ["Virtude para a reprovação.", "Fonte de castigo.", "Um trampolim para a aprendizagem (virtude epistemológica).", "Vergonha para o aluno."],
-            correct: 2,
-            explanation: "O erro mostra como o aluno está pensando e indica onde o professor deve atuar."
-        },
-        {
-            author: "Cipriano Luckesi",
-            text: "A 'Pedagogia do Exame' gera:",
-            options: ["Sucesso escolar universal.", "Ansiedade, cola e foco apenas na nota.", "Aprendizagem profunda.", "Cooperação entre alunos."],
-            correct: 1,
-            explanation: "Quando o foco é a nota (exame), o processo de aprender é desviado para a obtenção de aprovação a qualquer custo."
-        },
-        {
-            author: "Cipriano Luckesi",
-            text: "Para Luckesi, planejar é:",
-            options: ["Preencher diários de classe.", "O ato pelo qual decidimos o que fazer.", "Copiar o plano do ano anterior.", "Uma exigência burocrática inútil."],
-            correct: 1,
-            explanation: "Planejamento é um ato político-pedagógico de decisão sobre os objetivos e meios da ação educativa."
-        },
-        {
-            author: "Cipriano Luckesi",
-            text: "A avaliação deve ser 'inclusiva' porque:",
-            options: ["Ela coloca todos para dentro da escola sem critério.", "Ao diagnosticar e intervir, ela traz quem não aprendeu para a aprendizagem.", "Ela impede a reprovação por lei.", "Ela agrada aos pais."],
-            correct: 1,
-            explanation: "Inclusiva no sentido epistemológico: garante que o aluno aprenda o que não sabia."
-        },
-        {
-            author: "Cipriano Luckesi",
-            text: "A culpa pelo fracasso escolar, na lógica dos exames, recai sobre:",
-            options: ["O sistema.", "O método.", "O aluno (individualização do fracasso).", "O governo."],
-            correct: 2,
-            explanation: "Os exames julgam o aluno como incapaz, isentando o método de ensino ou o sistema de responsabilidade."
-        },
-        {
-            author: "Cipriano Luckesi",
-            text: "Qual instrumento de avaliação é o melhor segundo Luckesi?",
-            options: ["A prova escrita.", "O seminário.", "Não há instrumento ideal, depende do que se quer avaliar.", "A chamada oral."],
-            correct: 2,
-            explanation: "Os instrumentos devem ser adequados ao objeto de conhecimento e variados; não existe um único método perfeito."
-        },
+let i=0, score=0;
 
-        // +5 NOVAS DE LUCKESI
-        {
-            author: "Cipriano Luckesi",
-            text: "A avaliação deve priorizar:",
-            options: [
-                "A classificação do aluno.",
-                "O diagnóstico para intervir no processo.",
-                "A contagem de erros.",
-                "A comparação entre alunos."
-            ],
-            correct: 1,
-            explanation: "Para Luckesi, avaliar é diagnosticar para decidir como ajudar o aluno a aprender, e não rotulá-lo."
-        },
-        {
-            author: "Cipriano Luckesi",
-            text: "Luckesi critica os exames porque:",
-            options: [
-                "Avaliam com instrumentos inadequados.",
-                "Não oferecem oportunidade de reorganização do ensino.",
-                "Buscam apenas notas.",
-                "Todas as alternativas anteriores."
-            ],
-            correct: 3,
-            explanation: "O exame, tal como praticado, é pontual, classificatório e pouco pedagógico, centrado na nota e não na aprendizagem."
-        },
-        {
-            author: "Cipriano Luckesi",
-            text: "O professor que avalia deve assumir:",
-            options: [
-                "Uma postura mecânica.",
-                "Um julgamento moral sobre o aluno.",
-                "Responsabilidade pelo processo de ensino.",
-                "Que a culpa é sempre do estudante."
-            ],
-            correct: 2,
-            explanation: "A avaliação envolve corresponsabilização: o professor é responsável por criar condições de aprendizagem."
-        },
-        {
-            author: "Cipriano Luckesi",
-            text: "A avaliação inclusiva é aquela que:",
-            options: [
-                "Aprova todos sem critério.",
-                "Investiga dificuldades e promove aprendizagens.",
-                "Evita feedback para não expor o aluno.",
-                "Só usa provas objetivas."
-            ],
-            correct: 1,
-            explanation: "Ser inclusiva é garantir que quem não aprendeu tenha novas oportunidades reais de aprender."
-        },
-        {
-            author: "Cipriano Luckesi",
-            text: "Para Luckesi, a repetência é:",
-            options: [
-                "Pedagógica e necessária.",
-                "Um fracasso do sistema de ensino.",
-                "Culpa exclusiva do aluno.",
-                "Solução para problemas de disciplina."
-            ],
-            correct: 1,
-            explanation: "A reprovação revela incapacidade institucional de garantir aprendizagem para todos."
-        },
+function startQuiz(){
+  document.getElementById("start").classList.add("hidden");
+  document.getElementById("quiz").classList.remove("hidden");
+  load();
+}
 
-        // --- 4. Celso dos Santos Vasconcellos ---
-        {
-            author: "Celso Vasconcellos",
-            text: "Vasconcellos propõe a superação da metodologia expositiva através da:",
-            options: ["Metodologia Dialética de Construção do Conhecimento.", "Metodologia da Memorização.", "Tecnologia Educacional.", "Educação a Distância."],
-            correct: 0,
-            explanation: "Ele defende um método que parta da realidade (síncrese), analise (análise) e volte à realidade transformada (síntese)."
-        },
-        {
-            author: "Celso Vasconcellos",
-            text: "Os três momentos do método dialético em sala de aula são:",
-            options: ["Início, Meio e Fim.", "Mobilização, Construção e Síntese.", "Leitura, Cópia e Prova.", "Planejamento, Execução e Férias."],
-            correct: 1,
-            explanation: "Mobilização (despertar interesse), Construção (interação com o objeto) e Síntese (elaboração do novo saber)."
-        },
-        {
-            author: "Celso Vasconcellos",
-            text: "Sobre o Planejamento, Vasconcellos critica:",
-            options: ["O planejamento participativo.", "O planejamento como mera formalidade burocrática.", "O planejamento reflexivo.", "A falta de papel."],
-            correct: 1,
-            explanation: "Ele critica o 'fazer de conta' do planejamento que não altera a prática real da sala de aula."
-        },
-        {
-            author: "Celso Vasconcellos",
-            text: "A avaliação deve estar articulada com:",
-            options: ["O pagamento da mensalidade.", "O Projeto Político-Pedagógico e o Planejamento.", "A direção da escola apenas.", "O humor do professor."],
-            correct: 1,
-            explanation: "A avaliação não é um ato isolado, ela deve responder aos objetivos traçados no planejamento e no PPP."
-        },
-        {
-            author: "Celso Vasconcellos",
-            text: "Para transformar a prática avaliativa, é necessário:",
-            options: ["Mudar apenas os instrumentos (provas).", "Alterar a postura e a concepção do professor.", "Comprar computadores.", "Aumentar a média de aprovação."],
-            correct: 1,
-            explanation: "Não adianta mudar a técnica se a concepção do professor continua sendo classificatória e autoritária."
-        },
-        {
-            author: "Celso Vasconcellos",
-            text: "A 'Mobilização para o Conhecimento' visa:",
-            options: ["Fazer os alunos correrem.", "Criar necessidades e disposições para aprender (vínculo).", "Obrigar o estudo.", "Dar nota de participação."],
-            correct: 1,
-            explanation: "É o momento inicial de engajar o aluno, dando sentido ao que será estudado."
-        },
-        {
-            author: "Celso Vasconcellos",
-            text: "O autoritarismo na sala de aula:",
-            options: ["É necessário para manter a ordem.", "Dificulta a construção da autonomia e da cidadania.", "É a melhor forma de ensino.", "Não existe mais no Brasil."],
-            correct: 1,
-            explanation: "Vasconcellos defende a construção da disciplina consciente e interativa, oposta ao autoritarismo."
-        },
-        {
-            author: "Celso Vasconcellos",
-            text: "A 'Síntese do Conhecimento' é:",
-            options: ["O resumo do livro.", "A apropriação efetiva do saber pelo aluno, expressa de forma pessoal.", "A cópia da lousa.", "A nota final."],
-            correct: 1,
-            explanation: "É quando o aluno consegue expressar o que aprendeu com suas próprias palavras e aplicar em novas situações."
-        },
-        {
-            author: "Celso Vasconcellos",
-            text: "O Conselho de Classe deve ser:",
-            options: ["Um momento para falar mal dos alunos.", "Um espaço de reflexão coletiva para avaliar a prática e o progresso dos alunos.", "Uma reunião para somar notas.", "Um café da tarde dos professores."],
-            correct: 1,
-            explanation: "Deve ser um espaço diagnóstico e deliberativo sobre o processo ensino-aprendizagem global."
-        },
-        {
-            author: "Celso Vasconcellos",
-            text: "A relação professor-aluno deve pautar-se na:",
-            options: ["Indiferença.", "Amizade sem limites.", "Interação mediadora e respeito mútuo.", "Submissão."],
-            correct: 2,
-            explanation: "O professor é o mediador entre o aluno e o conhecimento, numa relação de respeito e construção."
-        },
+function load(){
+  const q=questions[i];
+  document.getElementById("counter").innerText=`Questão ${i+1}/80`;
+  document.getElementById("area").innerText=q.area;
+  document.getElementById("question").innerText=q.q;
+  
+  // Atualizar barra de progresso
+  const progressPercent = ((i+1)/80)*100;
+  document.getElementById("progressBar").style.width = progressPercent + "%";
+  
+  const op=document.getElementById("options");
+  op.innerHTML="";
+  q.o.forEach((t,idx)=>{
+    const b=document.createElement("button");
+    b.className="option-btn w-full border-2 rounded-lg p-3 md:p-4 text-left hover:bg-slate-100 font-semibold transition";
+    b.innerText=t;
+    b.onclick=()=>check(idx,b);
+    op.appendChild(b);
+  });
+  document.getElementById("nextBtn").classList.add("hidden");
+  document.getElementById("explanation").classList.add("hidden");
+}
 
-        // +5 NOVAS DE VASCONCELLOS
-        {
-            author: "Celso Vasconcellos",
-            text: "O planejamento deve ser:",
-            options: [
-                "Um documento meramente técnico e burocrático.",
-                "Dinâmico, reflexivo e coletivo.",
-                "Individual e secreto.",
-                "Feito apenas no início do ano e nunca revisado."
-            ],
-            correct: 1,
-            explanation: "Planejar é um ato político-pedagógico permanente, que envolve reflexão e participação."
-        },
-        {
-            author: "Celso Vasconcellos",
-            text: "O método dialético tem como base:",
-            options: [
-                "A repetição mecânica de conteúdos.",
-                "A contradição e a superação.",
-                "A simples decoração de definições.",
-                "A submissão às verdades prontas."
-            ],
-            correct: 1,
-            explanation: "Na perspectiva dialética, o conhecimento avança pela contradição e pela síntese de opostos."
-        },
-        {
-            author: "Celso Vasconcellos",
-            text: "Mobilizar o aluno implica:",
-            options: [
-                "Impor tarefas sem sentido.",
-                "Criar sentido e desejo de aprender.",
-                "Pressionar apenas pela nota.",
-                "Evitar qualquer escolha do aluno."
-            ],
-            correct: 1,
-            explanation: "Sem vínculo afetivo-cognitivo e sentido para o aluno, o conhecimento tende a não ser apropriado."
-        },
-        {
-            author: "Celso Vasconcellos",
-            text: "A síntese ocorre quando o aluno:",
-            options: [
-                "Copia o resumo do livro.",
-                "Recria o conhecimento com autoria.",
-                "Apenas replica ideias do professor.",
-                "Usa fórmulas prontas sem compreender."
-            ],
-            correct: 1,
-            explanation: "Síntese é a apropriação ativa do conhecimento, que permite recriá-lo e aplicá-lo em novas situações."
-        },
-        {
-            author: "Celso Vasconcellos",
-            text: "A avaliação na perspectiva crítica deve:",
-            options: [
-                "Punir o aluno que não aprendeu.",
-                "Controlar apenas o comportamento.",
-                "Transformar a prática pedagógica.",
-                "Ser neutra e descompromissada."
-            ],
-            correct: 2,
-            explanation: "Avaliar é produzir mudanças na forma de ensinar e aprender, não apenas registrar resultados."
-        },
+function check(sel,btn){
+  const q=questions[i];
+  const buttons=document.querySelectorAll("#options button");
+  buttons.forEach(b=>b.disabled=true);
+  if(sel===q.c){
+    btn.classList.add("bg-green-100","border-green-500","text-green-700");
+    score++;
+    document.getElementById("score").innerText=score;
+  }else{
+    btn.classList.add("bg-red-100","border-red-500","text-red-700");
+    buttons[q.c].classList.add("bg-green-100","border-green-500","text-green-700");
+  }
+  document.getElementById("expText").innerText=q.e;
+  document.getElementById("explanation").classList.remove("hidden");
+  document.getElementById("nextBtn").classList.remove("hidden");
+}
 
-        // --- 5. Pedro Demo ---
-        {
-            author: "Pedro Demo",
-            text: "A tese central de Pedro Demo é:",
-            options: ["Educar pela Pesquisa.", "Educar pela Cópia.", "Escola sem partido.", "Ensino Técnico."],
-            correct: 0,
-            explanation: "Para Demo, só se aprende de verdade pesquisando e elaborando conhecimento, não copiando."
-        },
-        {
-            author: "Pedro Demo",
-            text: "Qualidade formal e qualidade política são:",
-            options: ["Opostas.", "Indissociáveis.", "Irrelevantes.", "Coisas de partidos políticos."],
-            correct: 1,
-            explanation: "Não há qualidade educacional sem competência técnica (formal) e sem compromisso social (política)."
-        },
-        {
-            author: "Pedro Demo",
-            text: "O que Pedro Demo chama de 'Aula-Cópia'?",
-            options: ["A aula em que o professor dita ou resume e o aluno copia e devolve na prova.", "A aula de artes.", "A aula com fotocópias.", "A aula ideal."],
-            correct: 0,
-            explanation: "É a crítica severa à reprodução de conhecimento alheio sem reconstrução crítica."
-        },
-        {
-            author: "Pedro Demo",
-            text: "A avaliação qualitativa deve focar:",
-            options: ["Na quantidade de folhas escritas.", "No processo de produção e reconstrução do conhecimento.", "Na média estatística.", "No comportamento silencioso."],
-            correct: 1,
-            explanation: "Avaliar é acompanhar a evolução da capacidade do aluno de produzir e argumentar."
-        },
-        {
-            author: "Pedro Demo",
-            text: "O professor deve ser, antes de tudo:",
-            options: ["Um repassador de aula.", "Um pesquisador.", "Um burocrata.", "Um amigo."],
-            correct: 1,
-            explanation: "Para ensinar a pesquisar, o professor precisa ter a postura de pesquisador, de autoria própria."
-        },
-        {
-            author: "Pedro Demo",
-            text: "A 'Pobreza Política' do brasileiro está ligada a:",
-            options: ["Falta de dinheiro.", "Falta de qualidade educacional que gere cidadania ativa e crítica.", "Falta de políticos honestos apenas.", "Falta de tecnologia."],
-            correct: 1,
-            explanation: "O brasileiro é 'pobre politicamente' porque a educação falha em formar sujeitos históricos autônomos."
-        },
-        {
-            author: "Pedro Demo",
-            text: "Aprender é:",
-            options: ["Escutar.", "Reconstruir conhecimento.", "Decorar.", "Passar de ano."],
-            correct: 1,
-            explanation: "A aprendizagem ocorre na reconstrução interna do saber, não na absorção passiva."
-        },
-        {
-            author: "Pedro Demo",
-            text: "A avaliação deve ser 'intensiva', o que significa:",
-            options: ["Muitas provas por semana.", "Acompanhamento passo a passo do processo de produção do aluno.", "Provas muito difíceis.", "Avaliação externa do MEC."],
-            correct: 1,
-            explanation: "O professor deve acompanhar de perto a elaboração do aluno (cuidar do aluno)."
-        },
-        {
-            author: "Pedro Demo",
-            text: "Para Demo, a função principal da escola básica é:",
-            options: ["Preparar para o vestibular.", "Formar competência humana e cidadã.", "Guardar as crianças.", "Ensinar boas maneiras."],
-            correct: 1,
-            explanation: "A escola deve formar o sujeito competente e cidadão para atuar na sociedade."
-        },
-        {
-            author: "Pedro Demo",
-            text: "O questionamento reconstrutivo é base para:",
-            options: ["A bagunça.", "A autonomia intelectual.", "A reprovação.", "A indisciplina."],
-            correct: 1,
-            explanation: "Questionar e reconstruir saberes gera a capacidade de pensar por si mesmo (autonomia)."
-        },
+function next(){
+  i++;
+  if(i<80) load();
+  else finish();
+}
 
-        // +5 NOVAS DE PEDRO DEMO
-        {
-            author: "Pedro Demo",
-            text: "A pesquisa escolar deve:",
-            options: [
-                "Reproduzir textos prontos.",
-                "Produzir conhecimento com autoria.",
-                "Ser apenas decorativa.",
-                "Ser feita apenas no ensino superior."
-            ],
-            correct: 1,
-            explanation: "Educar pela pesquisa é levar o aluno a produzir, argumentar e reconstruir saberes, não apenas copiá-los."
-        },
-        {
-            author: "Pedro Demo",
-            text: "Educar pela pesquisa requer:",
-            options: [
-                "Questionamento e problematização.",
-                "Aceitação passiva de conteúdos.",
-                "Uso de técnicas rígidas e fechadas.",
-                "Hierarquia absoluta e inquestionável."
-            ],
-            correct: 0,
-            explanation: "A pesquisa nasce da dúvida, do questionamento e do enfrentamento de problemas reais."
-        },
-        {
-            author: "Pedro Demo",
-            text: "A 'aula-cópia' é criticada porque:",
-            options: [
-                "É apenas cansativa.",
-                "Não promove reconstrução de saberes.",
-                "É pouco moderna.",
-                "Usa tecnologia demais."
-            ],
-            correct: 1,
-            explanation: "Na aula-cópia o aluno apenas reproduz; não há autoria nem construção efetiva de conhecimento."
-        },
-        {
-            author: "Pedro Demo",
-            text: "Capacidade autoral é:",
-            options: [
-                "Repetição de ideias alheias.",
-                "Produção própria de conhecimento.",
-                "Realização de provas objetivas.",
-                "Obediência às ordens."
-            ],
-            correct: 1,
-            explanation: "A educação deve formar sujeitos capazes de dizer algo próprio, de produzir conhecimento."
-        },
-        {
-            author: "Pedro Demo",
-            text: "A escola que apenas aprova alunos promove:",
-            options: [
-                "Cidadania ativa.",
-                "Competência crítica.",
-                "Assistencialismo pedagógico.",
-                "Autonomia intelectual."
-            ],
-            correct: 2,
-            explanation: "Sem exigir qualidade, a escola corre o risco de ser apenas assistencialista, não formadora de sujeitos competentes."
-        },
-
-        // --- 6. Jussara Hoffmann ---
-        {
-            author: "Jussara Hoffmann",
-            text: "Hoffmann é a principal defensora da:",
-            options: ["Avaliação Classificatória.", "Avaliação Mediadora.", "Avaliação Punitiva.", "Avaliação Somativa."],
-            correct: 1,
-            explanation: "Sua obra central é 'Avaliação Mediadora', que propõe a avaliação a serviço da aprendizagem."
-        },
-        {
-            author: "Jussara Hoffmann",
-            text: "Avaliar para mediar significa:",
-            options: ["Ficar no meio da sala.", "Observar o aluno e intervir para que ele avance.", "Dar a média para todos.", "Mediar conflitos de briga."],
-            correct: 1,
-            explanation: "É a ação pedagógica de desafiar o aluno a partir do entendimento de suas hipóteses provisórias."
-        },
-        {
-            author: "Jussara Hoffmann",
-            text: "As provas e testes, segundo Hoffmann:",
-            options: ["Devem ser abolidos.", "São momentos terminais de julgamento.", "São apenas um dos momentos de investigação do processo de aprendizagem.", "São a única verdade sobre o aluno."],
-            correct: 2,
-            explanation: "Provas não são fins em si mesmas, mas instrumentos para o professor entender como o aluno pensa."
-        },
-        {
-            author: "Jussara Hoffmann",
-            text: "O 'Parecer Descritivo' é importante porque:",
-            options: ["Dá mais trabalho ao professor.", "Registra a história do processo de aprendizagem do aluno qualitativamente.", "Substitui a nota por letras.", "É mais bonito."],
-            correct: 1,
-            explanation: "Ao descrever, o professor reflete sobre a caminhada do aluno, diferente de apenas dar um número (nota)."
-        },
-        {
-            author: "Jussara Hoffmann",
-            text: "A postura do professor avaliador deve ser de:",
-            options: ["Juiz.", "Investigador e provocador.", "Carrasco.", "Espectador."],
-            correct: 1,
-            explanation: "O professor investiga as respostas do aluno e provoca novas reflexões (desequilíbrios) para gerar conhecimento."
-        },
-        {
-            author: "Jussara Hoffmann",
-            text: "Hoffmann critica a média (nota 5,0 ou 7,0) porque:",
-            options: ["É muito alta.", "A aprendizagem é um processo contínuo e não um ponto estatístico.", "Deveria ser 10 para todos.", "Os pais não entendem."],
-            correct: 1,
-            explanation: "A nota muitas vezes encerra o processo, enquanto a aprendizagem deveria continuar evoluindo."
-        },
-        {
-            author: "Jussara Hoffmann",
-            text: "A avaliação mediadora exige:",
-            options: ["Turmas homogêneas.", "Acompanhamento individualizado.", "Provas de múltipla escolha.", "Silêncio absoluto."],
-            correct: 1,
-            explanation: "Exige olhar para cada aluno e suas dificuldades específicas."
-        },
-        {
-            author: "Jussara Hoffmann",
-            text: "Quando o aluno erra, o professor mediador deve:",
-            options: ["Dar zero.", "Devolver a prova com um 'X' vermelho.", "Questionar o aluno sobre seu raciocínio para levá-lo a perceber a contradição.", "Mandar estudar mais."],
-            correct: 2,
-            explanation: "A correção deve ser dialógica, fazendo o aluno refletir sobre o porquê do erro."
-        },
-        {
-            author: "Jussara Hoffmann",
-            text: "A 'Educação Infantil' na visão de Hoffmann:",
-            options: ["Não precisa de avaliação.", "Deve ter avaliação focada no acompanhamento do desenvolvimento da criança.", "Deve preparar para provas futuras.", "É apenas recreação."],
-            correct: 1,
-            explanation: "A avaliação na infância é essencialmente observação e registro do desenvolvimento, sem retenção."
-        },
-        {
-            author: "Jussara Hoffmann",
-            text: "Avaliação é reflexão transformada em:",
-            options: ["Nota.", "Ação.", "Arquivo.", "Reunião."],
-            correct: 1,
-            explanation: "Não basta refletir; a avaliação só tem sentido se levar a uma nova ação pedagógica (intervenção)."
-        },
-
-        // +5 NOVAS DE HOFFMANN
-        {
-            author: "Jussara Hoffmann",
-            text: "Avaliação mediadora é essencialmente:",
-            options: [
-                "Acompanhamento e intervenção contínua.",
-                "Uma prova final apenas.",
-                "Registro de médias e faltas.",
-                "Controle de disciplina em sala."
-            ],
-            correct: 0,
-            explanation: "Avaliar para mediar é acompanhar o percurso do aluno e intervir para ajudá-lo a avançar."
-        },
-        {
-            author: "Jussara Hoffmann",
-            text: "O erro indica:",
-            options: [
-                "Falta de esforço.",
-                "Um caminho de pensamento que deve ser analisado.",
-                "Preguiça do estudante.",
-                "Incapacidade definitiva."
-            ],
-            correct: 1,
-            explanation: "O erro é expressão de hipóteses que o aluno formula e, por isso, deve ser compreendido e problematizado."
-        },
-        {
-            author: "Jussara Hoffmann",
-            text: "O parecer descritivo deve:",
-            options: [
-                "Ser padronizado para todos.",
-                "Registrar trajetórias singulares.",
-                "Julgar o desempenho moral do aluno.",
-                "Substituir a nota apenas por outra sigla."
-            ],
-            correct: 1,
-            explanation: "O parecer descritivo narra o processo de aprendizagem de cada aluno, respeitando sua singularidade."
-        },
-        {
-            author: "Jussara Hoffmann",
-            text: "A observação cotidiana é:",
-            options: [
-                "Subjetiva demais para ser usada.",
-                "Fonte essencial de avaliação.",
-                "Desnecessária quando há provas.",
-                "Menos válida do que testes padronizados."
-            ],
-            correct: 1,
-            explanation: "É na observação diária que o professor percebe avanços, dificuldades e potencialidades do aluno."
-        },
-        {
-            author: "Jussara Hoffmann",
-            text: "Avaliação mediadora pressupõe:",
-            options: [
-                "Pressão por resultados imediatos.",
-                "Interação dialógica e negociação de sentidos.",
-                "Neutralidade absoluta do professor.",
-                "Dependência de avaliações externas."
-            ],
-            correct: 1,
-            explanation: "A mediação avaliativa acontece no diálogo, na escuta e na construção compartilhada de significados."
-        }
-    ];
-
-    // LÓGICA DO QUIZ
-    let currentQuestionIndex = 0;
-    let score = 0;
-    let isAnswered = false;
-
-    // Elementos DOM
-    const startScreen = document.getElementById('start-screen');
-    const quizScreen = document.getElementById('quiz-screen');
-    const endScreen = document.getElementById('end-screen');
-    
-    const questionCounter = document.getElementById('question-counter');
-    const scoreEl = document.getElementById('score');
-    const authorNameEl = document.getElementById('author-name');
-    const questionTextEl = document.getElementById('question-text');
-    const optionsContainer = document.getElementById('options-container');
-    const explanationBox = document.getElementById('explanation');
-    const explanationText = document.getElementById('explanation-text');
-    const nextBtn = document.getElementById('next-btn');
-    const finalScoreEl = document.getElementById('final-score');
-    const finalTotalEl = document.getElementById('final-total');
-    const finalMessageEl = document.getElementById('final-message');
-
-    // Atualiza total final dinamicamente
-    finalTotalEl.innerText = questions.length;
-
-    function startQuiz() {
-        startScreen.style.display = 'none';
-        quizScreen.style.display = 'block';
-        loadQuestion();
-    }
-
-    function loadQuestion() {
-        isAnswered = false;
-        const q = questions[currentQuestionIndex];
-        
-        // Resetar UI
-        explanationBox.style.display = 'none';
-        nextBtn.classList.add('disabled');
-        optionsContainer.innerHTML = '';
-        
-        // Preencher dados
-        questionCounter.innerText = `Questão ${currentQuestionIndex + 1}/${questions.length}`;
-        authorNameEl.innerText = q.author;
-        questionTextEl.innerText = q.text;
-
-        // Gerar Botões
-        q.options.forEach((opt, index) => {
-            const btn = document.createElement('button');
-            btn.className = 'btn btn-outline-dark option-btn';
-            btn.innerText = opt;
-            btn.onclick = () => checkAnswer(index, btn);
-            optionsContainer.appendChild(btn);
-        });
-    }
-
-    function checkAnswer(selectedIndex, btnElement) {
-        if (isAnswered) return;
-        isAnswered = true;
-
-        const q = questions[currentQuestionIndex];
-        const buttons = optionsContainer.querySelectorAll('button');
-
-        if (selectedIndex === q.correct) {
-            btnElement.classList.remove('btn-outline-dark');
-            btnElement.classList.add('btn-success');
-            score++;
-            scoreEl.innerText = score;
-        } else {
-            btnElement.classList.remove('btn-outline-dark');
-            btnElement.classList.add('btn-danger');
-            // Mostrar a correta
-            buttons[q.correct].classList.remove('btn-outline-dark');
-            buttons[q.correct].classList.add('btn-success');
-        }
-
-        // Mostrar explicação
-        explanationText.innerText = q.explanation;
-        explanationBox.style.display = 'block';
-        
-        // Habilitar botão Próximo
-        nextBtn.classList.remove('disabled');
-    }
-
-    function nextQuestion() {
-        currentQuestionIndex++;
-        if (currentQuestionIndex < questions.length) {
-            loadQuestion();
-        } else {
-            showResults();
-        }
-    }
-
-    function showResults() {
-        quizScreen.style.display = 'none';
-        endScreen.style.display = 'block';
-        finalScoreEl.innerText = score;
-
-        const percentage = (score / questions.length) * 100;
-        let message = "";
-        
-        if (percentage >= 90) message = "Excelente! Você é um mestre da pedagogia!";
-        else if (percentage >= 70) message = "Muito bom! Você tem um ótimo domínio dos autores.";
-        else if (percentage >= 50) message = "Bom. Você conhece os conceitos, mas pode aprofundar.";
-        else message = "Continue estudando! Esses autores são densos e exigem leitura constante.";
-        
-        finalMessageEl.innerText = message;
-    }
+function finish(){
+  document.getElementById("quiz").classList.add("hidden");
+  document.getElementById("end").classList.remove("hidden");
+  document.getElementById("finalScore").innerText=score;
+  const p=score/80*100;
+  document.getElementById("msg").innerText=
+    p>=80?"Excelente! Você é um verdadeiro especialista! 🔥":
+    p>=60?"Muito bom! Continue estudando para melhorar! 👏":
+    p>=40?"Dá pra melhorar! Revise os tópicos 💪":
+    "Bora estudar mais! Você consegue! 📚";
+}
 </script>
 
 </body>
