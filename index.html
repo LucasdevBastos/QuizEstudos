@@ -2,378 +2,362 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Simulado Concurso — Metrologia e Qualidade</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>App Simulado - Didática Geral</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
+    /* Tema Moderno Mobile-First */
     body {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #0ea5e9 0%, #10b981 100%);
       min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      overscroll-behavior-y: none; 
     }
     
+    .app-container {
+      background: #ffffff;
+      min-height: 95vh;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    .progress-bar-container {
+      background: #e2e8f0;
+      height: 8px;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
     .progress-bar {
-      height: 6px;
-      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-      border-radius: 3px;
-      transition: width 0.3s ease;
+      height: 100%;
+      background: linear-gradient(90deg, #0ea5e9 0%, #10b981 100%);
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .badge {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      display: inline-block;
+      background: linear-gradient(135deg, #0ea5e9 0%, #10b981 100%);
     }
 
-    .btn-start {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      transition: transform 0.3s, box-shadow 0.3s;
+    .btn-primary {
+      background: linear-gradient(135deg, #0ea5e9 0%, #10b981 100%);
+      transition: all 0.2s ease;
     }
-
-    .btn-start:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
-    }
-
-    .btn-next {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      transition: all 0.3s;
-    }
-
-    .btn-next:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+    .btn-primary:active {
+      transform: scale(0.96); 
     }
 
     .option-btn {
-      transition: all 0.3s ease;
+      transition: all 0.2s ease;
       border: 2px solid #e5e7eb;
-      background: white;
+      background: #ffffff;
+      min-height: 60px; 
     }
-
-    .option-btn:hover:not(:disabled) {
-      border-color: #667eea;
-      background: #f3f4f6;
-      transform: translateX(4px);
+    .option-btn:active:not(:disabled) {
+      transform: scale(0.98);
+      background: #f8fafc;
+    }
+    .option-btn.selected-correct {
+      background: #d1fae5;
+      border-color: #10b981;
+      color: #065f46;
+    }
+    .option-btn.selected-wrong {
+      background: #fee2e2;
+      border-color: #ef4444;
+      color: #991b1b;
     }
 
     .explanation-box {
-      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
-      border-left: 4px solid #667eea;
+      animation: slideDown 0.3s ease-out;
+      border-left-width: 5px;
     }
 
-    .score-display {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      border-radius: 12px;
-      padding: 12px 20px;
-      font-weight: 600;
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    .counter-display {
-      background: rgba(102, 126, 234, 0.15);
-      color: #667eea;
-      border-radius: 12px;
-      padding: 8px 16px;
-      font-weight: 600;
+    .score-badge {
+      background: rgba(14, 165, 233, 0.1);
+      color: #0369a1;
     }
 
-    .area-badge {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      display: inline-block;
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-weight: 600;
-      font-size: 0.8rem;
-    }
-
-    .question-text {
-      color: #1f2937;
-      font-size: 1.125rem;
-      line-height: 1.6;
-      font-weight: 600;
-      margin: 20px 0;
-    }
-
-    .final-score {
-      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-      color: white;
-      padding: 30px;
-      border-radius: 16px;
-      font-size: 3rem;
-      font-weight: 700;
-    }
-
-    .btn-refazer {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      transition: all 0.3s;
-    }
-
-    .btn-refazer:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
-    }
-
-    @media (max-width: 640px) {
-      .container {
-        border-radius: 16px;
-      }
-      
-      .question-text {
-        font-size: 1rem;
-      }
-      
-      body {
-        padding: 12px;
+    @media (min-width: 768px) {
+      .app-container {
+        min-height: auto;
+        border-radius: 24px;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
       }
     }
   </style>
 </head>
 
-<body class="min-h-screen flex items-center justify-center p-4">
+<body class="flex items-center justify-center p-2 md:p-6">
 
-<div class="bg-white w-full max-w-3xl rounded-3xl shadow-2xl overflow-hidden">
+<div class="app-container w-full max-w-2xl rounded-2xl flex flex-col relative overflow-hidden">
 
-  <!-- START -->
-  <div id="start" class="text-center space-y-8 p-8 md:p-12">
-    <div class="space-y-3">
-      <div class="text-5xl">📊</div>
-      <h1 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
-        Simulado Concurso
-      </h1>
-      <p class="text-lg text-gray-600 font-semibold">Agente de Fiscalização Metrológica</p>
-    </div>
-    
-    <div class="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-2xl p-6 space-y-2">
-      <p class="text-2xl font-bold text-purple-700">80 Questões</p>
-      <p class="text-gray-700 flex justify-center gap-4 flex-wrap md:flex-nowrap">
-        <span class="badge px-3 py-1 rounded-lg text-white text-sm font-semibold">📚 Português</span>
-        <span class="badge px-3 py-1 rounded-lg text-white text-sm font-semibold">🧮 Lógica</span>
-        <span class="badge px-3 py-1 rounded-lg text-white text-sm font-semibold">⚖️ Legislação</span>
-        <span class="badge px-3 py-1 rounded-lg text-white text-sm font-semibold">📏 Metrologia</span>
-      </p>
-    </div>
-    
-    <button onclick="startQuiz()" class="btn-start w-full text-white px-8 py-4 rounded-xl font-bold text-lg">
-      ✨ Iniciar Simulado
-    </button>
-    
-    <p class="text-sm text-gray-500">Boa sorte em seu desafio! 🎯</p>
-  </div>
-
-  <!-- QUIZ -->
-  <div id="quiz" class="hidden p-8 md:p-12 space-y-6">
-    
-    <!-- Header with Progress -->
-    <div class="space-y-3">
-      <div class="flex justify-between items-center gap-4 flex-wrap">
-        <div class="counter-display">📍 <span id="counter"></span></div>
-        <div class="score-display">✅ Acertos: <span id="score">0</span>/80</div>
-      </div>
-      <div class="progress-bar" id="progressBar" style="width: 1.25%;"></div>
-    </div>
-
-    <!-- Area Badge -->
-    <div class="flex justify-center">
-      <span id="area" class="area-badge"></span>
-    </div>
-
-    <!-- Question -->
-    <div>
-      <h2 id="question" class="question-text"></h2>
-    </div>
-
-    <!-- Options -->
-    <div id="options" class="space-y-3"></div>
-
-    <!-- Explanation -->
-    <div id="explanation" class="hidden explanation-box rounded-lg p-4 text-sm md:text-base">
-      <p class="font-semibold text-purple-700 mb-2">💡 Explicação:</p>
-      <p id="expText" class="text-gray-700 leading-relaxed"></p>
-    </div>
-
-    <!-- Next Button -->
-    <button id="nextBtn" onclick="next()" class="btn-next hidden w-full text-white py-3 rounded-lg font-bold text-lg">
-      Próxima Questão →
-    </button>
-  </div>
-
-  <!-- END -->
-  <div id="end" class="hidden text-center space-y-8 p-8 md:p-12">
-    <div class="space-y-2">
-      <div class="text-5xl">🎉</div>
-      <h2 class="text-3xl md:text-4xl font-bold text-green-600">Simulado Finalizado!</h2>
-    </div>
-    
+  <div id="start" class="flex flex-col h-full flex-grow justify-center text-center p-6 md:p-10 space-y-8">
     <div class="space-y-4">
-      <p class="text-lg font-semibold text-gray-700">Seu Desempenho:</p>
-      <div class="final-score">
-        <span id="finalScore"></span><span class="text-xl"> / 80</span>
+      <div class="text-6xl animate-bounce">📘</div>
+      <h1 class="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-sky-500 to-emerald-500 bg-clip-text text-transparent leading-tight">
+        Simulado Didática
+      </h1>
+      <p class="text-base text-gray-500 font-medium">Formação Docente & Prática Educativa</p>
+    </div>
+    
+    <div class="bg-slate-50 border border-slate-100 rounded-2xl p-5 space-y-3 shadow-sm">
+      <p class="text-3xl font-black text-slate-800">40 Questões</p>
+      <div class="flex flex-wrap justify-center gap-2 mt-2">
+        <span class="badge px-3 py-1.5 rounded-full text-white text-xs font-bold shadow-sm">📚 Conceitos Básicos</span>
+        <span class="badge px-3 py-1.5 rounded-full text-white text-xs font-bold shadow-sm">🎯 Planejamento</span>
+        <span class="badge px-3 py-1.5 rounded-full text-white text-xs font-bold shadow-sm">🏫 A Escola</span>
+      </div>
+    </div>
+    
+    <button onclick="startQuiz()" class="btn-primary w-full text-white px-6 py-4 rounded-xl font-bold text-lg shadow-lg shadow-emerald-500/30">
+      🚀 Começar Agora
+    </button>
+  </div>
+
+  <div id="quiz" class="hidden flex-col h-full p-5 md:p-8 space-y-6 overflow-y-auto pb-24">
+    
+    <div class="sticky top-0 bg-white/95 backdrop-blur pt-2 pb-4 z-10 space-y-4">
+      <div class="flex justify-between items-center">
+        <div class="text-sm font-bold text-slate-500 bg-slate-100 px-3 py-1 rounded-lg">
+          <span id="counter">1/40</span>
+        </div>
+        <div class="score-badge px-3 py-1 rounded-lg text-sm font-bold flex items-center gap-1">
+          <span>⭐</span> <span id="score">0</span>
+        </div>
+      </div>
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progressBar" style="width: 2.5%;"></div>
+      </div>
+      <div class="inline-block px-3 py-1 bg-sky-100 text-sky-700 rounded-full text-xs font-bold" id="area">
+        Tema
       </div>
     </div>
 
-    <div class="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl p-6">
-      <p id="msg" class="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600"></p>
+    <div>
+      <h2 id="question" class="text-lg md:text-xl text-slate-800 font-bold leading-snug"></h2>
+    </div>
+
+    <div id="options" class="flex flex-col space-y-3"></div>
+
+    <div id="explanation" class="hidden explanation-box rounded-xl p-4 mt-4">
+      <p id="expTitle" class=""></p>
+      <div id="expText" class="text-sm leading-relaxed"></div>
+    </div>
+
+  </div>
+
+  <div id="action-footer" class="hidden absolute bottom-0 left-0 w-full p-4 bg-white border-t border-slate-100 z-20">
+    <button id="nextBtn" onclick="next()" class="btn-primary w-full text-white py-4 rounded-xl font-bold text-lg shadow-lg">
+      Avançar ➔
+    </button>
+  </div>
+
+  <div id="end" class="hidden flex-col h-full justify-center text-center p-6 md:p-10 space-y-8">
+    <div class="space-y-3">
+      <div class="text-7xl">🏆</div>
+      <h2 class="text-3xl font-black text-slate-800">Fim de Jogo!</h2>
     </div>
     
-    <button onclick="location.reload()" class="btn-refazer w-full text-white px-8 py-4 rounded-xl font-bold text-lg">
-      🔄 Refazer Simulado
+    <div class="bg-slate-50 rounded-3xl p-8 border border-slate-100 shadow-inner">
+      <p class="text-sm text-slate-500 font-bold uppercase tracking-wider mb-2">Acertos</p>
+      <div class="text-6xl font-black text-emerald-500">
+        <span id="finalScore"></span><span class="text-3xl text-slate-300">/40</span>
+      </div>
+    </div>
+
+    <p id="msg" class="text-lg font-bold text-slate-700"></p>
+    
+    <button onclick="location.reload()" class="w-full bg-slate-800 text-white active:scale-95 transition-transform px-6 py-4 rounded-xl font-bold text-lg shadow-lg">
+      🔄 Tentar Novamente
     </button>
   </div>
 
 </div>
 
 <script>
+const TOTAL_QUESTIONS = 40;
+
 const questions = [
-/* ================= PORTUGUÊS (20) ================= */
-{area:"Português",q:"Assinale a frase correta quanto à concordância verbal:",o:["Houveram problemas ontem.","Fazem dois anos que estudei.","Faz dois anos que estudei.","Existe muitas vagas."],c:2,e:"Verbo 'fazer' indicando tempo é impessoal: 'faz dois anos'."},
-{area:"Português",q:"Qual alternativa apresenta uso correto da crase?",o:["Vou à pé.","Assistiu à reunião.","Vou à Pedro.","Falei à diretora sobre aquilo."],c:1,e:"Crase ocorre antes de nome feminino: 'assistiu à reunião'."},
-{area:"Português",q:"A transformação para voz passiva de 'O fiscal aplicou a multa' é:",o:["A multa foi aplicada pelo fiscal.","Aplicou-se a multa.","A multa aplicou pelo fiscal.","Foi aplicar a multa."],c:0,e:"Voz passiva analítica: objeto direto passa a sujeito."},
-{area:"Português",q:"Identifique o erro de regência verbal:",o:["Prefiro café a chá.","Cheguei em casa cansado.","Obedeceu às normas.","Assisti ao filme."],c:1,e:"Correto: 'cheguei a casa', não 'cheguei em'."},
-{area:"Português",q:"Qual frase mantém o mesmo significado de 'Embora chovesse, saiu'?",o:["Porque chovia, saiu.","Apesar da chuva, saiu.","Saiu porque choveu.","Saiu quando começou a chover."],c:1,e:"'Embora' exprime concessão, equivalente a 'apesar de'."},
-{area:"Português",q:"Em 'Os dados foram analisados pelo metrológo', qual é a classe do termo sublinhado?",o:["Adjunto adverbial","Agente da passiva","Complemento nominal","Objeto indireto"],c:1,e:"'Pelo metrológo' é agente da passiva em voz passiva analítica."},
-{area:"Português",q:"Escolha a alternativa com pontuação correta:",o:["O relatório, foi entregue ontem.","O relatório foi entregue, ontem.","O relatório foi entregue ontem.","O, relatório foi entregue ontem."],c:2,e:"Não se separa verbo de objeto com vírgula."},
-{area:"Português",q:"Qual palavra melhor completa: 'Aspirava __ uma posição melhor'?",o:["em","à","para","com"],c:1,e:"Aspirar = aspirar a: exigir preposição 'a'."},
-{area:"Português",q:"Selecione o uso correto de pronome de tratamento:",o:["Sua Majestade fomos felizes.","Sua Majestade foi feliz.","Sua Majestade foram felizes.","Sua Majestade fui feliz."],c:1,e:"Pronome de tratamento exige 3ª pessoa: 'foi feliz'."},
-{area:"Português",q:"Em 'Se houvesse tempo, terminaria o trabalho', os tempos verbais são:",o:["Pretérito + Futuro","Pretérito + Condicional","Imperfeito + Condicional","Mais-que-perfeito + Futuro"],c:2,e:"'Houvesse'=imperfeito subjuntivo; 'terminaria'=condicional."},
-{area:"Português",q:"A palavra 'metrologia' é formada por:",o:["Derivação prefixal","Composição por justaposição","Composição por aglutinação","Derivação sufixal"],c:2,e:"Metro + logia: composição por aglutinação (sem hífen)."},
-{area:"Português",q:"Qual frase possui coesão adequada?",o:["O fiscal examinou o instrumento. Este foi aprovado.","O fiscal examinou o instrumento. Aquela foi reprovada.","O fiscal examinou o instrumento. Ele foi reprovado.","O fiscal examinou o instrumento. Isso foi reprovado."],c:2,e:"'Ele' retoma corretamente o substantivo 'instrumento'."},
-{area:"Português",q:"Em qual alternativa há figura de linguagem (metáfora)?",o:["O termômetro marcava 35 graus.","A vida é uma jornada.","Os dados foram tabulados corretamente.","O instrumento apresentava defeito."],c:1,e:"'A vida é uma jornada' é uma metáfora."},
-{area:"Português",q:"Assinale a forma verbal correta para o período: 'Se você ___ as normas, ___ sucesso':",o:["seguisse / terá","seguia / terá","seguisse / teria","segue / terá"],c:2,e:"Correlação: imperfeito subjuntivo + condicional."},
-{area:"Português",q:"A palavra 'conformidade' é:",o:["Oxítona","Paroxítona","Proparoxítona","Monossílaba"],c:1,e:"Conformi-DA-DE: paroxítona (tônica na antepenúltima)."},
-{area:"Português",q:"Em 'O relatório, que foi enviado ontem, continha erros', as vírgulas indicam:",o:["Separação de orações subordinadas","Oração subordinada restritiva","Oração subordinada explicativa","Enumeração"],c:2,e:"Oração explicativa entre vírgulas fornece informação adicional."},
-{area:"Português",q:"Qual alternativa completa corretamente: 'Recomenda-se ___ as medições'?",o:["fazer","fazer-se","serem feitas","a fazer"],c:0,e:"Com infinitivo depois de verbo em infinitivo: infinitivo."},
-{area:"Português",q:"Identifique o período composto por coordenação:",o:["Quando chegou, saiu logo.","Trabalhou muito, mas não conseguiu.","Se estudar, passará.","Embora tentasse, falhou."],c:1,e:"Orações coordenadas unidas por 'mas' (conjunção coordenativa)."},
-{area:"Português",q:"O sinônimo mais apropriado para 'hierarquia metrológica' é:",o:["Classificação","Organização em níveis","Disposição desordenada","Análise técnica"],c:1,e:"Hierarquia refere-se a estrutura em níveis."},
-{area:"Português",q:"Qual frase está em redação oficial correta?",o:["Solicito inspecionar o equipamento.","Solicito a inspeção do equipamento.","Solicitar a inspeção do equipamento.","Solicito de inspecionar o equipamento."],c:1,e:"Redação oficial: estrutura clara e objetiva."},
-
-/* ================= RACIOCÍNIO LÓGICO-MATEMÁTICO (20) ================= */
-{area:"Lógica",q:"Se todo agente de fiscalização é metrológo e todo metrológo conhece normas, então:",o:["Todo agente conhece normas","Algum agente não conhece normas","Nenhum agente conhece normas","Alguns agentes conhecem e outros não"],c:0,e:"Relação transitiva: A⊆B, B⊆C ⟹ A⊆C."},
-{area:"Lógica",q:"Sequência lógica: 2, 4, 8, 16, 32, ?",o:["48","64","52","40"],c:1,e:"Multiplica por 2 a cada termo: 2×2=4, 4×2=8..."},
-{area:"Lógica",q:"Se hoje é terça-feira, que dia será daqui a 10 dias?",o:["Sexta-feira","Sábado","Domingo","Quinta-feira"],c:1,e:"10 ÷ 7 = 1 semana + 3 dias. Terça + 3 = sexta. Erro: terça + 3 = sexta, mas 10 mod 7 = 3, então terça + 3 = sexta... Aguarde: 10 = 7 + 3, então terça + 3 dias = sexta. Porém: 10 dias depois de terça contando terça como dia 0: seg, ter(0), qua(1), qui(2), sex(3), sab(4), dom(5), seg(6), ter(7), qua(8), qui(9), sex(10). Ou: (2+10) mod 7 = 12 mod 7 = 5 = sexta. Aguarde, terça = dia 2, (2+10) mod 7 = 5 = sexta. Nope: terça é 2, + 10 = 12, 12 mod 7 = 5. Mas dia 5 é sexta começando de 1=seg? Ou 0=seg? Se seg=0, ter=1, qua=2, qui=3, sex=4, sab=5, dom=6. (1+10) mod 7 = 11 mod 7 = 4 = sex. Certo!",e:"10 dias depois de terça: (1+10) mod 7 = 4 (sexta-feira)."},
-{area:"Lógica",q:"Calcule 25% de 200:",o:["25","50","75","100"],c:1,e:"25% = 1/4. 200/4 = 50."},
-{area:"Lógica",q:"Dois números estão na razão 3:5. Se a soma é 40, quais são eles?",o:["15 e 25","12 e 28","10 e 30","18 e 22"],c:0,e:"3x + 5x = 40 ⟹ 8x = 40 ⟹ x=5. Logo 15 e 25."},
-{area:"Lógica",q:"Qual é o resultado de 15% de 80?",o:["10","12","15","20"],c:1,e:"15% de 80 = 0,15 × 80 = 12."},
-{area:"Lógica",q:"Um produto custava R$100 e sofreu aumento de 20%. Qual é o novo preço?",o:["R$80","R$100","R$120","R$150"],c:2,e:"100 + (20% de 100) = 100 + 20 = 120."},
-{area:"Lógica",q:"Qual número completa a série: 5, 10, 20, 40, ?",o:["60","70","80","50"],c:2,e:"Cada termo é o dobro do anterior: 40 × 2 = 80."},
-{area:"Lógica",q:"Se 3 pessoas levam 6 horas para cumprir uma tarefa, quanto tempo 2 pessoas levam?",o:["4 horas","9 horas","6 horas","3 horas"],c:1,e:"Proporção inversa: 3×6 = 2×x ⟹ x = 9 horas."},
-{area:"Lógica",q:"O triplo de um número menos 5 é igual a 16. Qual é o número?",o:["5","7","9","11"],c:1,e:"3x - 5 = 16 ⟹ 3x = 21 ⟹ x = 7."},
-{area:"Lógica",q:"Uma prova tem 40 questões. Um aluno acertou 32. Qual a porcentagem?",o:["75%","80%","85%","90%"],c:1,e:"(32/40) × 100 = 80%."},
-{area:"Lógica",q:"Qual é a média entre 10, 15 e 20?",o:["12","15","17","18"],c:1,e:"(10+15+20)/3 = 45/3 = 15."},
-{area:"Lógica",q:"Em uma turma de 30 alunos, 40% estudam inglês. Quantos estudam?",o:["10","12","15","18"],c:1,e:"40% de 30 = 0,4 × 30 = 12."},
-{area:"Lógica",q:"Se A está à esquerda de B, B está à esquerda de C, então A está à esquerda de C?",o:["Sim","Não","Depende da situação","Não se pode afirmar"],c:0,e:"Relação transitiva de posição."},
-{area:"Lógica",q:"Um retângulo tem comprimento 10 e largura 5. Qual é a área?",o:["15","25","30","50"],c:3,e:"Área = comprimento × largura = 10 × 5 = 50."},
-{area:"Lógica",q:"Qual é o resultado de 2³ × 3²?",o:["72","64","36","24"],c:0,e:"2³ = 8, 3² = 9. 8 × 9 = 72."},
-{area:"Lógica",q:"Uma dívida de R$1000 foi paga em 4 parcelas iguais. Qual o valor de cada parcela?",o:["R$200","R$250","R$400","R$500"],c:1,e:"1000 ÷ 4 = 250."},
-{area:"Lógica",q:"Se 20% de x é 40, qual é o valor de x?",o:["100","150","200","250"],c:2,e:"0,2x = 40 ⟹ x = 200."},
-
-/* ================= LEGISLAÇÃO (20) ================= */
-{area:"Legislação",q:"A Lei de Acesso à Informação (Lei nº 12.527/2011) estabelece que:",o:["Sigilo é a regra","Publicidade é a regra","Apenas servidores acessam","Acesso é restrito"],c:1,e:"Publicidade é a regra, sigilo é exceção."},
-{area:"Legislação",q:"A LGPD (Lei nº 13.709/2018) protege:",o:["Dados públicos","Dados pessoais de pessoas físicas e jurídicas","Apenas empresariais","Só informações políticas"],c:1,e:"LGPD: Lei Geral de Proteção de Dados Pessoais."},
-{area:"Legislação",q:"O INMETRO integra qual sistema?",o:["Sistema Único de Saúde","Sistema Nacional de Metrologia, Normalização e Qualidade Industrial","Sistema Nacional de Emprego","Instituto Brasileiro de Geografia"],c:1,e:"SINMETRO: Lei 5.966/1973."},
-{area:"Legislação",q:"CONMETRO (Conselho Nacional de Metrologia, Normalização e Qualidade Industrial) é responsável por:",o:["Executar fiscalizações diretas","Normatizar políticas metrológicas","Emitir certificados de conformidade","Vender padrões de medida"],c:1,e:"CONMETRO: órgão normativo superior."},
-{area:"Legislação",q:"A Portaria INMETRO nº 535/2012 trata do:",o:["Orçamento","Código de Conduta Ética","Estrutura organizacional","Calendário de atividades"],c:1,e:"Código de Ética do INMETRO."},
-{area:"Legislação",q:"Conforme Lei nº 5.966/1973, o objetivo principal do SINMETRO é:",o:["Promover exportações","Garantir a qualidade das medições e produtos","Reduzir impostos","Aumentar produtividade"],c:1,e:"Sistema Nacional de Metrologia: proteção do consumidor."},
-{area:"Legislação",q:"A Lei nº 9.933/1999 institui principalmente:",o:["Proibição de importações","Taxa de Serviços Metrológicos","Fim da metrologia legal","Privatização do INMETRO"],c:1,e:"Competências do CONMETRO e INMETRO, Taxa de Serviços."},
-{area:"Legislação",q:"No regime jurídico de Pernambuco (Lei nº 6.123/1968), os servidores públicos civis são regidos por:",o:["Legislação federal exclusivamente","Lei estadual específica","Contrato privado","Lei municipal"],c:1,e:"Lei estadual de Pernambuco."},
-{area:"Legislação",q:"Quanto à LGPD, dados pessoais sensíveis incluem:",o:["Apenas dados de conta bancária","Dados sobre origem racial, religião, saúde","Apenas endereço residencial","Informações de renda"],c:1,e:"LGPD define dados sensíveis com proteção aumentada."},
-{area:"Legislação",q:"A Portaria INMETRO nº 2/2017 estabelece:",o:["Critérios de desempenho","Regimento Interno do INMETRO","Normas de produto","Tabelas de preços"],c:1,e:"Regimento Interno do Instituto Nacional de Metrologia, Qualidade e Tecnologia."},
-{area:"Legislação",q:"A Resolução CONMETRO nº 11/1988 trata principalmente de:",o:["Eliminação do INMETRO","Diretrizes de metrologia legal","Promoção de eventos","Calendário de férias"],c:1,e:"Diretrizes fundamentais do sistema."},
-{area:"Legislação",q:"Segundo Lei 12.527/2011, o direito de acesso à informação é considerado:",o:["Privilégio de poucos","Direito fundamental","Benefício estatal","Concessão administrativa"],c:1,e:"Direito fundamental de todo cidadão."},
-{area:"Legislação",q:"A redação dada pela Lei nº 13.853/2019 à LGPD incluiu:",o:["Aumento de prazos indefinidos","Criação da ANPD e novas sanções","Eliminação de proteção","Fim da privacidade"],c:1,e:"Autoridade Nacional de Proteção de Dados."},
-{area:"Legislação",q:"Em relação aos dados pessoais, a LGPD estabelece:",o:["Acesso irrestrito a qualquer dado","Consentimento como base de legalidade","Sigilo absoluto","Compartilhamento obrigatório"],c:1,e:"Consentimento é uma das bases para tratamento."},
-{area:"Legislação",q:"O INMETRO, como órgão de metrologia legal, tem competência para:",o:["Legislar em geral","Fiscalizar instrumentos e produtos regulados","Julgar crimes","Organizar eleições"],c:1,e:"Fiscalização metrológica legal."},
-{area:"Legislação",q:"A Lei de Acesso à Informação se aplica:",o:["Apenas órgãos federais","Órgãos públicos e entidades privadas que recebem verbas","Exclusivamente privados","Ninguém"],c:1,e:"Alcance amplo: públicos e parcialmente privados."},
-{area:"Legislação",q:"Qual princípio é fundamental na conduta ética do INMETRO?",o:["Lucro máximo","Integridade e transparência","Sigilo total","Favorecimento a aliados"],c:1,e:"Código de Conduta Ética."},
-{area:"Legislação",q:"As competências do CONMETRO incluem:",o:["Execução de inspeções","Fixação de políticas e diretrizes","Venda de equipamentos","Educação escolar"],c:1,e:"Conselho: órgão normativo."},
-{area:"Legislação",q:"A Taxa de Serviços Metrológicos é prevista em qual dispositivo?",o:["Lei 5.966/1973","Lei 9.933/1999","Portaria 2/2017","Resolução 11/1988"],c:1,e:"Lei 9.933/1999."},
-
-/* ================= METROLOGIA E QUALIDADE (20) ================= */
-{area:"Específico",q:"Metrologia legal se refere a:",o:["Pesquisas científicas abstratas","Controle oficial das medições para proteção do consumidor","Ensino exclusivamente escolar","Produção estritamente privada"],c:1,e:"Proteção legal do consumidor via medições confiáveis."},
-{area:"Específico",q:"A unidade SI (Sistema Internacional) de comprimento é:",o:["Centímetro","Milímetro","Metro","Quilômetro"],c:2,e:"Metro (m) é a unidade básica de comprimento no SI."},
-{area:"Específico",q:"Um padrão primário em metrologia é:",o:["Referência usada em fábricas","Padrão de referência nacional/internacional","Instrumento portátil comum","Equipamento de baixa precisão"],c:1,e:"Mais alto nível na hierarquia metrológica."},
-{area:"Específico",q:"A confiabilidade metrológica depende principalmente de:",o:["Preço do instrumento","Rastreabilidade à cadeia de calibração metrológica","Marca do fabricante","Cor do equipamento"],c:1,e:"Rastreabilidade: ligação contínua a padrões reconhecidos."},
-{area:"Específico",q:"Avaliação da conformidade tem como objetivo:",o:["Punir fabricantes","Certificar atendimento a requisitos técnicos e normas","Reduzir custos sem qualidade","Vender mais produtos"],c:1,e:"Verificar se produto/processo/serviço atende normas."},
-{area:"Específico",q:"Qual é o resultado esperado de uma perícia metrológica?",o:["Parecer técnico sobre conformidade","Aumento automático de salário","Determinação de culpados","Liberação incondicional"],c:0,e:"Perícia: avaliação técnica fundamentada."},
-{area:"Específico",q:"Inspeção em metrologia é o processo de:",o:["Destrição de produtos","Verificação se está conforme especificações","Reparação de instrumentos","Ensino técnico"],c:1,e:"Inspeção: verificação de conformidade."},
-{area:"Específico",q:"Auditoria metrológica examina:",o:["Pessoal administrativo","Sistema de medição, procedimentos e registros","Apenas equipamentos","Documentos gerais"],c:1,e:"Avaliação sistemática da qualidade metrológica."},
-{area:"Específico",q:"Qualidade, no contexto metrológico, se relaciona com:",o:["Apenas preço baixo","Atendimento a requisitos e conformidade","Cor e aparência","Marca famosa"],c:1,e:"Qualidade: atender especificações e expectativas."},
-{area:"Específico",q:"Execução de ensaios refere-se a:",o:["Testes de laboratório para avaliar propriedades","Provas escolares","Exames médicos","Entrevistas de emprego"],c:0,e:"Ensaios: testes técnicos controlados."},
-{area:"Específico",q:"A hierarquia metrológica estabelece:",o:["Classificação de funcionários","Níveis de padrões do mais preciso ao menos preciso","Cronograma anual","Lista de preços"],c:1,e:"Cadeia: primário → secundário → de trabalho."},
-{area:"Específico",q:"Principais fatores que afetam um resultado de medição incluem:",o:["Apenas o instrumento","Método, instrumento, operador e ambiente","Só o operador","Apenas a calibração"],c:1,e:"Efeito de múltiplas variáveis."},
-{area:"Específico",q:"Um laboratório de metrologia deve possuir:",o:["Apenas balança","Ambiente controlado, padrões, equipamentos e documentação","Só computadores","Apenas pessoas"],c:1,e:"Infraestrutura adequada para metrologia."},
-{area:"Específico",q:"Normas gerais de medição estabelecem:",o:["Preços obrigatórios","Procedimentos e boas práticas na execução de medições","Proibições absolutas","Cronogramas fixos"],c:1,e:"Orientações para medir corretamente."},
-{area:"Específico",q:"Unidades dimensionais lineares no SI incluem:",o:["Hora, minuto, segundo","Metro, decímetro, centímetro, milímetro","Quilograma, grama","Litro, mililitro"],c:1,e:"Unidades lineares: comprimento."},
-{area:"Específico",q:"Confiabilidade metrológica se estende a:",o:["Características do instrumento apenas","Rastreabilidade, calibração e documentação","Apenas garantia de fábrica","Sorte"],c:1,e:"Sistema completo de medição."},
-{area:"Específico",q:"Características dos instrumentos de medição incluem:",o:["Apenas preço","Faixa de medição, exatidão, repetibilidade","Só cor","Apenas nome"],c:1,e:"Propriedades técnicas relevantes."},
-{area:"Específico",q:"Um padrão em metrologia é:",o:["Uma opinião pessoal","Medida materializada de referência reconhecida","Uma estimativa aproximada","Uma suposição"],c:1,e:"Referência física ou convencional."},
-{area:"Específico",q:"O quadro geral de unidades de medidas SI organiza:",o:["Salários","Unidades fundamentais e derivadas","Horários","Nomes de pessoas"],c:1,e:"Sistema coerente de unidades."},
-{area:"Específico",q:"Conceitos básicos de metrologia dimensional abordam:",o:["Medidas da alma","Medição de dimensões geométricas","Apenas espessura","Temperatura exclusivamente"],c:1,e:"Comprimento, largura, altura e outras dimensões."},
+  // 1-10: Conceitos Gerais
+  {area:"Conceitos", q:"O que é a Didática no contexto educacional?", o:["O estudo da administração e legislação das escolas.","O ramo da Pedagogia que tem como objetivo dirigir tecnicamente o ensino rumo à aprendizagem.","A ciência que estuda exclusivamente a história da educação.","Uma técnica focada apenas na disciplina física dos alunos na sala de aula."], c:1, e:"A didática é a parte da pedagogia que tem como objeto de estudo o ensino em sua relação com a aprendizagem, dirigindo-o tecnicamente."},
+  {area:"Conceitos", q:"O que significa estudar didática?", o:["Apenas acumular conhecimentos sobre técnicas de ensino.","Memorizar teorias pedagógicas antigas sem aplicação prática.","Desenvolver a capacidade de questionamento, experimentação e reflexão sobre os métodos e procedimentos de ensino.","Criar regras rígidas que não podem ser alteradas durante as aulas."], c:2, e:"Estudar didática vai além do acúmulo de técnicas; significa desenvolver a capacidade de questionar, experimentar e refletir."},
+  {area:"Conceitos", q:"Como o termo 'Educação' é compreendido de modo geral?", o:["Como um processo universal que nunca muda com o tempo.","Como uma manifestação da cultura que depende do contexto histórico e social em que está inserido.","Estritamente como a transmissão de conteúdos dentro de uma sala de aula.","Como uma atividade exclusiva das sociedades modernas e industrializadas."], c:1, e:"A educação é uma manifestação cultural e, por isso, seus fins variam de acordo com a época, a sociedade, o tempo e o espaço."},
+  {area:"Conceitos", q:"O que define a Educação em seu sentido social?", o:["O desenvolvimento das aptidões de cada indivíduo isoladamente.","A ação das gerações anteriores sobre as mais jovens, orientando condutas e transmitindo valores.","O processo de aprendizagem motora sem influência externa.","A aquisição de conhecimentos puramente técnicos."], c:1, e:"No sentido social, a educação é a transmissão de conhecimentos, normas, crenças e costumes das gerações mais velhas para as mais jovens."},
+  {area:"Conceitos", q:"Qual é o foco da Educação em seu sentido individual?", o:["A manutenção da subsistência do grupo.","O condicionamento do indivíduo para obedecer às regras.","O desenvolvimento das aptidões e capacidades de cada indivíduo, visando aprimorar sua personalidade.","A padronização do comportamento."], c:2, e:"Busca desenvolver as capacidades da pessoa para o aprimoramento de sua própria personalidade."},
+  {area:"Conceitos", q:"Qual termo apresenta um conceito mais amplo e abrangente?", o:["Ensino.","Instrução.","Educação.","Didática."], c:2, e:"O termo 'Educação' apresenta um conceito extremamente amplo, sendo muito mais abrangente do que o termo 'ensino'."},
+  {area:"Conceitos", q:"Como se processa a forma 'assistemática' de educação?", o:["Em escolas com currículos definidos pelo governo.","Pela experiência direta, participando das atividades dos adultos de forma não estruturada.","Através de instituições de instrução.","Exclusivamente através de cartilhas."], c:1, e:"Ocorre em sociedades mais simples, onde a aprendizagem se dá pela experiência direta com as atividades do grupo."},
+  {area:"Instituição", q:"Em qual contexto surge a escola como instituição social?", o:["Na educação sistemática, para transmissão organizada de um vasto acervo cultural.","Na educação assistemática, para substituir a família.","Antes do desenvolvimento de qualquer acervo cultural.","Apenas nas sociedades nômades."], c:0, e:"A escola surge no contexto da educação sistemática, para garantir a transmissão organizada do patrimônio em sociedades complexas."},
+  {area:"Conceitos", q:"O que é Pedagogia?", o:["A aplicação prática de provas e testes.","O estudo sistemático da educação, sendo a ciência e a arte da educação.","Uma vertente exclusiva da filosofia da mente.","O processo de aprendizagem puramente motora."], c:1, e:"A Pedagogia é o estudo sistemático, a ciência e a arte da educação, oferecendo espaço para a reflexão sobre a formação humana."},
+  {area:"Papel do Professor", q:"No passado, como era caracterizada a figura do professor pela didática tradicional?", o:["Como um orientador que apenas estimulava o aluno.","Como o construtor conjunto do conhecimento.","Como a figura central, detentor do conhecimento a ser repassado.","Como um observador neutro."], c:2, e:"Antigamente, a didática era dominada pela figura central do professor como o detentor único do conhecimento."},
+  
+  // 11-20: Aprendizagem e Papéis
+  {area:"Conceitos", q:"No contexto presente, qual é o princípio básico da didática?", o:["A passividade do aluno frente ao professor.","A atividade do discente, onde ensinar e aprender são faces de uma mesma moeda.","A exclusão do professor do processo educativo.","O uso de cartilhas de repetição."], c:1, e:"A didática moderna projeta a aprendizagem do aluno de forma ativa, considerando ensinar e aprender como partes do mesmo processo."},
+  {area:"Conceitos", q:"O que é Ensino?", o:["Uma reflexão sem objetivo prático.","Uma ação deliberada e organizada pela qual o professor orienta a aprendizagem por métodos adequados.","O desenvolvimento espontâneo de aptidões motoras.","Um processo puramente assistemático."], c:1, e:"O ensino é o objeto principal da didática, definido como uma ação organizada em que o professor utiliza métodos para orientar a aprendizagem."},
+  {area:"Aprendizagem", q:"A aprendizagem é definida apenas como a aquisição de informações?", o:["Sim, é o acúmulo de dados.","Não, as informações devem ser transformadas e ganhar caráter significativo para a vida.","Sim, desde que testadas em provas.","Não, refere-se unicamente ao físico."], c:1, e:"A aprendizagem é um processo complexo que visa transformar as informações, dando-lhes significado para a vida das pessoas."},
+  {area:"Aprendizagem", q:"Qual tipo de aprendizagem abrange a aquisição de informações e conhecimentos teóricos?", o:["Aprendizagem motora.","Aprendizagem afetiva.","Aprendizagem emocional.","Aprendizagem cognitiva."], c:3, e:"A aprendizagem cognitiva é aquela que abrange diretamente a aquisição de informações e conhecimentos intelectuais."},
+  {area:"Aprendizagem", q:"O que engloba a aprendizagem afetiva ou emocional?", o:["O domínio de habilidades gráficas.","A assimilação de regras matemáticas.","Os sentimentos e as emoções do indivíduo.","A repetição física de um movimento."], c:2, e:"A aprendizagem afetiva diz respeito ao desenvolvimento e compreensão dos sentimentos e emoções no processo educativo."},
+  {area:"Papel do Aluno", q:"Qual é o papel do aluno no moderno processo de ensino-aprendizagem?", o:["Recipiente passivo de informações.","Objeto da educação sem voz ativa.","Ao mesmo tempo, objeto, sujeito e construtor do processo.","Detentor absoluto do conhecimento prévio."], c:2, e:"No processo atual, o aluno tem um papel ativo, sendo objeto, sujeito e construtor de sua própria aprendizagem."},
+  {area:"Papel do Professor", q:"No processo de ensino-aprendizagem, qual o papel do professor?", o:["Repassador autoritário de conteúdo.","Estimulador, orientador e facilitador, que cria condições para o aluno aprender.","Único construtor do ensino.","Observador isento de planejamento."], c:1, e:"O professor atua como estimulador, orientador e facilitador, criando as condições necessárias para que o aluno construa conhecimento."},
+  {area:"Conceitos", q:"Por que a Filosofia é importante para a Educação?", o:["Porque a educação se baseia em cálculos matemáticos.","Porque toda doutrina pedagógica fundamenta-se numa teoria filosófica e na concepção de homem e de vida.","Para substituir a sociologia.","Porque ensina apenas história grega."], c:1, e:"Os sistemas educacionais baseiam-se em concepções de homem; portanto, os aspectos filosóficos dão à educação o seu sentido."},
+  {area:"Papel do Professor", q:"A formação profissional do professor abrange quais dimensões principais?", o:["Formação emocional e financeira.","Formação teórica e esportiva.","Formação teórico-científica e formação técnico-prática.","Formação assistemática e sistemática."], c:2, e:"A formação do docente divide-se em teórico-científica (disciplinas) e técnico-prática (didática e metodologias)."},
+  {area:"Papel do Professor", q:"O que inclui a formação técnico-prática do professor?", o:["Filosofia e Sociologia da Educação.","A preparação específica para a docência (didática, metodologias e psicologia da educação).","O domínio exclusivo dos conteúdos disciplinares.","Estágio probatório sem estudo teórico."], c:1, e:"A dimensão técnico-prática visa a preparação direta para a docência, englobando didática, pesquisa e metodologias aplicadas."},
+  
+  // 21-30: Escola e Planejamento Básico
+  {area:"Papel do Professor", q:"Qual é a finalidade principal do trabalho do professor após sua formação?", o:["Garantir a memorização de datas.","Preparar os alunos para se tornarem cidadãos ativos na sociedade, família e trabalho.","Fazer todos seguirem carreira acadêmica.","Preparar exclusivamente para o ENEM."], c:1, e:"O docente tem a enorme responsabilidade de preparar o aluno de forma integral para enfrentar a vida prática e a cidadania."},
+  {area:"Instituição", q:"Como a sala de aula é estruturada no contexto de uma escola do tipo 'ativa'?", o:["Organização física estática em fileiras.","Aluno mantido passivo, apenas ouvindo.","Uso de técnicas onde os alunos fazem atividades diferentes, agrupando-se de forma diversa.","Mesas fixadas no chão sem mobilidade."], c:2, e:"Na escola ativa/democrática, promove-se a atuação do aluno através de agrupamentos variados e ambientes dinâmicos."},
+  {area:"Planejamento", q:"O que é o 'Planejamento' no contexto da ação didática?", o:["O documento físico entregue ao coordenador.","O 'processo' mental contínuo que supõe análise, reflexão e previsão.","Sinônimo exato da folha de 'Plano'.","A improvisação antes de entrar na sala."], c:1, e:"O planejamento é o processo de reflexão e análise que ocorre ao longo do tempo, diferenciando-se do plano, que é o seu resultado."},
+  {area:"Planejamento", q:"O que é o 'Plano' de ação didática?", o:["O processo abstrato de prever.","A improvisação de uma aula.","Um dos resultados possíveis e concretos do processo de planejamento (documento escrito).","O diário de faltas."], c:2, e:"O plano é o produto, o documento concreto gerado a partir do processo mental de planejamento."},
+  {area:"Planejamento", q:"Por que planejar é extremamente importante na educação?", o:["Garante a improvisação das aulas.","Evita improvisação, prevê/supera dificuldades e ajuda a cumprir objetivos com eficiência.","É uma burocracia sem impacto na aprendizagem.","Substitui a avaliação final dos alunos."], c:1, e:"O planejamento impede o improviso constante, antecipa problemas e economiza tempo, garantindo eficácia."},
+  {area:"Planejamento", q:"O que significa 'coerência e unidade' em um plano de ensino?", o:["Que pode ser interpretado de várias formas.","Que deve haver uma conexão lógica entre os objetivos traçados e os meios para alcançá-los.","Que o plano não sofre adaptação.","Que o assunto muda a cada hora."], c:1, e:"Refere-se à harmonia e conexão direta entre o que se deseja alcançar (objetivos) e como isso será feito (meios e atividades)."},
+  {area:"Planejamento", q:"A característica de 'flexibilidade' de um plano indica que ele deve:", o:["Ser rigorosamente seguido sem falhas.","Ajustar-se às dificuldades apenas se sobrar tempo.","Possibilitar ajustes e adaptações a situações não previstas na sala de aula.","Permitir que o professor saia da sala."], c:2, e:"Um bom plano é flexível, sendo reajustado diante de imprevistos ou dinâmicas reais que surgem com os alunos."},
+  {area:"Planejamento", q:"O que caracteriza a 'objetividade e funcionalidade' num planejamento?", o:["Vocabulário rebuscado.","Estruturação baseada em teorias puramente abstratas.","A adequação do plano à realidade, aos recursos, ao tempo e às características dos alunos.","Padronização com apostilas estatais."], c:2, e:"A objetividade faz com que o plano seja real, prático e aplicável ao contexto e aos limites materiais disponíveis."},
+  {area:"Planejamento", q:"Para que o plano não seja passível de dupla interpretação, ele deve ter:", o:["Complexidade.","Muitas páginas.","Clareza e precisão na linguagem.","Flexibilidade total."], c:2, e:"A linguagem deve ser simples, exata e precisa, garantindo clareza para que qualquer um entenda as diretrizes propostas."},
+  {area:"Tipos de Planejamento", q:"Em quais níveis ocorre o 'Planejamento do Sistema Educacional'?", o:["Só no município.","Somente dentro de cada escola.","Nacional, estadual e municipal.","Apenas na sala de aula."], c:2, e:"O planejamento sistêmico reflete a política macro de educação, ocorrendo nos níveis federal, estadual e municipal."},
+  
+  // 31-40: Níveis de Planejamento
+  {area:"Tipos de Planejamento", q:"Como deve ser o caráter do 'Planejamento da Escola'?", o:["Autoritário (apenas gestão).","Participativo, envolvendo professores, pais, alunos e funcionários na tomada de decisões.","Exclusivo dos alunos.","Delegado à Secretaria de Educação."], c:1, e:"Este planejamento (base do PPP) deve ser democrático e ter a construção conjunta de toda a comunidade escolar."},
+  {area:"Tipos de Planejamento", q:"O Planejamento de Currículo baseia-se em quê?", o:["Nas escolhas diárias dos estudantes.","Na previsão das disciplinas a partir das diretrizes fixadas pelos Conselhos de Educação (núcleo comum e diversificado).","Exclusivamente na intuição dos professores.","Apenas nos livros do MEC."], c:1, e:"O planejamento curricular estrutura os componentes ao longo do curso respeitando as diretrizes dos Conselhos de Educação."},
+  {area:"Tipos de Planejamento", q:"O que é o 'Planejamento Didático ou de Ensino'?", o:["A organização administrativa da secretaria.","A especificação e operacionalização do plano curricular, prevendo as ações do professor e atividades discentes.","O conserto da estrutura física.","A criação do PPP da escola."], c:1, e:"Ele traduz o currículo em práticas reais, sendo a ponte onde o professor organiza suas aulas e métodos diretos com a turma."},
+  {area:"Planejamento Didático", q:"No aspecto didático, antes de definir os objetivos, o professor deve primeiramente:", o:["Aplicar a prova final.","Escolher os vídeos da aula.","Analisar as características, necessidades, aspirações e possibilidades dos seus alunos.","Preencher o diário de classe."], c:2, e:"O ponto de partida do planejamento de ensino é diagnosticar e entender a realidade e as demandas do corpo discente."},
+  {area:"Planejamento Didático", q:"Quais são os três tipos principais de planejamento didático ou de ensino?", o:["Plano financeiro, marketing e curso.","Plano estadual, municipal e escolar.","Plano de curso, plano de unidade e plano de aula.","Plano de carreira, bimestral e diário."], c:2, e:"O planejamento no nível do professor divide-se hierarquicamente na elaboração do Curso (ano), da Unidade (temas) e da Aula (dia)."},
+  {area:"Planejamento Didático", q:"O que define o 'Plano de Curso'?", o:["A aula de 50 minutos.","O currículo do MEC.","A previsão geral dos conhecimentos e atividades de uma classe durante todo o período letivo (ano/semestre).","O grupo de disciplinas afins."], c:2, e:"É a visão panorâmica e ampla que engloba tudo que será desenvolvido na disciplina ao longo do período letivo inteiro."},
+  {area:"Planejamento Didático", q:"O que caracteriza o 'Plano de Unidade'?", o:["O planejamento de uma excursão.","A reunião e especificação de várias aulas sobre assuntos/tópicos correlatos dentro do curso.","A reunião de planejamento dos professores.","O boletim escolar."], c:1, e:"O plano de unidade 'quebra' o grande plano de curso em blocos temáticos, agrupando aulas que possuem forte relação entre si."},
+  {area:"Planejamento Didático", q:"Qual a definição correta para o 'Plano de Aula'?", o:["O estatuto do aluno.","O orçamento mensal da escola.","A sequência e detalhamento de tudo o que vai ser desenvolvido de forma específica em um dia letivo.","A ata de reunião de pais."], c:2, e:"É a camada micro do planejamento, focada na execução prática dos métodos, conteúdos e tempo daquele dia específico de aula."},
+  {area:"Tipos de Planejamento", q:"No planejamento da escola, a elaboração conjunta frequentemente leva à construção de qual documento estratégico?", o:["O PEI (Plano Educacional Individualizado).","O PPP (Projeto Político-Pedagógico).","O Livro de Ponto.","A BNCC."], c:1, e:"A participação e reflexão da comunidade escolar resultam no Projeto Político-Pedagógico (PPP), que é a 'identidade' da escola."},
+  {area:"Planejamento", q:"Segundo a citação de Robson Ribeiro dos Santos estudada no material, 'Planejar é...'", o:["'...ter clareza do próximo passo.'","'...construir a ponte entre a ideia e a realização.'","'...uma forma de nortear um trabalho.'","'...opcional para bons professores.'"], c:1, e:"A frase destaca o planejamento como o elemento de transição que permite materializar intenções e ideias abstratas em resultados práticos na educação."}
 ];
 
-let i=0, score=0;
+let currentIndex = 0;
+let score = 0;
 
-function startQuiz(){
+function startQuiz() {
   document.getElementById("start").classList.add("hidden");
   document.getElementById("quiz").classList.remove("hidden");
-  load();
+  document.getElementById("quiz").classList.add("flex");
+  document.getElementById("action-footer").classList.remove("hidden");
+  loadQuestion();
 }
 
-function load(){
-  const q=questions[i];
-  document.getElementById("counter").innerText=`Questão ${i+1}/80`;
-  document.getElementById("area").innerText=q.area;
-  document.getElementById("question").innerText=q.q;
+function loadQuestion() {
+  const q = questions[currentIndex];
   
-  // Atualizar barra de progresso
-  const progressPercent = ((i+1)/80)*100;
+  document.getElementById("counter").innerText = `${currentIndex + 1}/${TOTAL_QUESTIONS}`;
+  document.getElementById("area").innerText = q.area;
+  document.getElementById("question").innerText = q.q;
+  
+  const progressPercent = ((currentIndex + 1) / TOTAL_QUESTIONS) * 100;
   document.getElementById("progressBar").style.width = progressPercent + "%";
   
-  const op=document.getElementById("options");
-  op.innerHTML="";
-  q.o.forEach((t,idx)=>{
-    const b=document.createElement("button");
-    b.className="option-btn w-full border-2 rounded-lg p-3 md:p-4 text-left hover:bg-slate-100 font-semibold transition";
-    b.innerText=t;
-    b.onclick=()=>check(idx,b);
-    op.appendChild(b);
+  const optionsContainer = document.getElementById("options");
+  optionsContainer.innerHTML = "";
+  
+  q.o.forEach((textoOpcao, idx) => {
+    const btn = document.createElement("button");
+    btn.className = "option-btn w-full rounded-xl p-4 text-left font-semibold text-slate-700 shadow-sm text-sm md:text-base";
+    btn.innerText = textoOpcao;
+    btn.onclick = () => checkAnswer(idx, btn);
+    optionsContainer.appendChild(btn);
   });
-  document.getElementById("nextBtn").classList.add("hidden");
+  
+  document.getElementById("action-footer").classList.add("hidden");
   document.getElementById("explanation").classList.add("hidden");
+  
+  document.getElementById("quiz").scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function check(sel,btn){
-  const q=questions[i];
-  const buttons=document.querySelectorAll("#options button");
-  buttons.forEach(b=>b.disabled=true);
-  if(sel===q.c){
-    btn.classList.add("bg-green-100","border-green-500","text-green-700");
+function checkAnswer(selectedIndex, clickedBtn) {
+  const q = questions[currentIndex];
+  const buttons = document.querySelectorAll("#options button");
+  const expBox = document.getElementById("explanation");
+  const expTitle = document.getElementById("expTitle");
+  const expText = document.getElementById("expText");
+  
+  buttons.forEach(b => b.disabled = true);
+  
+  // LOGICA NOVA AQUI
+  if (selectedIndex === q.c) {
+    // Acertou
+    clickedBtn.classList.add("selected-correct");
     score++;
-    document.getElementById("score").innerText=score;
-  }else{
-    btn.classList.add("bg-red-100","border-red-500","text-red-700");
-    buttons[q.c].classList.add("bg-green-100","border-green-500","text-green-700");
+    document.getElementById("score").innerText = score;
+    
+    expBox.className = "explanation-box rounded-xl p-4 mt-4 bg-emerald-50 border-emerald-500 text-emerald-900";
+    expTitle.innerHTML = "<span>✅</span> Você acertou!";
+    expTitle.className = "font-bold mb-3 flex items-center gap-2 text-lg text-emerald-800";
+    
+    expText.innerHTML = `<strong>Explicação:</strong> ${q.e}`;
+    
+  } else {
+    // Errou
+    clickedBtn.classList.add("selected-wrong");
+    buttons[q.c].classList.add("selected-correct");
+    
+    expBox.className = "explanation-box rounded-xl p-4 mt-4 bg-red-50 border-red-500 text-red-900";
+    expTitle.innerHTML = "<span>❌</span> Você errou!";
+    expTitle.className = "font-bold mb-3 flex items-center gap-2 text-lg text-red-800";
+    
+    const textoCorreta = q.o[q.c];
+    
+    expText.innerHTML = `
+      <div class="mb-3">
+        A resposta correta era:<br>
+        <strong class="text-red-800 text-base">"${textoCorreta}"</strong>
+      </div>
+      <div class="pt-3 border-t border-red-200">
+        <strong>Por que?</strong> ${q.e}
+      </div>
+    `;
   }
-  document.getElementById("expText").innerText=q.e;
-  document.getElementById("explanation").classList.remove("hidden");
-  document.getElementById("nextBtn").classList.remove("hidden");
+  
+  expBox.classList.remove("hidden");
+  document.getElementById("action-footer").classList.remove("hidden");
+  
+  setTimeout(() => {
+    document.getElementById("quiz").scrollTo({ 
+      top: document.getElementById("quiz").scrollHeight, 
+      behavior: 'smooth' 
+    });
+  }, 100);
 }
 
-function next(){
-  i++;
-  if(i<80) load();
-  else finish();
+function next() {
+  currentIndex++;
+  if (currentIndex < TOTAL_QUESTIONS) {
+    loadQuestion();
+  } else {
+    finishQuiz();
+  }
 }
 
-function finish(){
+function finishQuiz() {
   document.getElementById("quiz").classList.add("hidden");
+  document.getElementById("quiz").classList.remove("flex");
+  document.getElementById("action-footer").classList.add("hidden");
+  
   document.getElementById("end").classList.remove("hidden");
-  document.getElementById("finalScore").innerText=score;
-  const p=score/80*100;
-  document.getElementById("msg").innerText=
-    p>=80?"Excelente! Você é um verdadeiro especialista! 🔥":
-    p>=60?"Muito bom! Continue estudando para melhorar! 👏":
-    p>=40?"Dá pra melhorar! Revise os tópicos 💪":
-    "Bora estudar mais! Você consegue! 📚";
+  document.getElementById("end").classList.add("flex");
+  
+  document.getElementById("finalScore").innerText = score;
+  
+  const percentual = (score / TOTAL_QUESTIONS) * 100;
+  let mensagem = "";
+  
+  if (percentual >= 90) {
+    mensagem = "Excelente! Você dominou a Didática! 🌟";
+  } else if (percentual >= 70) {
+    mensagem = "Muito bom! Seus conhecimentos pedagógicos estão ótimos! 👏";
+  } else if (percentual >= 50) {
+    mensagem = "Foi na média! Vale a pena revisar planejamento e metodologias. 📚";
+  } else {
+    mensagem = "Precisa praticar mais os fundamentos teóricos. Não desista! 💪";
+  }
+  
+  document.getElementById("msg").innerText = mensagem;
 }
 </script>
 
