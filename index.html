@@ -1,364 +1,1575 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>App Simulado - Didática Geral</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    /* Tema Moderno Mobile-First */
-    body {
-      background: linear-gradient(135deg, #0ea5e9 0%, #10b981 100%);
-      min-height: 100vh;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      overscroll-behavior-y: none; 
-    }
-    
-    .app-container {
-      background: #ffffff;
-      min-height: 95vh;
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz: Referenciais de Qualidade EaD (MEC 2025)</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --success-color: #10b981;
+            --error-color: #ef4444;
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+        }
 
-    .progress-bar-container {
-      background: #e2e8f0;
-      height: 8px;
-      border-radius: 4px;
-      overflow: hidden;
-    }
+        body {
+            background-color: var(--bg-color);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            color: #1f2937;
+            padding-bottom: 80px;
+        }
 
-    .progress-bar {
-      height: 100%;
-      background: linear-gradient(90deg, #0ea5e9 0%, #10b981 100%);
-      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    }
+        .quiz-card {
+            max-width: 600px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background: var(--card-bg);
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            border-radius: 20px;
+            overflow: hidden;
+        }
 
-    .badge {
-      background: linear-gradient(135deg, #0ea5e9 0%, #10b981 100%);
-    }
+        .card-header {
+            padding: 20px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            border-radius: 0;
+        }
 
-    .btn-primary {
-      background: linear-gradient(135deg, #0ea5e9 0%, #10b981 100%);
-      transition: all 0.2s ease;
-    }
-    .btn-primary:active {
-      transform: scale(0.96); 
-    }
+        .score-display {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--success-color);
+        }
 
-    .option-btn {
-      transition: all 0.2s ease;
-      border: 2px solid #e5e7eb;
-      background: #ffffff;
-      min-height: 60px; 
-    }
-    .option-btn:active:not(:disabled) {
-      transform: scale(0.98);
-      background: #f8fafc;
-    }
-    .option-btn.selected-correct {
-      background: #d1fae5;
-      border-color: #10b981;
-      color: #065f46;
-    }
-    .option-btn.selected-wrong {
-      background: #fee2e2;
-      border-color: #ef4444;
-      color: #991b1b;
-    }
+        .author-badge {
+            background-color: #e0e7ff;
+            color: var(--primary-color);
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
 
-    .explanation-box {
-      animation: slideDown 0.3s ease-out;
-      border-left-width: 5px;
-    }
+        .question-text {
+            font-size: 1.25rem;
+            font-weight: 700;
+            line-height: 1.4;
+            margin-bottom: 25px;
+            color: #111827;
+        }
 
-    @keyframes slideDown {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+        .option-btn {
+            width: 100%;
+            text-align: left;
+            margin-bottom: 12px;
+            padding: 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            background: white;
+            color: #4b5563;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+            font-size: 1.08rem;
+        }
 
-    .score-badge {
-      background: rgba(14, 165, 233, 0.1);
-      color: #0369a1;
-    }
+        .option-btn:hover, .option-btn:focus {
+            background-color: #0071db;
+            border-color: #d1d5db;
+        }
 
-    @media (min-width: 768px) {
-      .app-container {
-        min-height: auto;
-        border-radius: 24px;
-        margin-top: 2rem;
-        margin-bottom: 2rem;
-      }
-    }
-  </style>
+        .btn-success, .btn-success:focus {
+            background: var(--success-color) !important;
+            border-color: var(--success-color) !important;
+            color: #fff !important;
+        }
+        .btn-danger, .btn-danger:focus {
+            background: var(--error-color) !important;
+            border-color: var(--error-color) !important;
+            color: #fff !important;
+        }
+
+        .explanation-box {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #eff6ff;
+            border-left: 4px solid var(--primary-color);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            color: #1f2937;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(79, 70, 229, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0); }
+        }
+
+        .footer-action {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px 20px;
+            background: white;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.05);
+            z-index: 100;
+            display: none;
+        }
+
+        /* ========== MODAL DE BOAS-VINDAS MODERNO ========== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.3) 0%, rgba(236, 72, 153, 0.3) 100%);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            animation: overlayFadeIn 0.4s ease forwards;
+        }
+
+        .modal-content-box {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%);
+            border-radius: 32px;
+            padding: 50px 40px;
+            max-width: 480px;
+            text-align: center;
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.15),
+                0 0 200px rgba(236, 72, 153, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            animation: modalSlideUp 0.6s cubic-bezier(0.23, 1, 0.320, 1) forwards;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .modal-emoji-container {
+            position: relative;
+            margin-bottom: 24px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-emoji {
+            font-size: 4.5rem;
+            animation: emojiPulse 2.5s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+            filter: drop-shadow(0 8px 20px rgba(236, 72, 153, 0.3));
+        }
+
+        .modal-content-box h2 {
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0 0 12px 0;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .modal-subtitle {
+            font-size: 1rem;
+            color: #9ca3af;
+            margin-bottom: 28px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .modal-content-box p {
+            font-size: 1.15rem;
+            color: #4b5563;
+            margin: 0 0 18px 0;
+            line-height: 1.7;
+            font-weight: 500;
+        }
+
+        .modal-content-box strong {
+            background: linear-gradient(135deg, #4f46e5, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        .modal-secondary-text {
+            font-size: 0.95rem;
+            color: #9ca3af;
+            margin-bottom: 0;
+            font-weight: 400;
+        }
+
+        .modal-secondary-text strong {
+            background: none;
+            -webkit-text-fill-color: #10b981;
+            color: #10b981;
+            font-weight: 600;
+        }
+
+        .modal-btn {
+            background: linear-gradient(135deg, #4f46e5 0%, #667eea 100%);
+            color: white;
+            border: none;
+            padding: 16px 48px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+            margin-top: 32px;
+            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .modal-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .modal-btn:hover::before {
+            left: 100%;
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(79, 70, 229, 0.4);
+        }
+
+        .modal-btn:active {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
+        }
+
+        @keyframes overlayFadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes modalSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes emojiPulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .modal-content-box {
+                padding: 40px 32px;
+                border-radius: 28px;
+                max-width: calc(100% - 32px);
+            }
+
+            .modal-content-box h2 {
+                font-size: 1.9rem;
+            }
+
+            .modal-emoji {
+                font-size: 4rem;
+            }
+
+            .modal-content-box p {
+                font-size: 1.05rem;
+            }
+
+            .modal-btn {
+                padding: 14px 40px;
+                font-size: 1rem;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+
+        /* ========== NOTIFICAÇÃO MOTIVACIONAL ========== */
+        .notification-container {
+            position: fixed;
+            bottom: 100px;
+            right: 16px;
+            z-index: 500;
+            pointer-events: none;
+        }
+
+        .notification-toast {
+            background: white;
+            border-radius: 12px;
+            padding: 16px 20px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 250px;
+            max-width: 300px;
+            pointer-events: auto;
+            animation: slideInRight 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            margin-bottom: 12px;
+            border-left: 4px solid transparent;
+        }
+
+        .notification-toast.success {
+            border-left-color: #10b981;
+        }
+
+        .notification-toast.success .notification-icon {
+            color: #10b981;
+            font-size: 1.5rem;
+        }
+
+        .notification-toast.support {
+            border-left-color: #f59e0b;
+        }
+
+        .notification-toast.support .notification-icon {
+            color: #f59e0b;
+            font-size: 1.5rem;
+        }
+
+        .notification-icon {
+            flex-shrink: 0;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-message {
+            font-weight: 600;
+            color: #1f2937;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .notification-toast.exit {
+            animation: slideOutRight 0.3s ease-out forwards;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideOutRight {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .notification-container {
+                bottom: 90px;
+                right: 12px;
+                left: 12px;
+            }
+
+            .notification-toast {
+                min-width: auto;
+                max-width: 100%;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .quiz-card {
+                min-height: auto;
+                margin-top: 40px;
+                margin-bottom: 40px;
+            }
+            body { padding-bottom: 0; }
+            .footer-action {
+                position: static;
+                box-shadow: none;
+                border-top: 1px solid #e5e7eb;
+            }
+        }
+    </style>
 </head>
+<body>
 
-<body class="flex items-center justify-center p-2 md:p-6">
-
-<div class="app-container w-full max-w-2xl rounded-2xl flex flex-col relative overflow-hidden">
-
-  <div id="start" class="flex flex-col h-full flex-grow justify-center text-center p-6 md:p-10 space-y-8">
-    <div class="space-y-4">
-      <div class="text-6xl animate-bounce">📘</div>
-      <h1 class="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-sky-500 to-emerald-500 bg-clip-text text-transparent leading-tight">
-        Simulado Didática
-      </h1>
-      <p class="text-base text-gray-500 font-medium">Formação Docente & Prática Educativa</p>
-    </div>
-    
-    <div class="bg-slate-50 border border-slate-100 rounded-2xl p-5 space-y-3 shadow-sm">
-      <p class="text-3xl font-black text-slate-800">40 Questões</p>
-      <div class="flex flex-wrap justify-center gap-2 mt-2">
-        <span class="badge px-3 py-1.5 rounded-full text-white text-xs font-bold shadow-sm">📚 Conceitos Básicos</span>
-        <span class="badge px-3 py-1.5 rounded-full text-white text-xs font-bold shadow-sm">🎯 Planejamento</span>
-        <span class="badge px-3 py-1.5 rounded-full text-white text-xs font-bold shadow-sm">🏫 A Escola</span>
-      </div>
-    </div>
-    
-    <button onclick="startQuiz()" class="btn-primary w-full text-white px-6 py-4 rounded-xl font-bold text-lg shadow-lg shadow-emerald-500/30">
-      🚀 Começar Agora
-    </button>
-  </div>
-
-  <div id="quiz" class="hidden flex-col h-full p-5 md:p-8 space-y-6 overflow-y-auto pb-24">
-    
-    <div class="sticky top-0 bg-white/95 backdrop-blur pt-2 pb-4 z-10 space-y-4">
-      <div class="flex justify-between items-center">
-        <div class="text-sm font-bold text-slate-500 bg-slate-100 px-3 py-1 rounded-lg">
-          <span id="counter">1/40</span>
+<!-- Modal de Boas-vindas -->
+<div class="modal-overlay" id="welcomeModal">
+    <div class="modal-content-box">
+        <div class="modal-emoji-container">
+            <div class="modal-emoji">💝</div>
         </div>
-        <div class="score-badge px-3 py-1 rounded-lg text-sm font-bold flex items-center gap-1">
-          <span>⭐</span> <span id="score">0</span>
+        <div class="modal-subtitle">Bem-vindo!</div>
+        <h2>Eu te amo!</h2>
+        <p>Que você tenha <strong>bons estudos</strong> e alcance todo o sucesso que merece! 🌟</p>
+        <p class="modal-secondary-text">Você é <strong>capaz</strong> de fazer tudo!</p>
+        <button class="modal-btn" onclick="closeWelcomeModal()">Começar a Estudar</button>
+    </div>
+</div>
+
+<!-- Container de Notificações -->
+<div class="notification-container" id="notificationContainer"></div>
+
+<div class="container">
+    <div class="card quiz-card">
+        <div class="d-flex justify-content-between align-items-center p-2">
+            <a href="index.html" class="btn btn-pedagogia">
+                <i class="bi bi-arrow-left-circle"></i> Primeira Página
+            </a>
+            <a href="#" class="btn btn-dark" onclick="location.reload()">
+                <i class="bi bi-house-door"></i> Reiniciar Quiz
+            </a>
         </div>
-      </div>
-      <div class="progress-bar-container">
-        <div class="progress-bar" id="progressBar" style="width: 2.5%;"></div>
-      </div>
-      <div class="inline-block px-3 py-1 bg-sky-100 text-sky-700 rounded-full text-xs font-bold" id="area">
-        Tema
-      </div>
+
+        <div class="card-header bg-success text-white text-center">
+            <h3>Quiz: Educação Infantil</h3>
+            <p class="mb-0">Concepção de Infância, BNCC, LDB, ECA e Políticas Educacionais • 90 Questões</p>
+        </div>
+
+        <div class="card-body">
+            
+            <!-- TELA INICIAL -->
+            <div id="start-screen" class="text-center">
+                <p>
+                    Este quiz contém 50 perguntas sobre Educação Infantil, abordando os principais temas cobrados em provas e concursos:
+                </p>
+
+                <ul class="list-inline">
+                    <li class="list-inline-item badge bg-secondary">Concepção de Infância</li>
+                    <li class="list-inline-item badge bg-secondary">BNCC</li>
+                    <li class="list-inline-item badge bg-secondary">LDB</li>
+                    <li class="list-inline-item badge bg-secondary">ECA</li>
+                    <li class="list-inline-item badge bg-secondary">DCNEI</li>
+                    <li class="list-inline-item badge bg-secondary">Políticas Educacionais</li>
+                </ul>
+
+                <button class="btn btn-lg btn-success mt-3" onclick="startQuiz()">
+                    Iniciar Quiz Completo
+                </button>
+            </div>
+
+            <!-- TELA DO QUIZ -->
+            <div id="quiz-screen" style="display: none;">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="badge bg-info text-dark" id="question-counter">
+                        Questão 1/50
+                    </span>
+                    <span class="score-display">
+                        Acertos: <span id="score">0</span>
+                    </span>
+                </div>
+                
+                <h5 id="author-name" class="text-success author-badge">
+                    Tema
+                </h5>
+
+                <h4 id="question-text" class="mb-4">
+                    Texto da Pergunta
+                </h4>
+
+                <div id="options-container" class="d-grid gap-2">
+                    <!-- Opções serão inseridas via JS -->
+                </div>
+
+                <div id="explanation" class="explanation-box">
+                    <strong>Explicação:</strong>
+                    <span id="explanation-text"></span>
+                </div>
+
+                <div class="d-flex justify-content-end mt-3">
+                    <button id="next-btn" class="btn btn-success disabled" onclick="nextQuestion()">
+                        Próxima Pergunta
+                    </button>
+                </div>
+            </div>
+
+            <!-- TELA FINAL -->
+            <div id="end-screen" class="text-center" style="display: none;">
+                <h2>Quiz Finalizado!</h2>
+                <p class="lead">Sua pontuação final:</p>
+
+                <h1 class="display-4">
+                    <span id="final-score">0</span> / 50
+                </h1>
+
+                <div id="final-message" class="mt-3"></div>
+
+                <button class="btn btn-warning mt-4" onclick="location.reload()">
+                    Reiniciar
+                </button>
+            </div>
+
+        </div>
     </div>
-
-    <div>
-      <h2 id="question" class="text-lg md:text-xl text-slate-800 font-bold leading-snug"></h2>
-    </div>
-
-    <div id="options" class="flex flex-col space-y-3"></div>
-
-    <div id="explanation" class="hidden explanation-box rounded-xl p-4 mt-4">
-      <p id="expTitle" class=""></p>
-      <div id="expText" class="text-sm leading-relaxed"></div>
-    </div>
-
-  </div>
-
-  <div id="action-footer" class="hidden absolute bottom-0 left-0 w-full p-4 bg-white border-t border-slate-100 z-20">
-    <button id="nextBtn" onclick="next()" class="btn-primary w-full text-white py-4 rounded-xl font-bold text-lg shadow-lg">
-      Avançar ➔
-    </button>
-  </div>
-
-  <div id="end" class="hidden flex-col h-full justify-center text-center p-6 md:p-10 space-y-8">
-    <div class="space-y-3">
-      <div class="text-7xl">🏆</div>
-      <h2 class="text-3xl font-black text-slate-800">Fim de Jogo!</h2>
-    </div>
-    
-    <div class="bg-slate-50 rounded-3xl p-8 border border-slate-100 shadow-inner">
-      <p class="text-sm text-slate-500 font-bold uppercase tracking-wider mb-2">Acertos</p>
-      <div class="text-6xl font-black text-emerald-500">
-        <span id="finalScore"></span><span class="text-3xl text-slate-300">/40</span>
-      </div>
-    </div>
-
-    <p id="msg" class="text-lg font-bold text-slate-700"></p>
-    
-    <button onclick="location.reload()" class="w-full bg-slate-800 text-white active:scale-95 transition-transform px-6 py-4 rounded-xl font-bold text-lg shadow-lg">
-      🔄 Tentar Novamente
-    </button>
-  </div>
-
 </div>
 
 <script>
-const TOTAL_QUESTIONS = 40;
+    // Estatísticas de acertos/erros
+    let consecutiveCorrect = 0;
+    let consecutiveWrong = 0;
 
-const questions = [
-  // 1-10: Conceitos Gerais
-  {area:"Conceitos", q:"O que é a Didática no contexto educacional?", o:["O estudo da administração e legislação das escolas.","O ramo da Pedagogia que tem como objetivo dirigir tecnicamente o ensino rumo à aprendizagem.","A ciência que estuda exclusivamente a história da educação.","Uma técnica focada apenas na disciplina física dos alunos na sala de aula."], c:1, e:"A didática é a parte da pedagogia que tem como objeto de estudo o ensino em sua relação com a aprendizagem, dirigindo-o tecnicamente."},
-  {area:"Conceitos", q:"O que significa estudar didática?", o:["Apenas acumular conhecimentos sobre técnicas de ensino.","Memorizar teorias pedagógicas antigas sem aplicação prática.","Desenvolver a capacidade de questionamento, experimentação e reflexão sobre os métodos e procedimentos de ensino.","Criar regras rígidas que não podem ser alteradas durante as aulas."], c:2, e:"Estudar didática vai além do acúmulo de técnicas; significa desenvolver a capacidade de questionar, experimentar e refletir."},
-  {area:"Conceitos", q:"Como o termo 'Educação' é compreendido de modo geral?", o:["Como um processo universal que nunca muda com o tempo.","Como uma manifestação da cultura que depende do contexto histórico e social em que está inserido.","Estritamente como a transmissão de conteúdos dentro de uma sala de aula.","Como uma atividade exclusiva das sociedades modernas e industrializadas."], c:1, e:"A educação é uma manifestação cultural e, por isso, seus fins variam de acordo com a época, a sociedade, o tempo e o espaço."},
-  {area:"Conceitos", q:"O que define a Educação em seu sentido social?", o:["O desenvolvimento das aptidões de cada indivíduo isoladamente.","A ação das gerações anteriores sobre as mais jovens, orientando condutas e transmitindo valores.","O processo de aprendizagem motora sem influência externa.","A aquisição de conhecimentos puramente técnicos."], c:1, e:"No sentido social, a educação é a transmissão de conhecimentos, normas, crenças e costumes das gerações mais velhas para as mais jovens."},
-  {area:"Conceitos", q:"Qual é o foco da Educação em seu sentido individual?", o:["A manutenção da subsistência do grupo.","O condicionamento do indivíduo para obedecer às regras.","O desenvolvimento das aptidões e capacidades de cada indivíduo, visando aprimorar sua personalidade.","A padronização do comportamento."], c:2, e:"Busca desenvolver as capacidades da pessoa para o aprimoramento de sua própria personalidade."},
-  {area:"Conceitos", q:"Qual termo apresenta um conceito mais amplo e abrangente?", o:["Ensino.","Instrução.","Educação.","Didática."], c:2, e:"O termo 'Educação' apresenta um conceito extremamente amplo, sendo muito mais abrangente do que o termo 'ensino'."},
-  {area:"Conceitos", q:"Como se processa a forma 'assistemática' de educação?", o:["Em escolas com currículos definidos pelo governo.","Pela experiência direta, participando das atividades dos adultos de forma não estruturada.","Através de instituições de instrução.","Exclusivamente através de cartilhas."], c:1, e:"Ocorre em sociedades mais simples, onde a aprendizagem se dá pela experiência direta com as atividades do grupo."},
-  {area:"Instituição", q:"Em qual contexto surge a escola como instituição social?", o:["Na educação sistemática, para transmissão organizada de um vasto acervo cultural.","Na educação assistemática, para substituir a família.","Antes do desenvolvimento de qualquer acervo cultural.","Apenas nas sociedades nômades."], c:0, e:"A escola surge no contexto da educação sistemática, para garantir a transmissão organizada do patrimônio em sociedades complexas."},
-  {area:"Conceitos", q:"O que é Pedagogia?", o:["A aplicação prática de provas e testes.","O estudo sistemático da educação, sendo a ciência e a arte da educação.","Uma vertente exclusiva da filosofia da mente.","O processo de aprendizagem puramente motora."], c:1, e:"A Pedagogia é o estudo sistemático, a ciência e a arte da educação, oferecendo espaço para a reflexão sobre a formação humana."},
-  {area:"Papel do Professor", q:"No passado, como era caracterizada a figura do professor pela didática tradicional?", o:["Como um orientador que apenas estimulava o aluno.","Como o construtor conjunto do conhecimento.","Como a figura central, detentor do conhecimento a ser repassado.","Como um observador neutro."], c:2, e:"Antigamente, a didática era dominada pela figura central do professor como o detentor único do conhecimento."},
-  
-  // 11-20: Aprendizagem e Papéis
-  {area:"Conceitos", q:"No contexto presente, qual é o princípio básico da didática?", o:["A passividade do aluno frente ao professor.","A atividade do discente, onde ensinar e aprender são faces de uma mesma moeda.","A exclusão do professor do processo educativo.","O uso de cartilhas de repetição."], c:1, e:"A didática moderna projeta a aprendizagem do aluno de forma ativa, considerando ensinar e aprender como partes do mesmo processo."},
-  {area:"Conceitos", q:"O que é Ensino?", o:["Uma reflexão sem objetivo prático.","Uma ação deliberada e organizada pela qual o professor orienta a aprendizagem por métodos adequados.","O desenvolvimento espontâneo de aptidões motoras.","Um processo puramente assistemático."], c:1, e:"O ensino é o objeto principal da didática, definido como uma ação organizada em que o professor utiliza métodos para orientar a aprendizagem."},
-  {area:"Aprendizagem", q:"A aprendizagem é definida apenas como a aquisição de informações?", o:["Sim, é o acúmulo de dados.","Não, as informações devem ser transformadas e ganhar caráter significativo para a vida.","Sim, desde que testadas em provas.","Não, refere-se unicamente ao físico."], c:1, e:"A aprendizagem é um processo complexo que visa transformar as informações, dando-lhes significado para a vida das pessoas."},
-  {area:"Aprendizagem", q:"Qual tipo de aprendizagem abrange a aquisição de informações e conhecimentos teóricos?", o:["Aprendizagem motora.","Aprendizagem afetiva.","Aprendizagem emocional.","Aprendizagem cognitiva."], c:3, e:"A aprendizagem cognitiva é aquela que abrange diretamente a aquisição de informações e conhecimentos intelectuais."},
-  {area:"Aprendizagem", q:"O que engloba a aprendizagem afetiva ou emocional?", o:["O domínio de habilidades gráficas.","A assimilação de regras matemáticas.","Os sentimentos e as emoções do indivíduo.","A repetição física de um movimento."], c:2, e:"A aprendizagem afetiva diz respeito ao desenvolvimento e compreensão dos sentimentos e emoções no processo educativo."},
-  {area:"Papel do Aluno", q:"Qual é o papel do aluno no moderno processo de ensino-aprendizagem?", o:["Recipiente passivo de informações.","Objeto da educação sem voz ativa.","Ao mesmo tempo, objeto, sujeito e construtor do processo.","Detentor absoluto do conhecimento prévio."], c:2, e:"No processo atual, o aluno tem um papel ativo, sendo objeto, sujeito e construtor de sua própria aprendizagem."},
-  {area:"Papel do Professor", q:"No processo de ensino-aprendizagem, qual o papel do professor?", o:["Repassador autoritário de conteúdo.","Estimulador, orientador e facilitador, que cria condições para o aluno aprender.","Único construtor do ensino.","Observador isento de planejamento."], c:1, e:"O professor atua como estimulador, orientador e facilitador, criando as condições necessárias para que o aluno construa conhecimento."},
-  {area:"Conceitos", q:"Por que a Filosofia é importante para a Educação?", o:["Porque a educação se baseia em cálculos matemáticos.","Porque toda doutrina pedagógica fundamenta-se numa teoria filosófica e na concepção de homem e de vida.","Para substituir a sociologia.","Porque ensina apenas história grega."], c:1, e:"Os sistemas educacionais baseiam-se em concepções de homem; portanto, os aspectos filosóficos dão à educação o seu sentido."},
-  {area:"Papel do Professor", q:"A formação profissional do professor abrange quais dimensões principais?", o:["Formação emocional e financeira.","Formação teórica e esportiva.","Formação teórico-científica e formação técnico-prática.","Formação assistemática e sistemática."], c:2, e:"A formação do docente divide-se em teórico-científica (disciplinas) e técnico-prática (didática e metodologias)."},
-  {area:"Papel do Professor", q:"O que inclui a formação técnico-prática do professor?", o:["Filosofia e Sociologia da Educação.","A preparação específica para a docência (didática, metodologias e psicologia da educação).","O domínio exclusivo dos conteúdos disciplinares.","Estágio probatório sem estudo teórico."], c:1, e:"A dimensão técnico-prática visa a preparação direta para a docência, englobando didática, pesquisa e metodologias aplicadas."},
-  
-  // 21-30: Escola e Planejamento Básico
-  {area:"Papel do Professor", q:"Qual é a finalidade principal do trabalho do professor após sua formação?", o:["Garantir a memorização de datas.","Preparar os alunos para se tornarem cidadãos ativos na sociedade, família e trabalho.","Fazer todos seguirem carreira acadêmica.","Preparar exclusivamente para o ENEM."], c:1, e:"O docente tem a enorme responsabilidade de preparar o aluno de forma integral para enfrentar a vida prática e a cidadania."},
-  {area:"Instituição", q:"Como a sala de aula é estruturada no contexto de uma escola do tipo 'ativa'?", o:["Organização física estática em fileiras.","Aluno mantido passivo, apenas ouvindo.","Uso de técnicas onde os alunos fazem atividades diferentes, agrupando-se de forma diversa.","Mesas fixadas no chão sem mobilidade."], c:2, e:"Na escola ativa/democrática, promove-se a atuação do aluno através de agrupamentos variados e ambientes dinâmicos."},
-  {area:"Planejamento", q:"O que é o 'Planejamento' no contexto da ação didática?", o:["O documento físico entregue ao coordenador.","O 'processo' mental contínuo que supõe análise, reflexão e previsão.","Sinônimo exato da folha de 'Plano'.","A improvisação antes de entrar na sala."], c:1, e:"O planejamento é o processo de reflexão e análise que ocorre ao longo do tempo, diferenciando-se do plano, que é o seu resultado."},
-  {area:"Planejamento", q:"O que é o 'Plano' de ação didática?", o:["O processo abstrato de prever.","A improvisação de uma aula.","Um dos resultados possíveis e concretos do processo de planejamento (documento escrito).","O diário de faltas."], c:2, e:"O plano é o produto, o documento concreto gerado a partir do processo mental de planejamento."},
-  {area:"Planejamento", q:"Por que planejar é extremamente importante na educação?", o:["Garante a improvisação das aulas.","Evita improvisação, prevê/supera dificuldades e ajuda a cumprir objetivos com eficiência.","É uma burocracia sem impacto na aprendizagem.","Substitui a avaliação final dos alunos."], c:1, e:"O planejamento impede o improviso constante, antecipa problemas e economiza tempo, garantindo eficácia."},
-  {area:"Planejamento", q:"O que significa 'coerência e unidade' em um plano de ensino?", o:["Que pode ser interpretado de várias formas.","Que deve haver uma conexão lógica entre os objetivos traçados e os meios para alcançá-los.","Que o plano não sofre adaptação.","Que o assunto muda a cada hora."], c:1, e:"Refere-se à harmonia e conexão direta entre o que se deseja alcançar (objetivos) e como isso será feito (meios e atividades)."},
-  {area:"Planejamento", q:"A característica de 'flexibilidade' de um plano indica que ele deve:", o:["Ser rigorosamente seguido sem falhas.","Ajustar-se às dificuldades apenas se sobrar tempo.","Possibilitar ajustes e adaptações a situações não previstas na sala de aula.","Permitir que o professor saia da sala."], c:2, e:"Um bom plano é flexível, sendo reajustado diante de imprevistos ou dinâmicas reais que surgem com os alunos."},
-  {area:"Planejamento", q:"O que caracteriza a 'objetividade e funcionalidade' num planejamento?", o:["Vocabulário rebuscado.","Estruturação baseada em teorias puramente abstratas.","A adequação do plano à realidade, aos recursos, ao tempo e às características dos alunos.","Padronização com apostilas estatais."], c:2, e:"A objetividade faz com que o plano seja real, prático e aplicável ao contexto e aos limites materiais disponíveis."},
-  {area:"Planejamento", q:"Para que o plano não seja passível de dupla interpretação, ele deve ter:", o:["Complexidade.","Muitas páginas.","Clareza e precisão na linguagem.","Flexibilidade total."], c:2, e:"A linguagem deve ser simples, exata e precisa, garantindo clareza para que qualquer um entenda as diretrizes propostas."},
-  {area:"Tipos de Planejamento", q:"Em quais níveis ocorre o 'Planejamento do Sistema Educacional'?", o:["Só no município.","Somente dentro de cada escola.","Nacional, estadual e municipal.","Apenas na sala de aula."], c:2, e:"O planejamento sistêmico reflete a política macro de educação, ocorrendo nos níveis federal, estadual e municipal."},
-  
-  // 31-40: Níveis de Planejamento
-  {area:"Tipos de Planejamento", q:"Como deve ser o caráter do 'Planejamento da Escola'?", o:["Autoritário (apenas gestão).","Participativo, envolvendo professores, pais, alunos e funcionários na tomada de decisões.","Exclusivo dos alunos.","Delegado à Secretaria de Educação."], c:1, e:"Este planejamento (base do PPP) deve ser democrático e ter a construção conjunta de toda a comunidade escolar."},
-  {area:"Tipos de Planejamento", q:"O Planejamento de Currículo baseia-se em quê?", o:["Nas escolhas diárias dos estudantes.","Na previsão das disciplinas a partir das diretrizes fixadas pelos Conselhos de Educação (núcleo comum e diversificado).","Exclusivamente na intuição dos professores.","Apenas nos livros do MEC."], c:1, e:"O planejamento curricular estrutura os componentes ao longo do curso respeitando as diretrizes dos Conselhos de Educação."},
-  {area:"Tipos de Planejamento", q:"O que é o 'Planejamento Didático ou de Ensino'?", o:["A organização administrativa da secretaria.","A especificação e operacionalização do plano curricular, prevendo as ações do professor e atividades discentes.","O conserto da estrutura física.","A criação do PPP da escola."], c:1, e:"Ele traduz o currículo em práticas reais, sendo a ponte onde o professor organiza suas aulas e métodos diretos com a turma."},
-  {area:"Planejamento Didático", q:"No aspecto didático, antes de definir os objetivos, o professor deve primeiramente:", o:["Aplicar a prova final.","Escolher os vídeos da aula.","Analisar as características, necessidades, aspirações e possibilidades dos seus alunos.","Preencher o diário de classe."], c:2, e:"O ponto de partida do planejamento de ensino é diagnosticar e entender a realidade e as demandas do corpo discente."},
-  {area:"Planejamento Didático", q:"Quais são os três tipos principais de planejamento didático ou de ensino?", o:["Plano financeiro, marketing e curso.","Plano estadual, municipal e escolar.","Plano de curso, plano de unidade e plano de aula.","Plano de carreira, bimestral e diário."], c:2, e:"O planejamento no nível do professor divide-se hierarquicamente na elaboração do Curso (ano), da Unidade (temas) e da Aula (dia)."},
-  {area:"Planejamento Didático", q:"O que define o 'Plano de Curso'?", o:["A aula de 50 minutos.","O currículo do MEC.","A previsão geral dos conhecimentos e atividades de uma classe durante todo o período letivo (ano/semestre).","O grupo de disciplinas afins."], c:2, e:"É a visão panorâmica e ampla que engloba tudo que será desenvolvido na disciplina ao longo do período letivo inteiro."},
-  {area:"Planejamento Didático", q:"O que caracteriza o 'Plano de Unidade'?", o:["O planejamento de uma excursão.","A reunião e especificação de várias aulas sobre assuntos/tópicos correlatos dentro do curso.","A reunião de planejamento dos professores.","O boletim escolar."], c:1, e:"O plano de unidade 'quebra' o grande plano de curso em blocos temáticos, agrupando aulas que possuem forte relação entre si."},
-  {area:"Planejamento Didático", q:"Qual a definição correta para o 'Plano de Aula'?", o:["O estatuto do aluno.","O orçamento mensal da escola.","A sequência e detalhamento de tudo o que vai ser desenvolvido de forma específica em um dia letivo.","A ata de reunião de pais."], c:2, e:"É a camada micro do planejamento, focada na execução prática dos métodos, conteúdos e tempo daquele dia específico de aula."},
-  {area:"Tipos de Planejamento", q:"No planejamento da escola, a elaboração conjunta frequentemente leva à construção de qual documento estratégico?", o:["O PEI (Plano Educacional Individualizado).","O PPP (Projeto Político-Pedagógico).","O Livro de Ponto.","A BNCC."], c:1, e:"A participação e reflexão da comunidade escolar resultam no Projeto Político-Pedagógico (PPP), que é a 'identidade' da escola."},
-  {area:"Planejamento", q:"Segundo a citação de Robson Ribeiro dos Santos estudada no material, 'Planejar é...'", o:["'...ter clareza do próximo passo.'","'...construir a ponte entre a ideia e a realização.'","'...uma forma de nortear um trabalho.'","'...opcional para bons professores.'"], c:1, e:"A frase destaca o planejamento como o elemento de transição que permite materializar intenções e ideias abstratas em resultados práticos na educação."}
-];
+    // Função para fechar o modal de boas-vindas
+    function closeWelcomeModal() {
+        const modal = document.getElementById('welcomeModal');
+        modal.style.animation = 'fadeOut 0.3s ease forwards';
+        setTimeout(() => {
+            modal.style.display = 'none';
+        }, 300);
+    }
 
-let currentIndex = 0;
-let score = 0;
-
-function startQuiz() {
-  document.getElementById("start").classList.add("hidden");
-  document.getElementById("quiz").classList.remove("hidden");
-  document.getElementById("quiz").classList.add("flex");
-  document.getElementById("action-footer").classList.remove("hidden");
-  loadQuestion();
-}
-
-function loadQuestion() {
-  const q = questions[currentIndex];
-  
-  document.getElementById("counter").innerText = `${currentIndex + 1}/${TOTAL_QUESTIONS}`;
-  document.getElementById("area").innerText = q.area;
-  document.getElementById("question").innerText = q.q;
-  
-  const progressPercent = ((currentIndex + 1) / TOTAL_QUESTIONS) * 100;
-  document.getElementById("progressBar").style.width = progressPercent + "%";
-  
-  const optionsContainer = document.getElementById("options");
-  optionsContainer.innerHTML = "";
-  
-  q.o.forEach((textoOpcao, idx) => {
-    const btn = document.createElement("button");
-    btn.className = "option-btn w-full rounded-xl p-4 text-left font-semibold text-slate-700 shadow-sm text-sm md:text-base";
-    btn.innerText = textoOpcao;
-    btn.onclick = () => checkAnswer(idx, btn);
-    optionsContainer.appendChild(btn);
-  });
-  
-  document.getElementById("action-footer").classList.add("hidden");
-  document.getElementById("explanation").classList.add("hidden");
-  
-  document.getElementById("quiz").scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-function checkAnswer(selectedIndex, clickedBtn) {
-  const q = questions[currentIndex];
-  const buttons = document.querySelectorAll("#options button");
-  const expBox = document.getElementById("explanation");
-  const expTitle = document.getElementById("expTitle");
-  const expText = document.getElementById("expText");
-  
-  buttons.forEach(b => b.disabled = true);
-  
-  // LOGICA NOVA AQUI
-  if (selectedIndex === q.c) {
-    // Acertou
-    clickedBtn.classList.add("selected-correct");
-    score++;
-    document.getElementById("score").innerText = score;
-    
-    expBox.className = "explanation-box rounded-xl p-4 mt-4 bg-emerald-50 border-emerald-500 text-emerald-900";
-    expTitle.innerHTML = "<span>✅</span> Você acertou!";
-    expTitle.className = "font-bold mb-3 flex items-center gap-2 text-lg text-emerald-800";
-    
-    expText.innerHTML = `<strong>Explicação:</strong> ${q.e}`;
-    
-  } else {
-    // Errou
-    clickedBtn.classList.add("selected-wrong");
-    buttons[q.c].classList.add("selected-correct");
-    
-    expBox.className = "explanation-box rounded-xl p-4 mt-4 bg-red-50 border-red-500 text-red-900";
-    expTitle.innerHTML = "<span>❌</span> Você errou!";
-    expTitle.className = "font-bold mb-3 flex items-center gap-2 text-lg text-red-800";
-    
-    const textoCorreta = q.o[q.c];
-    
-    expText.innerHTML = `
-      <div class="mb-3">
-        A resposta correta era:<br>
-        <strong class="text-red-800 text-base">"${textoCorreta}"</strong>
-      </div>
-      <div class="pt-3 border-t border-red-200">
-        <strong>Por que?</strong> ${q.e}
-      </div>
-    `;
-  }
-  
-  expBox.classList.remove("hidden");
-  document.getElementById("action-footer").classList.remove("hidden");
-  
-  setTimeout(() => {
-    document.getElementById("quiz").scrollTo({ 
-      top: document.getElementById("quiz").scrollHeight, 
-      behavior: 'smooth' 
+    // Fechar modal ao clicar fora dele
+    document.addEventListener('DOMContentLoaded', function() {
+        const modal = document.getElementById('welcomeModal');
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeWelcomeModal();
+            }
+        });
     });
-  }, 100);
-}
 
-function next() {
-  currentIndex++;
-  if (currentIndex < TOTAL_QUESTIONS) {
-    loadQuestion();
-  } else {
-    finishQuiz();
-  }
-}
+    // Sistema de Notificações Motivacionais
+    function showNotification(type, message, icon) {
+        const container = document.getElementById('notificationContainer');
+        const toast = document.createElement('div');
+        toast.className = `notification-toast ${type}`;
+        toast.innerHTML = `
+            <div class="notification-icon">${icon}</div>
+            <div class="notification-content">
+                <div class="notification-message">${message}</div>
+            </div>
+        `;
+        container.appendChild(toast);
 
-function finishQuiz() {
-  document.getElementById("quiz").classList.add("hidden");
-  document.getElementById("quiz").classList.remove("flex");
-  document.getElementById("action-footer").classList.add("hidden");
-  
-  document.getElementById("end").classList.remove("hidden");
-  document.getElementById("end").classList.add("flex");
-  
-  document.getElementById("finalScore").innerText = score;
-  
-  const percentual = (score / TOTAL_QUESTIONS) * 100;
-  let mensagem = "";
-  
-  if (percentual >= 90) {
-    mensagem = "Excelente! Você dominou a Didática! 🌟";
-  } else if (percentual >= 70) {
-    mensagem = "Muito bom! Seus conhecimentos pedagógicos estão ótimos! 👏";
-  } else if (percentual >= 50) {
-    mensagem = "Foi na média! Vale a pena revisar planejamento e metodologias. 📚";
-  } else {
-    mensagem = "Precisa praticar mais os fundamentos teóricos. Não desista! 💪";
-  }
-  
-  document.getElementById("msg").innerText = mensagem;
-}
+        // Auto-remover após 3.5 segundos
+        setTimeout(() => {
+            toast.classList.add('exit');
+            setTimeout(() => {
+                toast.remove();
+            }, 300);
+        }, 3500);
+    }
+
+    // Função para verificar e mostrar notificações motivacionais
+    function checkMotivationalNotification(isCorrect) {
+        if (isCorrect) {
+            consecutiveCorrect++;
+            consecutiveWrong = 0;
+
+            // Se acertou 3 respostas seguidas
+            if (consecutiveCorrect === 3) {
+                showNotification('success', 'Continue brilhando! ✨', '⭐');
+            }
+            // Se acertou 5 respostas seguidas
+            else if (consecutiveCorrect === 5) {
+                showNotification('success', 'Já é um destaque! Siga assim!', '🏆');
+            }
+        } else {
+            consecutiveWrong++;
+            consecutiveCorrect = 0;
+
+            // Se errou 2 respostas seguidas
+            if (consecutiveWrong === 2) {
+                showNotification('support', 'Você é capaz!  Eu te amo!', '💖');
+            }
+            // Se errou 3 respostas seguidas
+            else if (consecutiveWrong === 3) {
+                showNotification('support', 'Continue! Você consegue! ', '🌟');
+            }
+        }
+    }
+
+    // BANCO DE DADOS COM 30 QUESTÕES SOBRE REFERENCIAIS DE QUALIDADE EAD (MEC 2025)
+    // --- +30 QUESTÕES ADICIONAIS (Referenciais de Qualidade EaD - MEC 2025) ---
+        const questions = [
+            {
+                author: "Concepção de Infância",
+                text: "Na concepção contemporânea, a criança é entendida como:",
+                options: [
+                    "Um ser passivo que apenas obedece",
+                    "Um sujeito ativo que constrói conhecimento",
+                    "Um indivíduo incompleto",
+                    "Um receptor de ordens"
+                ],
+                correct: 1,
+                text_ref: "Teoria geral",
+                explanation: "A criança é vista como sujeito ativo, que aprende através das interações e experiências."
+            },
+            {
+                author: "Educação Infantil",
+                text: "O principal objetivo da Educação Infantil é:",
+                options: [
+                    "Preparar para provas",
+                    "Alfabetizar rapidamente",
+                    "Promover o desenvolvimento integral",
+                    "Ensinar disciplina rígida"
+                ],
+                correct: 2,
+                text_ref: "LDB",
+                explanation: "A Educação Infantil busca o desenvolvimento integral: físico, emocional, social e cognitivo."
+            },
+            {
+                author: "Legislação",
+                text: "Segundo a Constituição de 1988, a educação é:",
+                options: [
+                    "Dever apenas do Estado",
+                    "Direito de todos",
+                    "Opcional",
+                    "Privada"
+                ],
+                correct: 1,
+                text_ref: "CF/88",
+                explanation: "A Constituição define a educação como direito de todos e dever do Estado e da família."
+            },
+            {
+                author: "ECA",
+                text: "O ECA estabelece que a criança tem:",
+                options: [
+                    "Direitos limitados",
+                    "Proteção parcial",
+                    "Proteção integral",
+                    "Apenas direito à escola"
+                ],
+                correct: 2,
+                text_ref: "ECA",
+                explanation: "O Estatuto garante proteção integral à criança."
+            },
+            {
+                author: "BNCC",
+                text: "A BNCC organiza a Educação Infantil por:",
+                options: [
+                    "Disciplinas",
+                    "Provas",
+                    "Campos de experiência",
+                    "Séries"
+                ],
+                correct: 2,
+                text_ref: "BNCC",
+                explanation: "Na Educação Infantil, o currículo é estruturado por campos de experiências."
+            },
+            {
+                author: "BNCC",
+                text: "Qual dos itens abaixo é um direito de aprendizagem?",
+                options: [
+                    "Punir",
+                    "Copiar",
+                    "Brincar",
+                    "Silenciar"
+                ],
+                correct: 2,
+                text_ref: "BNCC",
+                explanation: "Brincar é um dos direitos fundamentais de aprendizagem."
+            },
+            {
+                author: "DCNEI",
+                text: "Os eixos estruturantes da Educação Infantil são:",
+                options: [
+                    "Provas e conteúdos",
+                    "Disciplina e silêncio",
+                    "Interações e brincadeiras",
+                    "Memorização"
+                ],
+                correct: 2,
+                text_ref: "DCNEI",
+                explanation: "As Diretrizes definem interações e brincadeiras como base da aprendizagem."
+            },
+            {
+                author: "LDB",
+                text: "A Educação Infantil é:",
+                options: [
+                    "Ensino superior",
+                    "Segunda etapa",
+                    "Primeira etapa da Educação Básica",
+                    "Opcional"
+                ],
+                correct: 2,
+                text_ref: "LDB",
+                explanation: "A LDB define a Educação Infantil como a primeira etapa da educação básica."
+            },
+            {
+                author: "Teoria",
+                text: "Jean Piaget defendia que a criança:",
+                options: [
+                    "Decora conteúdos",
+                    "Constrói conhecimento",
+                    "Obedece regras",
+                    "É passiva"
+                ],
+                correct: 1,
+                text_ref: "Piaget",
+                explanation: "Piaget afirma que a criança constrói o conhecimento ativamente."
+            },
+            {
+                author: "Teoria",
+                text: "Lev Vygotsky destacou a importância:",
+                options: [
+                    "Do isolamento",
+                    "Da interação social",
+                    "Da repetição",
+                    "Da disciplina"
+                ],
+                correct: 1,
+                text_ref: "Vygotsky",
+                explanation: "Vygotsky enfatiza o papel das interações sociais no aprendizado."
+            },
+            {
+                author: "Prática Pedagógica",
+                text: "Uma prática pedagógica adequada deve:",
+                options: [
+                    "Silenciar a criança",
+                    "Valorizar a participação",
+                    "Punir erros",
+                    "Priorizar provas"
+                ],
+                correct: 1,
+                text_ref: "Atual",
+                explanation: "A participação ativa da criança é essencial no processo educativo."
+            },
+            {
+                author: "Aprendizagem",
+                text: "Aprendizagem significativa significa:",
+                options: [
+                    "Decorar",
+                    "Repetir",
+                    "Aprender com sentido",
+                    "Copiar"
+                ],
+                correct: 2,
+                text_ref: "Teoria",
+                explanation: "O aprendizado deve ter sentido para a criança."
+            },
+            {
+                author: "Organização",
+                text: "A creche atende crianças de:",
+                options: [
+                    "4 a 5 anos",
+                    "0 a 3 anos",
+                    "6 a 10 anos",
+                    "10 a 12 anos"
+                ],
+                correct: 1,
+                text_ref: "LDB",
+                explanation: "A creche atende crianças de 0 a 3 anos."
+            },
+            {
+                author: "Organização",
+                text: "A pré-escola atende crianças de:",
+                options: [
+                    "0 a 2 anos",
+                    "3 anos",
+                    "4 a 5 anos",
+                    "6 anos"
+                ],
+                correct: 2,
+                text_ref: "LDB",
+                explanation: "A pré-escola atende crianças de 4 a 5 anos."
+            },
+            {
+                author: "PNE",
+                text: "A meta 1 do PNE trata de:",
+                options: [
+                    "Ensino médio",
+                    "Universidades",
+                    "Creches e pré-escola",
+                    "Ensino técnico"
+                ],
+                correct: 2,
+                text_ref: "PNE",
+                explanation: "A meta 1 busca universalizar a pré-escola e ampliar creches."
+            },
+            {
+                author: "Criança",
+                text: "A criança como objeto é:",
+                options: [
+                    "Ativa",
+                    "Participativa",
+                    "Passiva",
+                    "Protagonista"
+                ],
+                correct: 2,
+                text_ref: "Teoria",
+                explanation: "Essa visão antiga tratava a criança como passiva."
+            },
+            {
+                author: "Criança",
+                text: "A criança como sujeito de direitos é:",
+                options: [
+                    "Silenciada",
+                    "Passiva",
+                    "Ativa e participativa",
+                    "Controlada"
+                ],
+                correct: 2,
+                text_ref: "Atual",
+                explanation: "Hoje ela é vista como ativa e protagonista."
+            },
+            {
+                author: "Currículo",
+                text: "O currículo na Educação Infantil deve:",
+                options: [
+                    "Ser rígido",
+                    "Ser baseado em provas",
+                    "Considerar experiências",
+                    "Ser padronizado"
+                ],
+                correct: 2,
+                text_ref: "BNCC",
+                explanation: "O currículo deve considerar experiências e vivências da criança."
+            },
+            {
+                author: "Professor",
+                text: "O papel do professor é:",
+                options: [
+                    "Controlar",
+                    "Punir",
+                    "Mediar a aprendizagem",
+                    "Silenciar"
+                ],
+                correct: 2,
+                text_ref: "Atual",
+                explanation: "O professor atua como mediador do conhecimento."
+            },
+            {
+                author: "Aprendizagem",
+                text: "A criança aprende melhor quando:",
+                options: [
+                    "Está em silêncio",
+                    "Decora",
+                    "Interage",
+                    "Obedece"
+                ],
+                correct: 2,
+                text_ref: "Teoria",
+                explanation: "A interação é fundamental para o aprendizado."
+            },
+            {
+                author: "Concepção de Infância",
+                text: "Segundo Philippe Ariès, a infância é:",
+                options: [
+                    "Sempre foi valorizada da mesma forma",
+                    "Uma construção histórica",
+                    "Não mudou com o tempo",
+                    "É apenas uma questão biológica"
+                ],
+                correct: 1,
+                text_ref: "História da Infância",
+                explanation: "A infância é uma construção histórica e social, não é universal."
+            },
+            {
+                author: "Desenvolvimento",
+                text: "Para Jean Piaget, a criança aprende:",
+                options: [
+                    "Decorando conteúdos",
+                    "Apenas repetindo",
+                    "Construindo conhecimento ativamente",
+                    "Ouvindo passivamente"
+                ],
+                correct: 2,
+                text_ref: "Piaget",
+                explanation: "Piaget defendia que a aprendizagem é ativa e construtiva."
+            },
+            {
+                author: "Desenvolvimento",
+                text: "Lev Vygotsky destacou a importância de:",
+                options: [
+                    "Isolamento da criança",
+                    "Interação social",
+                    "Memorização",
+                    "Disciplina rígida"
+                ],
+                correct: 1,
+                text_ref: "Vygotsky",
+                explanation: "Vygotsky enfatizava que a aprendizagem ocorre nas relações sociais."
+            },
+            {
+                author: "Legislação",
+                text: "A Constituição de 1988 garante:",
+                options: [
+                    "Educação apenas para ricos",
+                    "Educação como direito universal",
+                    "Educação como responsabilidade privada",
+                    "Educação apenas para maiores de idade"
+                ],
+                correct: 1,
+                text_ref: "CF/88",
+                explanation: "A Constituição garante educação como direito de todos."
+            },
+            {
+                author: "ECA",
+                text: "O Estatuto da Criança e Adolescente (ECA) estabelece:",
+                options: [
+                    "Proteção parcial",
+                    "Proteção integral da criança",
+                    "Apenas direitos educacionais",
+                    "Apenas direitos de saúde"
+                ],
+                correct: 1,
+                text_ref: "ECA",
+                explanation: "O ECA garante proteção integral à criança e ao adolescente."
+            },
+            {
+                author: "LDB",
+                text: "Segundo a LDB, a Educação Infantil é:",
+                options: [
+                    "Segunda etapa da educação",
+                    "Educação opcional",
+                    "Primeira etapa da Educação Básica",
+                    "Educação de ensino técnico"
+                ],
+                correct: 2,
+                text_ref: "LDB",
+                explanation: "A Educação Infantil é a primeira etapa da Educação Básica (art. 29)."
+            },
+            {
+                author: "BNCC",
+                text: "Qual é a finalidade principal da Educação Infantil?",
+                options: [
+                    "Alfabetizar precocemente",
+                    "Preparar para provas",
+                    "Promover desenvolvimento integral",
+                    "Ensinar apenas disciplina"
+                ],
+                correct: 2,
+                text_ref: "BNCC",
+                explanation: "O foco é no desenvolvimento integral da criança."
+            },
+            {
+                author: "BNCC",
+                text: "A BNCC divide o currículo em:",
+                options: [
+                    "5 disciplinas",
+                    "10 matérias",
+                    "5 campos de experiência",
+                    "4 eixos"
+                ],
+                correct: 2,
+                text_ref: "BNCC",
+                explanation: "A Educação Infantil é organizada em 5 campos de experiência."
+            },
+            {
+                author: "BNCC",
+                text: "Qual alternativa representa um direito de aprendizagem?",
+                options: [
+                    "Ficar em silêncio",
+                    "Obedecer sem questionar",
+                    "Brincar",
+                    "Decorar"
+                ],
+                correct: 2,
+                text_ref: "BNCC",
+                explanation: "Brincar é um dos direitos fundamentais de aprendizagem."
+            },
+            {
+                author: "Educação Infantil",
+                text: "Os eixos estruturantes da Educação Infantil são:",
+                options: [
+                    "Provas e notas",
+                    "Interações e brincadeiras",
+                    "Apenas disciplinas",
+                    "Exclusivamente conteúdos"
+                ],
+                correct: 1,
+                text_ref: "Eixos",
+                explanation: "Os eixos são: interações e brincadeiras."
+            },
+            {
+                author: "Infância",
+                text: "A criança como sujeito de direitos é caracterizada por:",
+                options: [
+                    "Ser passiva",
+                    "Ser silenciada",
+                    "Ser participativa e ativa",
+                    "Ser submissa"
+                ],
+                correct: 2,
+                text_ref: "Sujeito de Direitos",
+                explanation: "A criança é sujeito ativo de direitos e participante."
+            },
+            {
+                author: "Visão de Criança",
+                text: "A visão de criança como 'objeto' caracteriza-se por:",
+                options: [
+                    "Ser ativa",
+                    "Ser participativa",
+                    "Ser passiva",
+                    "Ser protagonista"
+                ],
+                correct: 2,
+                text_ref: "História",
+                explanation: "A visão antiga tratava a criança como passiva e receptora."
+            },
+            {
+                author: "Etapas",
+                text: "A creche atende crianças de qual faixa etária?",
+                options: [
+                    "4 a 5 anos",
+                    "0 a 3 anos",
+                    "6 anos",
+                    "7 anos"
+                ],
+                correct: 1,
+                text_ref: "LDB",
+                explanation: "Creche atende crianças de 0 a 3 anos."
+            },
+            {
+                author: "Etapas",
+                text: "A pré-escola atende crianças de qual faixa etária?",
+                options: [
+                    "0 a 2 anos",
+                    "4 a 5 anos",
+                    "6 a 7 anos",
+                    "8 anos"
+                ],
+                correct: 1,
+                text_ref: "LDB",
+                explanation: "Pré-escola atende crianças de 4 a 5 anos."
+            },
+            {
+                author: "Aprendizagem",
+                text: "Aprendizagem significativa é aquela que:",
+                options: [
+                    "Apenas decora",
+                    "Apenas repete",
+                    "Conecta-se com conhecimentos anteriores",
+                    "Copia sem compreender"
+                ],
+                correct: 2,
+                text_ref: "Ausubel",
+                explanation: "Aprendizagem significativa conecta novos conhecimentos com os anteriores."
+            },
+            {
+                author: "Papel do Professor",
+                text: "O professor na Educação Infantil deve ser:",
+                options: [
+                    "Autoritário",
+                    "Mediador",
+                    "Fiscal",
+                    "Controlador"
+                ],
+                correct: 1,
+                text_ref: "Prática Pedagógica",
+                explanation: "O professor atua como mediador da aprendizagem."
+            },
+            {
+                author: "Brincar",
+                text: "O brincar na Educação Infantil é considerado:",
+                options: [
+                    "Apenas recreio",
+                    "Perda de tempo",
+                    "Estratégia pedagógica",
+                    "Castigo"
+                ],
+                correct: 2,
+                text_ref: "BNCC",
+                explanation: "Brincar é fundamental estratégia pedagógica na Educação Infantil."
+            },
+            {
+                author: "Interação",
+                text: "A criança aprende melhor quando:",
+                options: [
+                    "Está sozinha",
+                    "Tem medo",
+                    "Interage com outras pessoas",
+                    "Apenas decora"
+                ],
+                correct: 2,
+                text_ref: "Vygotsky",
+                explanation: "A interação é essencial para a aprendizagem."
+            },
+            {
+                author: "BNCC",
+                text: "Em qual ano a BNCC foi aprovada?",
+                options: [
+                    "2000",
+                    "2010",
+                    "2017",
+                    "2020"
+                ],
+                correct: 2,
+                text_ref: "BNCC",
+                explanation: "A BNCC foi aprovada em 2017."
+            },
+            {
+                author: "Direitos",
+                text: "O direito de 'conviver' significa:",
+                options: [
+                    "Ficar sozinho",
+                    "Interagir com outras pessoas",
+                    "Ficar em silêncio",
+                    "Obedecer sem pensar"
+                ],
+                correct: 1,
+                text_ref: "BNCC",
+                explanation: "Conviver é interagir em diferentes contextos sociais."
+            },
+            {
+                author: "Direitos",
+                text: "O direito de 'expressar' significa:",
+                options: [
+                    "Ficar quieto",
+                    "Se comunicar e manifestar",
+                    "Copiar"
+                ],
+                correct: 1,
+                text_ref: "BNCC",
+                explanation: "Expressar é comunicar-se de diferentes formas."
+            },
+            {
+                author: "Currículo",
+                text: "O currículo na Educação Infantil deve:",
+                options: [
+                    "Ignorar o contexto",
+                    "Ser completamente rígido",
+                    "Considerar experiências e contexto",
+                    "Ser fixo e imutável"
+                ],
+                correct: 2,
+                text_ref: "BNCC",
+                explanation: "O currículo deve ser flexível e contextualizado."
+            },
+            {
+                author: "Prática",
+                text: "A Educação Infantil NÃO deve ser:",
+                options: [
+                    "Desenvolvimentista",
+                    "Interativa",
+                    "Mecânica ou bancária",
+                    "Lúdica"
+                ],
+                correct: 2,
+                text_ref: "Prática Pedagógica",
+                explanation: "Deve evitar práticas mecânicas e transmissivas."
+            },
+            {
+                author: "Desenvolvimento",
+                text: "O desenvolvimento integral inclui:",
+                options: [
+                    "Apenas aspectos mentais",
+                    "Apenas aspectos físicos",
+                    "Vários aspectos: físico, cognitivo, social, emocional",
+                    "Nenhum aspecto específico"
+                ],
+                correct: 2,
+                text_ref: "Desenvolvimento",
+                explanation: "O desenvolvimento é multidimensional."
+            },
+            {
+                author: "História",
+                text: "O ensino tradicional caracteriza-se como:",
+                options: [
+                    "Atual e moderno",
+                    "Participativo",
+                    "Mecânico e transmissivo",
+                    "Interativo"
+                ],
+                correct: 2,
+                text_ref: "História",
+                explanation: "Tradicional é baseado em transmissão de conhecimento."
+            },
+            {
+                author: "Planos",
+                text: "O PNE (Plano Nacional de Educação) meta 1 trata de:",
+                options: [
+                    "Ensino médio",
+                    "Educação superior",
+                    "Educação Infantil (creche e pré)",
+                    "Ensino técnico"
+                ],
+                correct: 2,
+                text_ref: "PNE",
+                explanation: "Meta 1 refere-se à universalização da Educação Infantil."
+            },
+            {
+                author: "Princípios",
+                text: "Um princípio ético da Educação Infantil é:",
+                options: [
+                    "Respeito",
+                    "Lucro",
+                    "Controle",
+                    "Castigo"
+                ],
+                correct: 0,
+                text_ref: "Princípios",
+                explanation: "Respeito é um dos princípios fundamentais."
+            },
+            {
+                author: "Princípios",
+                text: "Um princípio político da Educação Infantil é:",
+                options: [
+                    "Cidadania",
+                    "Dinheiro",
+                    "Controle rígido",
+                    "Disciplina pura"
+                ],
+                correct: 0,
+                text_ref: "Princípios",
+                explanation: "Cidadania é um princípio político fundamental."
+            },
+            {
+                author: "Princípios",
+                text: "Um princípio estético da Educação Infantil é:",
+                options: [
+                    "Criatividade",
+                    "Controle",
+                    "Rigidez",
+                    "Autoridade"
+                ],
+                correct: 0,
+                text_ref: "Princípios",
+                explanation: "Criatividade é um princípio estético essencial."
+            },
+            {
+                author: "Campos",
+                text: "O campo 'eu, o outro e o nós' refere-se a:",
+                options: [
+                    "Matemática",
+                    "Relações sociais e pessoais",
+                    "Educação física",
+                    "Histórico-geográfico unicamente"
+                ],
+                correct: 1,
+                text_ref: "Campos",
+                explanation: "Este campo trata de convivência e relações."
+            },
+            {
+                author: "Campos",
+                text: "O campo 'corpo e movimento' envolve:",
+                options: [
+                    "Apenas escrita",
+                    "Movimento corporal e expressão",
+                    "Apenas matemática",
+                    "Apenas história"
+                ],
+                correct: 1,
+                text_ref: "Campos",
+                explanation: "Refere-se ao desenvolvimento motor e corporal."
+            },
+            {
+                author: "Campos",
+                text: "O campo 'traços, sons, cores e formas' é:",
+                options: [
+                    "Matemática",
+                    "Educação artística",
+                    "Ciência",
+                    "Geografia"
+                ],
+                correct: 1,
+                text_ref: "Campos",
+                explanation: "Este campo é dedicado à expressão artística."
+            },
+            {
+                author: "Campos",
+                text: "O campo 'escuta, fala, linguagem' aborda:",
+                options: [
+                    "Linguagem e comunicação",
+                    "Educação física",
+                    "Matemática",
+                    "Físico-química"
+                ],
+                correct: 0,
+                text_ref: "Campos",
+                explanation: "Refere-se ao desenvolvimento da linguagem."
+            },
+            {
+                author: "Campos",
+                text: "O campo 'espaços, tempos, quantidades, relações e transformações' envolve:",
+                options: [
+                    "Apenas matemática",
+                    "Apenas ciência",
+                    "Matemática, ciência e mundo natural",
+                    "Apenas educação física"
+                ],
+                correct: 2,
+                text_ref: "Campos",
+                explanation: "Integra conhecimentos sobre mundo físico e social."
+            },
+            {
+                author: "Direito",
+                text: "Educação Infantil é direito:",
+                options: [
+                    "De poucos privilegiados",
+                    "De todos",
+                    "Opcional",
+                    "Apenas privado"
+                ],
+                correct: 1,
+                text_ref: "Direito",
+                explanation: "É direito universal e dever do Estado garantir."
+            },
+            {
+                author: "Criança",
+                text: "A criança deve ser vista como:",
+                options: [
+                    "Silenciada",
+                    "Ativa e participante",
+                    "Passiva",
+                    "Controlada absolutamente"
+                ],
+                correct: 1,
+                text_ref: "Concepção",
+                explanation: "A criança é sujeito ativo de seus processos."
+            },
+            {
+                author: "Prática",
+                text: "A prática pedagógica inclusiva deve:",
+                options: [
+                    "Punir diferenças",
+                    "Controlar silêncio",
+                    "Incluir participação de todos",
+                    "Silenciar minorias"
+                ],
+                correct: 2,
+                text_ref: "Inclusão",
+                explanation: "Prática inclusiva respeita e valoriza todos."
+            },
+            {
+                author: "Aprendizagem",
+                text: "Interação social gera:",
+                options: [
+                    "Isolamento",
+                    "Aprendizagem",
+                    "Silêncio",
+                    "Controle"
+                ],
+                correct: 1,
+                text_ref: "Vygotsky",
+                explanation: "Interação é essencial para a aprendizagem."
+            },
+            {
+                author: "Desenvolvimento",
+                text: "Brincar desenvolve principalmente:",
+                options: [
+                    "Nada de importante",
+                    "Habilidades diversas",
+                    "Apenas preguiça",
+                    "Desinteresse"
+                ],
+                correct: 1,
+                text_ref: "Brincar",
+                explanation: "Brincar desenvolve múltiplas habilidades."
+            },
+            {
+                author: "LDB",
+                text: "A Educação Infantil tem como eixos:",
+                options: [
+                    "Conteúdos e provas",
+                    "Disciplina e castigos",
+                    "Interações e brincadeiras",
+                    "Apenas transmissão"
+                ],
+                correct: 2,
+                text_ref: "LDB",
+                explanation: "Os eixos estruturantes são interações e brincadeiras."
+            },
+            {
+                author: "Currículo",
+                text: "Um currículo para Educação Infantil deve ser:",
+                options: [
+                    "Rígido e fechado",
+                    "Sem flexibilidade",
+                    "Flexível, integrado e significativo",
+                    "Apenas transmissivo"
+                ],
+                correct: 2,
+                text_ref: "Currículo",
+                explanation: "Deve ser flexível e integrar experiências."
+            }
+            ];
+
+    // LÓGICA DO QUIZ
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let isAnswered = false;
+
+    // Elementos DOM
+    const startScreen = document.getElementById('start-screen');
+    const quizScreen = document.getElementById('quiz-screen');
+    const endScreen = document.getElementById('end-screen');
+    
+    const questionCounter = document.getElementById('question-counter');
+    const scoreEl = document.getElementById('score');
+    const authorNameEl = document.getElementById('author-name');
+    const questionTextEl = document.getElementById('question-text');
+    const optionsContainer = document.getElementById('options-container');
+    const explanationBox = document.getElementById('explanation');
+    const explanationText = document.getElementById('explanation-text');
+    const nextBtn = document.getElementById('next-btn');
+    const finalScoreEl = document.getElementById('final-score');
+    const finalMessageEl = document.getElementById('final-message');
+
+    function startQuiz() {
+        // Reset dos contadores motivacionais
+        consecutiveCorrect = 0;
+        consecutiveWrong = 0;
+        
+        startScreen.style.display = 'none';
+        quizScreen.style.display = 'block';
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        isAnswered = false;
+        const q = questions[currentQuestionIndex];
+        
+        // Resetar UI
+        explanationBox.style.display = 'none';
+        nextBtn.classList.add('disabled');
+        optionsContainer.innerHTML = '';
+        
+        // Preencher dados
+        questionCounter.innerText = `Questão ${currentQuestionIndex + 1}/${questions.length}`;
+        authorNameEl.innerText = q.author; // Usando Tópico como Autor
+        questionTextEl.innerText = q.text;
+
+        // Gerar Botões
+        q.options.forEach((opt, index) => {
+            const btn = document.createElement('button');
+            btn.className = 'btn btn-outline-dark option-btn';
+            btn.innerText = opt;
+            btn.onclick = () => checkAnswer(index, btn);
+            optionsContainer.appendChild(btn);
+        });
+    }
+
+    function checkAnswer(selectedIndex, btnElement) {
+        if (isAnswered) return;
+        isAnswered = true;
+
+        const q = questions[currentQuestionIndex];
+        const buttons = optionsContainer.querySelectorAll('button');
+        const isCorrect = selectedIndex === q.correct;
+
+        if (isCorrect) {
+            btnElement.classList.remove('btn-outline-dark');
+            btnElement.classList.add('btn-success');
+            score++;
+            scoreEl.innerText = score;
+        } else {
+            btnElement.classList.remove('btn-outline-dark');
+            btnElement.classList.add('btn-danger');
+            // Mostrar a correta
+            buttons[q.correct].classList.remove('btn-outline-dark');
+            buttons[q.correct].classList.add('btn-success');
+        }
+
+        // Verificar e mostrar notificação motivacional
+        checkMotivationalNotification(isCorrect);
+
+        // Mostrar explicação
+        explanationText.innerText = q.explanation;
+        explanationBox.style.display = 'block';
+        
+        // Habilitar botão Próximo
+        nextBtn.classList.remove('disabled');
+    }
+
+    function nextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            isAnswered = false;
+            loadQuestion();
+        } else {
+            showResults();
+        }
+    }
+
+    function showResults() {
+        quizScreen.style.display = 'none';
+        endScreen.style.display = 'block';
+        finalScoreEl.innerText = score;
+
+        const percentage = (score / questions.length) * 100;
+        let message = "";
+        
+        if (percentage >= 90) message = "Excelente! Você domina os novos Referenciais de Qualidade EaD!";
+        else if (percentage >= 70) message = "Muito bom! Você tem um bom conhecimento sobre as diretrizes.";
+        else if (percentage >= 50) message = "Bom. Mas vale a pena reler o documento para fixar os detalhes técnicos.";
+        else message = "Atenção! É recomendável estudar o documento do MEC com mais profundidade.";
+        
+        finalMessageEl.innerText = message;
+    }
 </script>
 
 </body>
