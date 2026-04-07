@@ -505,8 +505,8 @@
         </div>
 
         <div class="card-header bg-success text-white text-center">
-            <h3>Quiz: Educação Infantil</h3>
-            <p class="mb-0">Concepção de Infância, BNCC, LDB, ECA e Políticas Educacionais • 20 Questões</p>
+            <h3>Quiz: Educação Infantil - Base Normativa</h3>
+            <p class="mb-0">BNCC, DCNEI, Constituição Federal e Currículo de Pernambuco • 30 Questões</p>
         </div>
 
         <div class="card-body">
@@ -514,16 +514,16 @@
             <!-- TELA INICIAL -->
             <div id="start-screen" class="text-center">
                 <p>
-                    Este quiz contém 50 perguntas sobre Educação Infantil, abordando os principais temas cobrados em provas e concursos:
+                    Este quiz contém 30 perguntas sobre a base normativa da Educação Infantil, abordando os principais temas:
                 </p>
 
                 <ul class="list-inline">
-                    <li class="list-inline-item badge bg-secondary">Concepção de Infância</li>
                     <li class="list-inline-item badge bg-secondary">BNCC</li>
-                    <li class="list-inline-item badge bg-secondary">LDB</li>
-                    <li class="list-inline-item badge bg-secondary">ECA</li>
+                    <li class="list-inline-item badge bg-secondary">Direitos de Aprendizagem</li>
+                    <li class="list-inline-item badge bg-secondary">Campos de Experiência</li>
                     <li class="list-inline-item badge bg-secondary">DCNEI</li>
-                    <li class="list-inline-item badge bg-secondary">Políticas Educacionais</li>
+                    <li class="list-inline-item badge bg-secondary">Constituição Federal</li>
+                    <li class="list-inline-item badge bg-secondary">Currículo de Pernambuco</li>
                 </ul>
 
                 <button class="btn btn-lg btn-success mt-3" onclick="startQuiz()">
@@ -572,7 +572,7 @@
                 <p class="lead">Sua pontuação final:</p>
 
                 <h1 class="display-4">
-                    <span id="final-score">0</span> / 20       
+                    <span id="final-score">0</span> / 30       
                 </h1>
 
                 <div id="final-message" class="mt-3"></div>
@@ -661,270 +661,358 @@
         }
     }
 
-    // BANCO DE DADOS COM 30 QUESTÕES SOBRE REFERENCIAIS DE QUALIDADE EAD (MEC 2025)
-    // --- +30 QUESTÕES ADICIONAIS (Referenciais de Qualidade EaD - MEC 2025) ---
-       const questions = [
+    // BANCO DE DADOS COM 30 QUESTÕES - BNCC, DCNEI, CF/88 E CURRÍCULO DE PERNAMBUCO
+        const questions = [
             {
-                author: "Concepção de Infância",
-                text: "A concepção contemporânea de infância rompe com visões tradicionais. Considerando essa mudança, qual alternativa melhor expressa o papel da criança no processo educativo?",
+                author: "Direitos BNCC",
+                text: "Qual é o primeiro direito de aprendizagem definido pela BNCC na Educação Infantil?",
                 options: [
-                    "A criança deve apenas obedecer e reproduzir conhecimentos",
-                    "A criança é um sujeito ativo que constrói conhecimento nas interações",
-                    "A criança aprende somente por repetição",
-                    "A criança depende exclusivamente do professor para aprender"
+                    "Participar",
+                    "Conviver",
+                    "Explorar",
+                    "Expressar"
                 ],
                 correct: 1,
-                text_ref: "Teoria",
-                explanation: "Na concepção atual, a criança é protagonista do seu aprendizado, construindo conhecimento por meio de interações sociais e experiências."
+                explanation: "Conviver é o primeiro direito e envolve aprender com outras crianças e adultos, respeitando diferenças."
             },
             {
-                author: "Educação Infantil",
-                text: "A Educação Infantil tem uma função essencial no desenvolvimento humano. Qual alternativa representa corretamente essa finalidade?",
+                author: "Direitos BNCC",
+                text: "O direito de BRINCAR na Educação Infantil contempla:",
                 options: [
-                    "Preparar exclusivamente para o Ensino Fundamental",
-                    "Promover o desenvolvimento integral da criança",
-                    "Focar apenas na alfabetização precoce",
-                    "Treinar para avaliações externas"
+                    "Apenas brincadeiras dirigidas",
+                    "Diferentes formas: livre, dirigido e simbólico",
+                    "Somente jogar em equipe",
+                    "Atividades competitivas"
                 ],
                 correct: 1,
-                text_ref: "LDB",
-                explanation: "A LDB define que a Educação Infantil visa o desenvolvimento integral nos aspectos físico, psicológico, intelectual e social."
+                explanation: "A BNCC reconhece múltiplas formas de brincar: livre, dirigido, simbólico e outros."
+            },
+            {
+                author: "Direitos BNCC",
+                text: "O direito de EXPLORAR envolve:",
+                options: [
+                    "Memorizar informações",
+                    "Investigar, experimentar e descobrir o mundo",
+                    "Executar apenas tarefas prontas",
+                    "Obedecer sem questionar"
+                ],
+                correct: 1,
+                explanation: "Explorar significa que a criança investiga e experimenta para descobrir o mundo."
+            },
+            {
+                author: "Direitos BNCC",
+                text: "O direito de EXPRESSAR-SE contempla qual(is) linguagem(ns)?",
+                options: [
+                    "Apenas linguagem oral",
+                    "Oral, corporal, artística e outras",
+                    "Somente escrita",
+                    "Apenas desenho"
+                ],
+                correct: 1,
+                explanation: "A expressão da criança envolve múltiplas linguagens: oral, corporal, artística, gestual, etc."
+            },
+            {
+                author: "Direitos BNCC",
+                text: "O direito de PARTICIPAR significa que a criança:",
+                options: [
+                    "Deve ficar quieta e ouvir",
+                    "Participa das decisões e atividades",
+                    "Assiste à aula passivamente",
+                    "Obedece sem opinar"
+                ],
+                correct: 1,
+                explanation: "Participar significa ter voz ativa nas decisões e atividades da instituição infantil."
+            },
+            {
+                author: "Direitos BNCC",
+                text: "O direito de CONHECER-SE está ligado a qual construção?",
+                options: [
+                    "Conhecimento de disciplinas",
+                    "Identidade, autonomia e autoestima",
+                    "Conceitos científicos",
+                    "Normas sociais"
+                ],
+                correct: 1,
+                explanation: "Conhecer-se significa construir identidade própria, autonomia e autoestima."
+            },
+            {
+                author: "Campos BNCC",
+                text: "O campo 'O eu, o outro e o nós' trabalha principalmente:",
+                options: [
+                    "Cálculo matemático",
+                    "Relações sociais e convivência",
+                    "Movimentos corporais",
+                    "Criatividade artística"
+                ],
+                correct: 1,
+                explanation: "Este campo enfoca relações sociais, identidade coletiva e convivência respeitosa."
+            },
+            {
+                author: "Campos BNCC",
+                text: "Qual campo de experiência trabalha expressão corporal e coordenação motora?",
+                options: [
+                    "Escuta, fala, pensamento e imaginação",
+                    "Corpo, gestos e movimentos",
+                    "Traços, sons, cores e formas",
+                    "Espaços, tempos, quantidades, relações e transformações"
+                ],
+                correct: 1,
+                explanation: "'Corpo, gestos e movimentos' desenvolve coordenação motora e expressão corporal."
+            },
+            {
+                author: "Campos BNCC",
+                text: "O campo 'Traços, sons, cores e formas' envolve principalmente:",
+                options: [
+                    "Conceitos de número",
+                    "Artes visuais, música e criatividade",
+                    "Comportamento e disciplina",
+                    "Leitura e escrita"
+                ],
+                correct: 1,
+                explanation: "Este campo trabalha expressão artística através de artes visuais, música e criatividade."
+            },
+            {
+                author: "Campos BNCC",
+                text: "Qual campo envolve linguagem oral, narrativa e comunicação?",
+                options: [
+                    "Corpo, gestos e movimentos",
+                    "Traços, sons, cores e formas",
+                    "Escuta, fala, pensamento e imaginação",
+                    "Espaços, tempos, quantidades, relações e transformações"
+                ],
+                correct: 2,
+                explanation: "'Escuta, fala, pensamento e imaginação' desenvolve linguagem e comunicação."
+            },
+            {
+                author: "Campos BNCC",
+                text: "O campo 'Espaços, tempos, quantidades, relações e transformações' integra:",
+                options: [
+                    "Apenas arte",
+                    "Apenas história",
+                    "Matemática, natureza e mundo físico",
+                    "Somente disciplinas de humanidades"
+                ],
+                correct: 2,
+                explanation: "Este campo integra números, espaço, tempo e fenômenos naturais."
             },
             {
                 author: "BNCC",
-                text: "A BNCC propõe mudanças importantes na organização curricular da Educação Infantil. Como esse currículo deve ser estruturado?",
+                text: "A Base Nacional Comum Curricular é um documento:",
                 options: [
-                    "Por disciplinas tradicionais",
-                    "Por séries rígidas",
-                    "Por campos de experiência",
-                    "Por avaliações padronizadas"
-                ],
-                correct: 2,
-                text_ref: "BNCC",
-                explanation: "A BNCC organiza a Educação Infantil em campos de experiências que integram saberes e vivências."
-            },
-            {
-                author: "Avaliação",
-                text: "A avaliação na Educação Infantil deve respeitar o desenvolvimento da criança. Qual alternativa está de acordo com essa perspectiva?",
-                options: [
-                    "Utilizar provas e notas para classificar",
-                    "Comparar alunos entre si",
-                    "Acompanhar o desenvolvimento de forma contínua e qualitativa",
-                    "Aplicar testes padronizados"
-                ],
-                correct: 2,
-                text_ref: "LDB",
-                explanation: "A avaliação deve ser diagnóstica, contínua e sem caráter classificatório."
-            },
-            {
-                author: "Vygotsky",
-                text: "Lev Vygotsky contribuiu significativamente para a educação ao destacar o papel das interações sociais. O que isso significa na prática pedagógica?",
-                options: [
-                    "A criança aprende melhor sozinha",
-                    "A interação com outros favorece o aprendizado",
-                    "O ensino deve ser individualizado apenas",
-                    "A repetição é o principal método"
+                    "Opcional e sugestivo",
+                    "Normativo nacional que define aprendizagens essenciais",
+                    "Privado e sem obrigatoriedade",
+                    "Apenas para escolas particulares"
                 ],
                 correct: 1,
-                text_ref: "Vygotsky",
-                explanation: "Para Vygotsky, o aprendizado ocorre nas relações sociais e na mediação."
+                explanation: "A BNCC é um documento normativo que define o que todo estudante deve aprender."
             },
             {
-                author: "Piaget",
-                text: "Jean Piaget defendia uma visão construtivista da aprendizagem. Qual alternativa representa essa teoria?",
+                author: "BNCC",
+                text: "Na Educação Infantil, a BNCC NÃO utiliza:",
                 options: [
-                    "O conhecimento é transmitido pronto",
-                    "A criança constrói seu conhecimento ativamente",
-                    "Aprender é repetir conteúdos",
-                    "O professor é o único responsável pelo aprendizado"
+                    "Direitos de aprendizagem",
+                    "Campos de experiência",
+                    "Disciplinas tradicionais",
+                    "Lógica integrada"
+                ],
+                correct: 2,
+                explanation: "A BNCC substitui disciplinas por direitos e campos de experiência integrados."
+            },
+            {
+                author: "BNCC",
+                text: "O foco principal da BNCC é a aprendizagem através de:",
+                options: [
+                    "Exercícios prontos",
+                    "Experiências integradas",
+                    "Provas escritas",
+                    "Memorização"
                 ],
                 correct: 1,
-                text_ref: "Piaget",
-                explanation: "Piaget afirma que a criança aprende construindo conhecimento a partir da interação com o meio."
+                explanation: "A BNCC enfatiza aprendizagem através de experiências e vivências."
             },
             {
-                author: "Brincar",
-                text: "O brincar ocupa um papel central na Educação Infantil. Qual é sua principal função pedagógica?",
+                author: "BNCC",
+                text: "A BNCC considera a criança como:",
                 options: [
-                    "Servir apenas como descanso",
-                    "Entreter sem ensinar",
-                    "Promover aprendizagem e desenvolvimento",
-                    "Controlar o comportamento"
-                ],
-                correct: 2,
-                text_ref: "BNCC",
-                explanation: "O brincar é uma estratégia essencial para o desenvolvimento cognitivo, social e emocional."
-            },
-            {
-                author: "Inclusão",
-                text: "A educação inclusiva é um princípio fundamental. Qual alternativa melhor define esse conceito?",
-                options: [
-                    "Separar alunos com dificuldades",
-                    "Garantir acesso e participação de todos",
-                    "Padronizar o ensino",
-                    "Priorizar alunos com melhor desempenho"
+                    "Objeto passivo de educação",
+                    "Protagonista de sua aprendizagem",
+                    "Mero receptor de informação",
+                    "Responsabilidade exclusiva do Estado"
                 ],
                 correct: 1,
-                text_ref: "Inclusão",
-                explanation: "A inclusão garante igualdade de oportunidades respeitando as diferenças."
+                explanation: "A BNCC coloca a criança como protagonista ativa no seu processo de aprendizagem."
             },
             {
-                author: "Professor",
-                text: "Na Educação Infantil, o papel do professor vai além da transmissão de conteúdo. Qual alternativa melhor define esse papel?",
+                author: "DCNEI",
+                text: "As Diretrizes Curriculares Nacionais para Educação Infantil (DCNEI) definem que a criança é:",
                 options: [
-                    "Controlador da turma",
-                    "Aplicador de provas",
-                    "Mediador das aprendizagens",
-                    "Fiscal disciplinar"
-                ],
-                correct: 2,
-                text_ref: "Prática",
-                explanation: "O professor atua como mediador, facilitando o aprendizado da criança."
-            },
-            {
-                author: "Currículo",
-                text: "O currículo da Educação Infantil deve considerar diversos fatores. Qual alternativa está correta?",
-                options: [
-                    "Deve ser rígido e padronizado",
-                    "Ignorar o contexto social",
-                    "Ser flexível e contextualizado",
-                    "Basear-se apenas em conteúdos"
-                ],
-                correct: 2,
-                text_ref: "BNCC",
-                explanation: "O currículo deve respeitar a realidade e experiências das crianças."
-            },
-            {
-                author: "Direitos de Aprendizagem",
-                text: "Os direitos de aprendizagem da BNCC orientam a prática pedagógica. Qual alternativa apresenta um desses direitos?",
-                options: [
-                    "Punir",
-                    "Brincar",
-                    "Silenciar",
-                    "Copiar"
+                    "Um ser incompleto que precisa ser moldado",
+                    "Um sujeito de direitos",
+                    "Tábula rasa",
+                    "Responsabilidade apenas dos pais"
                 ],
                 correct: 1,
-                text_ref: "BNCC",
-                explanation: "Brincar é um dos direitos fundamentais da criança."
+                explanation: "As DCNEI reconhecem a criança como sujeito de direitos com capacidades próprias."
             },
             {
-                author: "Desenvolvimento",
-                text: "O desenvolvimento infantil ocorre de forma integrada. O que isso significa?",
+                author: "DCNEI",
+                text: "Segundo as DCNEI, cuidar e educar são:",
                 options: [
-                    "Apenas o cognitivo importa",
-                    "Apenas o físico importa",
-                    "Todos os aspectos se desenvolvem juntos",
-                    "Apenas o emocional importa"
-                ],
-                correct: 2,
-                text_ref: "Teoria",
-                explanation: "O desenvolvimento envolve aspectos físicos, sociais, emocionais e cognitivos."
-            },
-            {
-                author: "Família",
-                text: "A relação entre escola e família é essencial. Qual alternativa expressa corretamente essa relação?",
-                options: [
-                    "A escola substitui a família",
-                    "A família não interfere",
-                    "Ambas são responsáveis pela educação",
-                    "Apenas a escola educa"
-                ],
-                correct: 2,
-                text_ref: "CF/88",
-                explanation: "A educação é dever do Estado e da família."
-            },
-            {
-                author: "Rotina",
-                text: "A organização da rotina na Educação Infantil deve contribuir para o desenvolvimento. Como ela deve ser estruturada?",
-                options: [
-                    "Rígida e inflexível",
-                    "Sem planejamento",
-                    "Equilibrada e flexível",
-                    "Baseada em punições"
-                ],
-                correct: 2,
-                text_ref: "Prática",
-                explanation: "A rotina deve equilibrar cuidado, brincadeira e aprendizagem."
-            },
-            {
-                author: "Planejamento",
-                text: "O planejamento pedagógico deve considerar as características das crianças. Qual alternativa está correta?",
-                options: [
-                    "Ignorar interesses",
-                    "Ser padronizado",
-                    "Considerar interesses e contexto",
-                    "Ser improvisado"
-                ],
-                correct: 2,
-                text_ref: "Didática",
-                explanation: "O planejamento deve partir da realidade das crianças."
-            },
-            {
-                author: "ECA",
-                text: "O Estatuto da Criança e do Adolescente garante direitos fundamentais. Qual é o principal princípio do ECA?",
-                options: [
-                    "Proteção parcial",
-                    "Proteção integral",
-                    "Proteção opcional",
-                    "Proteção limitada"
+                    "Ações separadas e independentes",
+                    "Indissociáveis - devem ocorrer juntas",
+                    "Responsabilidades apenas da educação",
+                    "Tarefas exclusivas da família"
                 ],
                 correct: 1,
-                text_ref: "ECA",
-                explanation: "O ECA assegura proteção integral à criança."
+                explanation: "Para as DCNEI, cuidar e educar são inseparáveis na Educação Infantil."
             },
             {
-                author: "LDB",
-                text: "Segundo a LDB, qual é a posição da Educação Infantil na Educação Básica?",
+                author: "DCNEI",
+                text: "Qual é o principal eixo estruturante da Educação Infantil conforme DCNEI?",
                 options: [
-                    "Última etapa",
-                    "Etapa intermediária",
-                    "Primeira etapa",
-                    "Opcional"
-                ],
-                correct: 2,
-                text_ref: "LDB",
-                explanation: "A Educação Infantil é a primeira etapa da Educação Básica."
-            },
-            {
-                author: "Aprendizagem",
-                text: "A aprendizagem significativa é um conceito importante. O que ela representa?",
-                options: [
-                    "Memorização",
-                    "Repetição",
-                    "Aprender com sentido",
-                    "Cópia"
-                ],
-                correct: 2,
-                text_ref: "Ausubel",
-                explanation: "Aprender com significado facilita a compreensão e retenção."
-            },
-            {
-                author: "Ambiente",
-                text: "O ambiente na Educação Infantil influencia diretamente o aprendizado. Como ele deve ser?",
-                options: [
-                    "Limitador",
-                    "Acolhedor e estimulante",
-                    "Rígido",
-                    "Silencioso sempre"
+                    "Conteúdos disciplinares",
+                    "Interações e brincadeiras",
+                    "Avaliações e resultados",
+                    "Controle e obediência"
                 ],
                 correct: 1,
-                text_ref: "Prática",
-                explanation: "O ambiente deve favorecer experiências e interações."
+                explanation: "As DCNEI apontam interações e brincadeiras como eixos estruturantes."
             },
             {
-                author: "Prática Pedagógica",
-                text: "Uma prática pedagógica alinhada às concepções atuais deve evitar:",
+                author: "DCNEI",
+                text: "As DCNEI destacam que as interações ocorrem:",
                 options: [
-                    "Interação",
-                    "Participação",
-                    "Práticas mecânicas e repetitivas",
-                    "Brincadeiras"
+                    "Apenas em momentos de aula",
+                    "Somente entre crianças",
+                    "Entre crianças e entre crianças e adultos",
+                    "Exclusivamente em atividades dirigidas"
                 ],
                 correct: 2,
-                text_ref: "Atual",
-                explanation: "A educação atual rejeita práticas mecânicas e valoriza o protagonismo da criança."
+                explanation: "As interações ocorrem tanto entre pares quanto com educadores no cotidiano."
+            },
+            {
+                author: "CF/88",
+                text: "O artigo 205 da Constituição Federal de 1988 afirma que educação é:",
+                options: [
+                    "Responsabilidade apenas do Estado",
+                    "Responsabilidade apenas da família",
+                    "Um direito de todos e dever do Estado e da família",
+                    "Um privilégio de poucos"
+                ],
+                correct: 2,
+                explanation: "A CF/88 estabelece educação como direito universal com responsabilidade compartilhada."
+            },
+            {
+                author: "CF/88",
+                text: "Segundo a Constituição Federal de 1988, a Educação Infantil é:",
+                options: [
+                    "Luxo ou privilégio",
+                    "Responsabilidade apenas privada",
+                    "Direito da criança e dever do Estado",
+                    "Iniciativa opcional"
+                ],
+                correct: 2,
+                explanation: "A CF/88 garante Educação Infantil como direito universal e dever estatal."
+            },
+            {
+                author: "CF/88",
+                text: "A Educação Infantil, conforme a CF/88, faz parte de qual nível?",
+                options: [
+                    "Educação Complementar",
+                    "Educação Superior",
+                    "Educação Básica",
+                    "Educação Profissional"
+                ],
+                correct: 2,
+                explanation: "A Constituição Federal define Educação Infantil como primeira etapa da Educação Básica."
+            },
+            {
+                author: "Currículo PE",
+                text: "O Currículo de Pernambuco para Educação Infantil segue como referência:",
+                options: [
+                    "Apenas documentos locais",
+                    "A Base Nacional Comum Curricular (BNCC)",
+                    "Somente experiências internacionais",
+                    "Sem qualquer parâmetro nacional"
+                ],
+                correct: 1,
+                explanation: "O currículo de PE é baseado na BNCC, adaptado à realidade regional."
+            },
+            {
+                author: "Currículo PE",
+                text: "Uma característica do Currículo de Pernambuco é:",
+                options: [
+                    "Ignorar a cultura regional",
+                    "Valorizar a realidade local e contexto social",
+                    "Desconhecer as políticas nacionais",
+                    "Não considerar diversidade"
+                ],
+                correct: 1,
+                explanation: "O currículo pernambucano valoriza contextualização com a realidade regional nordestina."
+            },
+            {
+                author: "Currículo PE",
+                text: "O Currículo de Pernambuco mantém qual estrutura da BNCC?",
+                options: [
+                    "Apenas alguns direitos",
+                    "Somente campos de experiência",
+                    "Direitos de aprendizagem e campos de experiência",
+                    "Nenhuma estrutura da BNCC"
+                ],
+                correct: 2,
+                explanation: "PE mantém os direitos e campos de experiência da BNCC, adaptando-os localmente."
+            },
+            {
+                author: "Currículo PE",
+                text: "A adaptação do currículo em Pernambuco considera principalmente:",
+                options: [
+                    "Padrões internacionais únicos",
+                    "Cultura regional, sertão, contexto social",
+                    "Ignorar particularidades",
+                    "Modelos de outras regiões"
+                ],
+                correct: 1,
+                explanation: "PE valoriza aspectos culturais nordestinos, realidade do sertão e contexto social."
+            },
+            {
+                author: "Integração",
+                text: "Como se relacionam BNCC, DCNEI e Constituição Federal?",
+                options: [
+                    "São documentos separados sem conexão",
+                    "BNCC substitui DCNEI e CF/88",
+                    "Formam uma hierarquia integrada de normatização educacional",
+                    "Apenas a BNCC é relevante"
+                ],
+                correct: 2,
+                explanation: "Formam um continuum: CF/88 (direito fundamental) → DCNEI (diretrizes) → BNCC (currículo)."
+            },
+            {
+                author: "Síntese",
+                text: "Para resumir: a BNCC define O QÊ ensinar, as DCNEI definem COMO, e os direitos descrevem:",
+                options: [
+                    "Avaliações",
+                    "Como a criança aprende",
+                    "Disciplinas",
+                    "Horários"
+                ],
+                correct: 1,
+                explanation: "Direitos descrevem como e em quais condições a criança aprende melhor."
+            },
+            {
+                author: "Aplicação",
+                text: "Na prática, um professor deve usar simultaneamente:",
+                options: [
+                    "Apenas BNCC",
+                    "Apenas DCNEI",
+                    "BNCC + DCNEI + Currículo local",
+                    "Nenhum documento normativo"
+                ],
+                correct: 2,
+                explanation: "Na prática educacional, os três documentos trabalham juntos: nacional (BNCC) e local (currículo)."
             }
-        ];
+            ];
+
 
     // LÓGICA DO QUIZ
     let currentQuestionIndex = 0;
@@ -1050,10 +1138,10 @@
         const percentage = (score / questions.length) * 100;
         let message = "";
         
-        if (percentage >= 90) message = "Excelente! Você domina os novos Referenciais de Qualidade EaD!";
-        else if (percentage >= 70) message = "Muito bom! Você tem um bom conhecimento sobre as diretrizes.";
-        else if (percentage >= 50) message = "Bom. Mas vale a pena reler o documento para fixar os detalhes técnicos.";
-        else message = "Atenção! É recomendável estudar o documento do MEC com mais profundidade.";
+        if (percentage >= 90) message = "Excelente! Você domina completamente a base normativa da Educação Infantil!";
+        else if (percentage >= 70) message = "Muito bom! Você tem um sólido conhecimento sobre BNCC, DCNEI e CF/88.";
+        else if (percentage >= 50) message = "Bom, mas estude mais a integração entre BNCC, DCNEI e Constituição Federal.";
+        else message = "Atenção! Dedique mais tempo aos documentos normativos da Educação Infantil.";
         
         finalMessageEl.innerText = message;
     }
