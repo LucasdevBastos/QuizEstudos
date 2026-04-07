@@ -506,7 +506,7 @@
 
         <div class="card-header bg-success text-white text-center">
             <h3>Quiz: Educação Infantil</h3>
-            <p class="mb-0">Concepção de Infância, BNCC, LDB, ECA e Políticas Educacionais • 90 Questões</p>
+            <p class="mb-0">Concepção de Infância, BNCC, LDB, ECA e Políticas Educacionais • 20 Questões</p>
         </div>
 
         <div class="card-body">
@@ -572,7 +572,7 @@
                 <p class="lead">Sua pontuação final:</p>
 
                 <h1 class="display-4">
-                    <span id="final-score">0</span> / 50
+                    <span id="final-score">0</span> / 20       
                 </h1>
 
                 <div id="final-message" class="mt-3"></div>
@@ -663,800 +663,268 @@
 
     // BANCO DE DADOS COM 30 QUESTÕES SOBRE REFERENCIAIS DE QUALIDADE EAD (MEC 2025)
     // --- +30 QUESTÕES ADICIONAIS (Referenciais de Qualidade EaD - MEC 2025) ---
-        const questions = [
+       const questions = [
             {
                 author: "Concepção de Infância",
-                text: "Na concepção contemporânea, a criança é entendida como:",
+                text: "A concepção contemporânea de infância rompe com visões tradicionais. Considerando essa mudança, qual alternativa melhor expressa o papel da criança no processo educativo?",
                 options: [
-                    "Um ser passivo que apenas obedece",
-                    "Um sujeito ativo que constrói conhecimento",
-                    "Um indivíduo incompleto",
-                    "Um receptor de ordens"
+                    "A criança deve apenas obedecer e reproduzir conhecimentos",
+                    "A criança é um sujeito ativo que constrói conhecimento nas interações",
+                    "A criança aprende somente por repetição",
+                    "A criança depende exclusivamente do professor para aprender"
                 ],
                 correct: 1,
-                text_ref: "Teoria geral",
-                explanation: "A criança é vista como sujeito ativo, que aprende através das interações e experiências."
+                text_ref: "Teoria",
+                explanation: "Na concepção atual, a criança é protagonista do seu aprendizado, construindo conhecimento por meio de interações sociais e experiências."
             },
             {
                 author: "Educação Infantil",
-                text: "O principal objetivo da Educação Infantil é:",
+                text: "A Educação Infantil tem uma função essencial no desenvolvimento humano. Qual alternativa representa corretamente essa finalidade?",
                 options: [
-                    "Preparar para provas",
-                    "Alfabetizar rapidamente",
-                    "Promover o desenvolvimento integral",
-                    "Ensinar disciplina rígida"
+                    "Preparar exclusivamente para o Ensino Fundamental",
+                    "Promover o desenvolvimento integral da criança",
+                    "Focar apenas na alfabetização precoce",
+                    "Treinar para avaliações externas"
+                ],
+                correct: 1,
+                text_ref: "LDB",
+                explanation: "A LDB define que a Educação Infantil visa o desenvolvimento integral nos aspectos físico, psicológico, intelectual e social."
+            },
+            {
+                author: "BNCC",
+                text: "A BNCC propõe mudanças importantes na organização curricular da Educação Infantil. Como esse currículo deve ser estruturado?",
+                options: [
+                    "Por disciplinas tradicionais",
+                    "Por séries rígidas",
+                    "Por campos de experiência",
+                    "Por avaliações padronizadas"
+                ],
+                correct: 2,
+                text_ref: "BNCC",
+                explanation: "A BNCC organiza a Educação Infantil em campos de experiências que integram saberes e vivências."
+            },
+            {
+                author: "Avaliação",
+                text: "A avaliação na Educação Infantil deve respeitar o desenvolvimento da criança. Qual alternativa está de acordo com essa perspectiva?",
+                options: [
+                    "Utilizar provas e notas para classificar",
+                    "Comparar alunos entre si",
+                    "Acompanhar o desenvolvimento de forma contínua e qualitativa",
+                    "Aplicar testes padronizados"
                 ],
                 correct: 2,
                 text_ref: "LDB",
-                explanation: "A Educação Infantil busca o desenvolvimento integral: físico, emocional, social e cognitivo."
+                explanation: "A avaliação deve ser diagnóstica, contínua e sem caráter classificatório."
             },
             {
-                author: "Legislação",
-                text: "Segundo a Constituição de 1988, a educação é:",
+                author: "Vygotsky",
+                text: "Lev Vygotsky contribuiu significativamente para a educação ao destacar o papel das interações sociais. O que isso significa na prática pedagógica?",
                 options: [
-                    "Dever apenas do Estado",
-                    "Direito de todos",
-                    "Opcional",
-                    "Privada"
+                    "A criança aprende melhor sozinha",
+                    "A interação com outros favorece o aprendizado",
+                    "O ensino deve ser individualizado apenas",
+                    "A repetição é o principal método"
                 ],
                 correct: 1,
+                text_ref: "Vygotsky",
+                explanation: "Para Vygotsky, o aprendizado ocorre nas relações sociais e na mediação."
+            },
+            {
+                author: "Piaget",
+                text: "Jean Piaget defendia uma visão construtivista da aprendizagem. Qual alternativa representa essa teoria?",
+                options: [
+                    "O conhecimento é transmitido pronto",
+                    "A criança constrói seu conhecimento ativamente",
+                    "Aprender é repetir conteúdos",
+                    "O professor é o único responsável pelo aprendizado"
+                ],
+                correct: 1,
+                text_ref: "Piaget",
+                explanation: "Piaget afirma que a criança aprende construindo conhecimento a partir da interação com o meio."
+            },
+            {
+                author: "Brincar",
+                text: "O brincar ocupa um papel central na Educação Infantil. Qual é sua principal função pedagógica?",
+                options: [
+                    "Servir apenas como descanso",
+                    "Entreter sem ensinar",
+                    "Promover aprendizagem e desenvolvimento",
+                    "Controlar o comportamento"
+                ],
+                correct: 2,
+                text_ref: "BNCC",
+                explanation: "O brincar é uma estratégia essencial para o desenvolvimento cognitivo, social e emocional."
+            },
+            {
+                author: "Inclusão",
+                text: "A educação inclusiva é um princípio fundamental. Qual alternativa melhor define esse conceito?",
+                options: [
+                    "Separar alunos com dificuldades",
+                    "Garantir acesso e participação de todos",
+                    "Padronizar o ensino",
+                    "Priorizar alunos com melhor desempenho"
+                ],
+                correct: 1,
+                text_ref: "Inclusão",
+                explanation: "A inclusão garante igualdade de oportunidades respeitando as diferenças."
+            },
+            {
+                author: "Professor",
+                text: "Na Educação Infantil, o papel do professor vai além da transmissão de conteúdo. Qual alternativa melhor define esse papel?",
+                options: [
+                    "Controlador da turma",
+                    "Aplicador de provas",
+                    "Mediador das aprendizagens",
+                    "Fiscal disciplinar"
+                ],
+                correct: 2,
+                text_ref: "Prática",
+                explanation: "O professor atua como mediador, facilitando o aprendizado da criança."
+            },
+            {
+                author: "Currículo",
+                text: "O currículo da Educação Infantil deve considerar diversos fatores. Qual alternativa está correta?",
+                options: [
+                    "Deve ser rígido e padronizado",
+                    "Ignorar o contexto social",
+                    "Ser flexível e contextualizado",
+                    "Basear-se apenas em conteúdos"
+                ],
+                correct: 2,
+                text_ref: "BNCC",
+                explanation: "O currículo deve respeitar a realidade e experiências das crianças."
+            },
+            {
+                author: "Direitos de Aprendizagem",
+                text: "Os direitos de aprendizagem da BNCC orientam a prática pedagógica. Qual alternativa apresenta um desses direitos?",
+                options: [
+                    "Punir",
+                    "Brincar",
+                    "Silenciar",
+                    "Copiar"
+                ],
+                correct: 1,
+                text_ref: "BNCC",
+                explanation: "Brincar é um dos direitos fundamentais da criança."
+            },
+            {
+                author: "Desenvolvimento",
+                text: "O desenvolvimento infantil ocorre de forma integrada. O que isso significa?",
+                options: [
+                    "Apenas o cognitivo importa",
+                    "Apenas o físico importa",
+                    "Todos os aspectos se desenvolvem juntos",
+                    "Apenas o emocional importa"
+                ],
+                correct: 2,
+                text_ref: "Teoria",
+                explanation: "O desenvolvimento envolve aspectos físicos, sociais, emocionais e cognitivos."
+            },
+            {
+                author: "Família",
+                text: "A relação entre escola e família é essencial. Qual alternativa expressa corretamente essa relação?",
+                options: [
+                    "A escola substitui a família",
+                    "A família não interfere",
+                    "Ambas são responsáveis pela educação",
+                    "Apenas a escola educa"
+                ],
+                correct: 2,
                 text_ref: "CF/88",
-                explanation: "A Constituição define a educação como direito de todos e dever do Estado e da família."
+                explanation: "A educação é dever do Estado e da família."
+            },
+            {
+                author: "Rotina",
+                text: "A organização da rotina na Educação Infantil deve contribuir para o desenvolvimento. Como ela deve ser estruturada?",
+                options: [
+                    "Rígida e inflexível",
+                    "Sem planejamento",
+                    "Equilibrada e flexível",
+                    "Baseada em punições"
+                ],
+                correct: 2,
+                text_ref: "Prática",
+                explanation: "A rotina deve equilibrar cuidado, brincadeira e aprendizagem."
+            },
+            {
+                author: "Planejamento",
+                text: "O planejamento pedagógico deve considerar as características das crianças. Qual alternativa está correta?",
+                options: [
+                    "Ignorar interesses",
+                    "Ser padronizado",
+                    "Considerar interesses e contexto",
+                    "Ser improvisado"
+                ],
+                correct: 2,
+                text_ref: "Didática",
+                explanation: "O planejamento deve partir da realidade das crianças."
             },
             {
                 author: "ECA",
-                text: "O ECA estabelece que a criança tem:",
+                text: "O Estatuto da Criança e do Adolescente garante direitos fundamentais. Qual é o principal princípio do ECA?",
                 options: [
-                    "Direitos limitados",
                     "Proteção parcial",
                     "Proteção integral",
-                    "Apenas direito à escola"
+                    "Proteção opcional",
+                    "Proteção limitada"
                 ],
-                correct: 2,
+                correct: 1,
                 text_ref: "ECA",
-                explanation: "O Estatuto garante proteção integral à criança."
-            },
-            {
-                author: "BNCC",
-                text: "A BNCC organiza a Educação Infantil por:",
-                options: [
-                    "Disciplinas",
-                    "Provas",
-                    "Campos de experiência",
-                    "Séries"
-                ],
-                correct: 2,
-                text_ref: "BNCC",
-                explanation: "Na Educação Infantil, o currículo é estruturado por campos de experiências."
-            },
-            {
-                author: "BNCC",
-                text: "Qual dos itens abaixo é um direito de aprendizagem?",
-                options: [
-                    "Punir",
-                    "Copiar",
-                    "Brincar",
-                    "Silenciar"
-                ],
-                correct: 2,
-                text_ref: "BNCC",
-                explanation: "Brincar é um dos direitos fundamentais de aprendizagem."
-            },
-            {
-                author: "DCNEI",
-                text: "Os eixos estruturantes da Educação Infantil são:",
-                options: [
-                    "Provas e conteúdos",
-                    "Disciplina e silêncio",
-                    "Interações e brincadeiras",
-                    "Memorização"
-                ],
-                correct: 2,
-                text_ref: "DCNEI",
-                explanation: "As Diretrizes definem interações e brincadeiras como base da aprendizagem."
+                explanation: "O ECA assegura proteção integral à criança."
             },
             {
                 author: "LDB",
-                text: "A Educação Infantil é:",
+                text: "Segundo a LDB, qual é a posição da Educação Infantil na Educação Básica?",
                 options: [
-                    "Ensino superior",
-                    "Segunda etapa",
-                    "Primeira etapa da Educação Básica",
+                    "Última etapa",
+                    "Etapa intermediária",
+                    "Primeira etapa",
                     "Opcional"
                 ],
                 correct: 2,
                 text_ref: "LDB",
-                explanation: "A LDB define a Educação Infantil como a primeira etapa da educação básica."
-            },
-            {
-                author: "Teoria",
-                text: "Jean Piaget defendia que a criança:",
-                options: [
-                    "Decora conteúdos",
-                    "Constrói conhecimento",
-                    "Obedece regras",
-                    "É passiva"
-                ],
-                correct: 1,
-                text_ref: "Piaget",
-                explanation: "Piaget afirma que a criança constrói o conhecimento ativamente."
-            },
-            {
-                author: "Teoria",
-                text: "Lev Vygotsky destacou a importância:",
-                options: [
-                    "Do isolamento",
-                    "Da interação social",
-                    "Da repetição",
-                    "Da disciplina"
-                ],
-                correct: 1,
-                text_ref: "Vygotsky",
-                explanation: "Vygotsky enfatiza o papel das interações sociais no aprendizado."
-            },
-            {
-                author: "Prática Pedagógica",
-                text: "Uma prática pedagógica adequada deve:",
-                options: [
-                    "Silenciar a criança",
-                    "Valorizar a participação",
-                    "Punir erros",
-                    "Priorizar provas"
-                ],
-                correct: 1,
-                text_ref: "Atual",
-                explanation: "A participação ativa da criança é essencial no processo educativo."
+                explanation: "A Educação Infantil é a primeira etapa da Educação Básica."
             },
             {
                 author: "Aprendizagem",
-                text: "Aprendizagem significativa significa:",
+                text: "A aprendizagem significativa é um conceito importante. O que ela representa?",
                 options: [
-                    "Decorar",
-                    "Repetir",
-                    "Aprender com sentido",
-                    "Copiar"
-                ],
-                correct: 2,
-                text_ref: "Teoria",
-                explanation: "O aprendizado deve ter sentido para a criança."
-            },
-            {
-                author: "Organização",
-                text: "A creche atende crianças de:",
-                options: [
-                    "4 a 5 anos",
-                    "0 a 3 anos",
-                    "6 a 10 anos",
-                    "10 a 12 anos"
-                ],
-                correct: 1,
-                text_ref: "LDB",
-                explanation: "A creche atende crianças de 0 a 3 anos."
-            },
-            {
-                author: "Organização",
-                text: "A pré-escola atende crianças de:",
-                options: [
-                    "0 a 2 anos",
-                    "3 anos",
-                    "4 a 5 anos",
-                    "6 anos"
-                ],
-                correct: 2,
-                text_ref: "LDB",
-                explanation: "A pré-escola atende crianças de 4 a 5 anos."
-            },
-            {
-                author: "PNE",
-                text: "A meta 1 do PNE trata de:",
-                options: [
-                    "Ensino médio",
-                    "Universidades",
-                    "Creches e pré-escola",
-                    "Ensino técnico"
-                ],
-                correct: 2,
-                text_ref: "PNE",
-                explanation: "A meta 1 busca universalizar a pré-escola e ampliar creches."
-            },
-            {
-                author: "Criança",
-                text: "A criança como objeto é:",
-                options: [
-                    "Ativa",
-                    "Participativa",
-                    "Passiva",
-                    "Protagonista"
-                ],
-                correct: 2,
-                text_ref: "Teoria",
-                explanation: "Essa visão antiga tratava a criança como passiva."
-            },
-            {
-                author: "Criança",
-                text: "A criança como sujeito de direitos é:",
-                options: [
-                    "Silenciada",
-                    "Passiva",
-                    "Ativa e participativa",
-                    "Controlada"
-                ],
-                correct: 2,
-                text_ref: "Atual",
-                explanation: "Hoje ela é vista como ativa e protagonista."
-            },
-            {
-                author: "Currículo",
-                text: "O currículo na Educação Infantil deve:",
-                options: [
-                    "Ser rígido",
-                    "Ser baseado em provas",
-                    "Considerar experiências",
-                    "Ser padronizado"
-                ],
-                correct: 2,
-                text_ref: "BNCC",
-                explanation: "O currículo deve considerar experiências e vivências da criança."
-            },
-            {
-                author: "Professor",
-                text: "O papel do professor é:",
-                options: [
-                    "Controlar",
-                    "Punir",
-                    "Mediar a aprendizagem",
-                    "Silenciar"
-                ],
-                correct: 2,
-                text_ref: "Atual",
-                explanation: "O professor atua como mediador do conhecimento."
-            },
-            {
-                author: "Aprendizagem",
-                text: "A criança aprende melhor quando:",
-                options: [
-                    "Está em silêncio",
-                    "Decora",
-                    "Interage",
-                    "Obedece"
-                ],
-                correct: 2,
-                text_ref: "Teoria",
-                explanation: "A interação é fundamental para o aprendizado."
-            },
-            {
-                author: "Concepção de Infância",
-                text: "Segundo Philippe Ariès, a infância é:",
-                options: [
-                    "Sempre foi valorizada da mesma forma",
-                    "Uma construção histórica",
-                    "Não mudou com o tempo",
-                    "É apenas uma questão biológica"
-                ],
-                correct: 1,
-                text_ref: "História da Infância",
-                explanation: "A infância é uma construção histórica e social, não é universal."
-            },
-            {
-                author: "Desenvolvimento",
-                text: "Para Jean Piaget, a criança aprende:",
-                options: [
-                    "Decorando conteúdos",
-                    "Apenas repetindo",
-                    "Construindo conhecimento ativamente",
-                    "Ouvindo passivamente"
-                ],
-                correct: 2,
-                text_ref: "Piaget",
-                explanation: "Piaget defendia que a aprendizagem é ativa e construtiva."
-            },
-            {
-                author: "Desenvolvimento",
-                text: "Lev Vygotsky destacou a importância de:",
-                options: [
-                    "Isolamento da criança",
-                    "Interação social",
                     "Memorização",
-                    "Disciplina rígida"
-                ],
-                correct: 1,
-                text_ref: "Vygotsky",
-                explanation: "Vygotsky enfatizava que a aprendizagem ocorre nas relações sociais."
-            },
-            {
-                author: "Legislação",
-                text: "A Constituição de 1988 garante:",
-                options: [
-                    "Educação apenas para ricos",
-                    "Educação como direito universal",
-                    "Educação como responsabilidade privada",
-                    "Educação apenas para maiores de idade"
-                ],
-                correct: 1,
-                text_ref: "CF/88",
-                explanation: "A Constituição garante educação como direito de todos."
-            },
-            {
-                author: "ECA",
-                text: "O Estatuto da Criança e Adolescente (ECA) estabelece:",
-                options: [
-                    "Proteção parcial",
-                    "Proteção integral da criança",
-                    "Apenas direitos educacionais",
-                    "Apenas direitos de saúde"
-                ],
-                correct: 1,
-                text_ref: "ECA",
-                explanation: "O ECA garante proteção integral à criança e ao adolescente."
-            },
-            {
-                author: "LDB",
-                text: "Segundo a LDB, a Educação Infantil é:",
-                options: [
-                    "Segunda etapa da educação",
-                    "Educação opcional",
-                    "Primeira etapa da Educação Básica",
-                    "Educação de ensino técnico"
-                ],
-                correct: 2,
-                text_ref: "LDB",
-                explanation: "A Educação Infantil é a primeira etapa da Educação Básica (art. 29)."
-            },
-            {
-                author: "BNCC",
-                text: "Qual é a finalidade principal da Educação Infantil?",
-                options: [
-                    "Alfabetizar precocemente",
-                    "Preparar para provas",
-                    "Promover desenvolvimento integral",
-                    "Ensinar apenas disciplina"
-                ],
-                correct: 2,
-                text_ref: "BNCC",
-                explanation: "O foco é no desenvolvimento integral da criança."
-            },
-            {
-                author: "BNCC",
-                text: "A BNCC divide o currículo em:",
-                options: [
-                    "5 disciplinas",
-                    "10 matérias",
-                    "5 campos de experiência",
-                    "4 eixos"
-                ],
-                correct: 2,
-                text_ref: "BNCC",
-                explanation: "A Educação Infantil é organizada em 5 campos de experiência."
-            },
-            {
-                author: "BNCC",
-                text: "Qual alternativa representa um direito de aprendizagem?",
-                options: [
-                    "Ficar em silêncio",
-                    "Obedecer sem questionar",
-                    "Brincar",
-                    "Decorar"
-                ],
-                correct: 2,
-                text_ref: "BNCC",
-                explanation: "Brincar é um dos direitos fundamentais de aprendizagem."
-            },
-            {
-                author: "Educação Infantil",
-                text: "Os eixos estruturantes da Educação Infantil são:",
-                options: [
-                    "Provas e notas",
-                    "Interações e brincadeiras",
-                    "Apenas disciplinas",
-                    "Exclusivamente conteúdos"
-                ],
-                correct: 1,
-                text_ref: "Eixos",
-                explanation: "Os eixos são: interações e brincadeiras."
-            },
-            {
-                author: "Infância",
-                text: "A criança como sujeito de direitos é caracterizada por:",
-                options: [
-                    "Ser passiva",
-                    "Ser silenciada",
-                    "Ser participativa e ativa",
-                    "Ser submissa"
-                ],
-                correct: 2,
-                text_ref: "Sujeito de Direitos",
-                explanation: "A criança é sujeito ativo de direitos e participante."
-            },
-            {
-                author: "Visão de Criança",
-                text: "A visão de criança como 'objeto' caracteriza-se por:",
-                options: [
-                    "Ser ativa",
-                    "Ser participativa",
-                    "Ser passiva",
-                    "Ser protagonista"
-                ],
-                correct: 2,
-                text_ref: "História",
-                explanation: "A visão antiga tratava a criança como passiva e receptora."
-            },
-            {
-                author: "Etapas",
-                text: "A creche atende crianças de qual faixa etária?",
-                options: [
-                    "4 a 5 anos",
-                    "0 a 3 anos",
-                    "6 anos",
-                    "7 anos"
-                ],
-                correct: 1,
-                text_ref: "LDB",
-                explanation: "Creche atende crianças de 0 a 3 anos."
-            },
-            {
-                author: "Etapas",
-                text: "A pré-escola atende crianças de qual faixa etária?",
-                options: [
-                    "0 a 2 anos",
-                    "4 a 5 anos",
-                    "6 a 7 anos",
-                    "8 anos"
-                ],
-                correct: 1,
-                text_ref: "LDB",
-                explanation: "Pré-escola atende crianças de 4 a 5 anos."
-            },
-            {
-                author: "Aprendizagem",
-                text: "Aprendizagem significativa é aquela que:",
-                options: [
-                    "Apenas decora",
-                    "Apenas repete",
-                    "Conecta-se com conhecimentos anteriores",
-                    "Copia sem compreender"
+                    "Repetição",
+                    "Aprender com sentido",
+                    "Cópia"
                 ],
                 correct: 2,
                 text_ref: "Ausubel",
-                explanation: "Aprendizagem significativa conecta novos conhecimentos com os anteriores."
+                explanation: "Aprender com significado facilita a compreensão e retenção."
             },
             {
-                author: "Papel do Professor",
-                text: "O professor na Educação Infantil deve ser:",
+                author: "Ambiente",
+                text: "O ambiente na Educação Infantil influencia diretamente o aprendizado. Como ele deve ser?",
                 options: [
-                    "Autoritário",
-                    "Mediador",
-                    "Fiscal",
-                    "Controlador"
+                    "Limitador",
+                    "Acolhedor e estimulante",
+                    "Rígido",
+                    "Silencioso sempre"
                 ],
                 correct: 1,
-                text_ref: "Prática Pedagógica",
-                explanation: "O professor atua como mediador da aprendizagem."
+                text_ref: "Prática",
+                explanation: "O ambiente deve favorecer experiências e interações."
             },
             {
-                author: "Brincar",
-                text: "O brincar na Educação Infantil é considerado:",
+                author: "Prática Pedagógica",
+                text: "Uma prática pedagógica alinhada às concepções atuais deve evitar:",
                 options: [
-                    "Apenas recreio",
-                    "Perda de tempo",
-                    "Estratégia pedagógica",
-                    "Castigo"
+                    "Interação",
+                    "Participação",
+                    "Práticas mecânicas e repetitivas",
+                    "Brincadeiras"
                 ],
                 correct: 2,
-                text_ref: "BNCC",
-                explanation: "Brincar é fundamental estratégia pedagógica na Educação Infantil."
-            },
-            {
-                author: "Interação",
-                text: "A criança aprende melhor quando:",
-                options: [
-                    "Está sozinha",
-                    "Tem medo",
-                    "Interage com outras pessoas",
-                    "Apenas decora"
-                ],
-                correct: 2,
-                text_ref: "Vygotsky",
-                explanation: "A interação é essencial para a aprendizagem."
-            },
-            {
-                author: "BNCC",
-                text: "Em qual ano a BNCC foi aprovada?",
-                options: [
-                    "2000",
-                    "2010",
-                    "2017",
-                    "2020"
-                ],
-                correct: 2,
-                text_ref: "BNCC",
-                explanation: "A BNCC foi aprovada em 2017."
-            },
-            {
-                author: "Direitos",
-                text: "O direito de 'conviver' significa:",
-                options: [
-                    "Ficar sozinho",
-                    "Interagir com outras pessoas",
-                    "Ficar em silêncio",
-                    "Obedecer sem pensar"
-                ],
-                correct: 1,
-                text_ref: "BNCC",
-                explanation: "Conviver é interagir em diferentes contextos sociais."
-            },
-            {
-                author: "Direitos",
-                text: "O direito de 'expressar' significa:",
-                options: [
-                    "Ficar quieto",
-                    "Se comunicar e manifestar",
-                    "Copiar"
-                ],
-                correct: 1,
-                text_ref: "BNCC",
-                explanation: "Expressar é comunicar-se de diferentes formas."
-            },
-            {
-                author: "Currículo",
-                text: "O currículo na Educação Infantil deve:",
-                options: [
-                    "Ignorar o contexto",
-                    "Ser completamente rígido",
-                    "Considerar experiências e contexto",
-                    "Ser fixo e imutável"
-                ],
-                correct: 2,
-                text_ref: "BNCC",
-                explanation: "O currículo deve ser flexível e contextualizado."
-            },
-            {
-                author: "Prática",
-                text: "A Educação Infantil NÃO deve ser:",
-                options: [
-                    "Desenvolvimentista",
-                    "Interativa",
-                    "Mecânica ou bancária",
-                    "Lúdica"
-                ],
-                correct: 2,
-                text_ref: "Prática Pedagógica",
-                explanation: "Deve evitar práticas mecânicas e transmissivas."
-            },
-            {
-                author: "Desenvolvimento",
-                text: "O desenvolvimento integral inclui:",
-                options: [
-                    "Apenas aspectos mentais",
-                    "Apenas aspectos físicos",
-                    "Vários aspectos: físico, cognitivo, social, emocional",
-                    "Nenhum aspecto específico"
-                ],
-                correct: 2,
-                text_ref: "Desenvolvimento",
-                explanation: "O desenvolvimento é multidimensional."
-            },
-            {
-                author: "História",
-                text: "O ensino tradicional caracteriza-se como:",
-                options: [
-                    "Atual e moderno",
-                    "Participativo",
-                    "Mecânico e transmissivo",
-                    "Interativo"
-                ],
-                correct: 2,
-                text_ref: "História",
-                explanation: "Tradicional é baseado em transmissão de conhecimento."
-            },
-            {
-                author: "Planos",
-                text: "O PNE (Plano Nacional de Educação) meta 1 trata de:",
-                options: [
-                    "Ensino médio",
-                    "Educação superior",
-                    "Educação Infantil (creche e pré)",
-                    "Ensino técnico"
-                ],
-                correct: 2,
-                text_ref: "PNE",
-                explanation: "Meta 1 refere-se à universalização da Educação Infantil."
-            },
-            {
-                author: "Princípios",
-                text: "Um princípio ético da Educação Infantil é:",
-                options: [
-                    "Respeito",
-                    "Lucro",
-                    "Controle",
-                    "Castigo"
-                ],
-                correct: 0,
-                text_ref: "Princípios",
-                explanation: "Respeito é um dos princípios fundamentais."
-            },
-            {
-                author: "Princípios",
-                text: "Um princípio político da Educação Infantil é:",
-                options: [
-                    "Cidadania",
-                    "Dinheiro",
-                    "Controle rígido",
-                    "Disciplina pura"
-                ],
-                correct: 0,
-                text_ref: "Princípios",
-                explanation: "Cidadania é um princípio político fundamental."
-            },
-            {
-                author: "Princípios",
-                text: "Um princípio estético da Educação Infantil é:",
-                options: [
-                    "Criatividade",
-                    "Controle",
-                    "Rigidez",
-                    "Autoridade"
-                ],
-                correct: 0,
-                text_ref: "Princípios",
-                explanation: "Criatividade é um princípio estético essencial."
-            },
-            {
-                author: "Campos",
-                text: "O campo 'eu, o outro e o nós' refere-se a:",
-                options: [
-                    "Matemática",
-                    "Relações sociais e pessoais",
-                    "Educação física",
-                    "Histórico-geográfico unicamente"
-                ],
-                correct: 1,
-                text_ref: "Campos",
-                explanation: "Este campo trata de convivência e relações."
-            },
-            {
-                author: "Campos",
-                text: "O campo 'corpo e movimento' envolve:",
-                options: [
-                    "Apenas escrita",
-                    "Movimento corporal e expressão",
-                    "Apenas matemática",
-                    "Apenas história"
-                ],
-                correct: 1,
-                text_ref: "Campos",
-                explanation: "Refere-se ao desenvolvimento motor e corporal."
-            },
-            {
-                author: "Campos",
-                text: "O campo 'traços, sons, cores e formas' é:",
-                options: [
-                    "Matemática",
-                    "Educação artística",
-                    "Ciência",
-                    "Geografia"
-                ],
-                correct: 1,
-                text_ref: "Campos",
-                explanation: "Este campo é dedicado à expressão artística."
-            },
-            {
-                author: "Campos",
-                text: "O campo 'escuta, fala, linguagem' aborda:",
-                options: [
-                    "Linguagem e comunicação",
-                    "Educação física",
-                    "Matemática",
-                    "Físico-química"
-                ],
-                correct: 0,
-                text_ref: "Campos",
-                explanation: "Refere-se ao desenvolvimento da linguagem."
-            },
-            {
-                author: "Campos",
-                text: "O campo 'espaços, tempos, quantidades, relações e transformações' envolve:",
-                options: [
-                    "Apenas matemática",
-                    "Apenas ciência",
-                    "Matemática, ciência e mundo natural",
-                    "Apenas educação física"
-                ],
-                correct: 2,
-                text_ref: "Campos",
-                explanation: "Integra conhecimentos sobre mundo físico e social."
-            },
-            {
-                author: "Direito",
-                text: "Educação Infantil é direito:",
-                options: [
-                    "De poucos privilegiados",
-                    "De todos",
-                    "Opcional",
-                    "Apenas privado"
-                ],
-                correct: 1,
-                text_ref: "Direito",
-                explanation: "É direito universal e dever do Estado garantir."
-            },
-            {
-                author: "Criança",
-                text: "A criança deve ser vista como:",
-                options: [
-                    "Silenciada",
-                    "Ativa e participante",
-                    "Passiva",
-                    "Controlada absolutamente"
-                ],
-                correct: 1,
-                text_ref: "Concepção",
-                explanation: "A criança é sujeito ativo de seus processos."
-            },
-            {
-                author: "Prática",
-                text: "A prática pedagógica inclusiva deve:",
-                options: [
-                    "Punir diferenças",
-                    "Controlar silêncio",
-                    "Incluir participação de todos",
-                    "Silenciar minorias"
-                ],
-                correct: 2,
-                text_ref: "Inclusão",
-                explanation: "Prática inclusiva respeita e valoriza todos."
-            },
-            {
-                author: "Aprendizagem",
-                text: "Interação social gera:",
-                options: [
-                    "Isolamento",
-                    "Aprendizagem",
-                    "Silêncio",
-                    "Controle"
-                ],
-                correct: 1,
-                text_ref: "Vygotsky",
-                explanation: "Interação é essencial para a aprendizagem."
-            },
-            {
-                author: "Desenvolvimento",
-                text: "Brincar desenvolve principalmente:",
-                options: [
-                    "Nada de importante",
-                    "Habilidades diversas",
-                    "Apenas preguiça",
-                    "Desinteresse"
-                ],
-                correct: 1,
-                text_ref: "Brincar",
-                explanation: "Brincar desenvolve múltiplas habilidades."
-            },
-            {
-                author: "LDB",
-                text: "A Educação Infantil tem como eixos:",
-                options: [
-                    "Conteúdos e provas",
-                    "Disciplina e castigos",
-                    "Interações e brincadeiras",
-                    "Apenas transmissão"
-                ],
-                correct: 2,
-                text_ref: "LDB",
-                explanation: "Os eixos estruturantes são interações e brincadeiras."
-            },
-            {
-                author: "Currículo",
-                text: "Um currículo para Educação Infantil deve ser:",
-                options: [
-                    "Rígido e fechado",
-                    "Sem flexibilidade",
-                    "Flexível, integrado e significativo",
-                    "Apenas transmissivo"
-                ],
-                correct: 2,
-                text_ref: "Currículo",
-                explanation: "Deve ser flexível e integrar experiências."
+                text_ref: "Atual",
+                explanation: "A educação atual rejeita práticas mecânicas e valoriza o protagonismo da criança."
             }
-            ];
+        ];
 
     // LÓGICA DO QUIZ
     let currentQuestionIndex = 0;
@@ -1479,10 +947,29 @@
     const finalScoreEl = document.getElementById('final-score');
     const finalMessageEl = document.getElementById('final-message');
 
+    function shuffleQuestions() {
+        // Embaralha as alternativas de cada pergunta
+        questions.forEach(question => {
+            const correctAnswer = question.options[question.correct];
+            
+            // Fisher-Yates shuffle
+            for (let i = question.options.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [question.options[i], question.options[j]] = [question.options[j], question.options[i]];
+            }
+            
+            // Encontra a nova posição da resposta correta
+            question.correct = question.options.indexOf(correctAnswer);
+        });
+    }
+
     function startQuiz() {
         // Reset dos contadores motivacionais
         consecutiveCorrect = 0;
         consecutiveWrong = 0;
+        
+        // Embaralha as alternativas
+        shuffleQuestions();
         
         startScreen.style.display = 'none';
         quizScreen.style.display = 'block';
