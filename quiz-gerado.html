@@ -3,16 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Gerado por IA</title>
+    <title>Quiz Matemática - Gerado</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
         :root {
-            --primary-color: #4f46e5;
-            --success-color: #10b981;
-            --error-color: #ef4444;
-            --bg-color: #f3f4f6;
+            --primary-color: #2563eb;
+            --success-color: #16a34a;
+            --error-color: #dc2626;
+            --bg-color: #f8fafc;
             --card-bg: #ffffff;
+            --math-blue: #0369a1;
+            --math-purple: #7c3aed;
+            --math-orange: #ea580c;
         }
 
         body {
@@ -239,18 +242,40 @@
 
         <div id="end-screen" class="screen-centered" style="display: none;">
             <div class="mb-3">
-                <i class="bi bi-trophy-fill text-warning" style="font-size: 4rem;"></i>
+                <span id="result-icon" style="font-size: 5rem;">🏆</span>
             </div>
-            <h2 class="fw-bold">Quiz Finalizado!</h2>
-            <p class="text-muted">Sua pontuação final foi:</p>
-            <div class="score-big mb-2"><span id="final-score">0</span><span style="font-size: 1.5rem; color: #9ca3af;" id="score-total">/30</span></div>
+            <h2 class="fw-bold">Quiz Concluído!</h2>
+            <p class="text-muted mb-4">Confira sua performance</p>
             
-            <p id="final-message" class="fw-medium px-4 mb-4"></p>
+            <div class="card border-0 shadow-sm mb-4" style="background: linear-gradient(135deg, rgba(3, 105, 161, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%); width: 200px;">
+                <div class="card-body text-center py-4">
+                    <div style="font-size: 3rem; font-weight: 800; background: linear-gradient(135deg, #0369a1, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                        <span id="final-score">0</span><span style="font-size: 1.5rem; color: #94a3b8;">/30</span>
+                    </div>
+                    <div class="mt-2">
+                        <span id="score-percentage" style="font-size: 1.2rem; font-weight: 600; color: #0369a1;">0%</span>
+                    </div>
+                </div>
+            </div>
             
-            <button class="btn btn-outline-primary btn-lg w-100" onclick="location.reload()">
-                <i class="bi bi-arrow-clockwise me-2"></i> Tentar Novamente
-            </button>
-            <a href="index.html" class="btn btn-link text-muted mt-3">Voltar para Home</a>
+            <div class="alert alert-light border-2 w-100 mx-auto" id="result-alert" style="border-color: #0369a1; max-width: 500px;">
+                <div class="d-flex align-items-start">
+                    <span id="alert-icon" style="font-size: 1.5rem; margin-right: 12px;">🏆</span>
+                    <div>
+                        <strong id="alert-title" class="d-block mb-1">Parabéns!</strong>
+                        <span id="final-message"></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="d-grid gap-2 w-100 mt-4" style="max-width: 500px;">
+                <button class="btn btn-lg" style="background: linear-gradient(135deg, #0369a1 0%, #7c3aed 100%); color: white; border: none; font-weight: 600;" onclick="location.reload()">
+                    <i class="bi bi-arrow-clockwise me-2"></i> Tentar Novamente
+                </button>
+                <a href="index.html" class="btn btn-lg btn-outline-secondary" style="font-weight: 600;">
+                    <i class="bi bi-house-door me-2"></i> Voltar
+                </a>
+            </div>
         </div>
     </div>
 
@@ -282,29 +307,55 @@
         const scoreTotalEl = document.getElementById('score-total');
         const finalMessageEl = document.getElementById('final-message');
 
-        function iniciarQuiz() {
-            const quizData = localStorage.getItem('quizGerado');
-            if (!quizData) {
-                alert('Nenhum quiz encontrado. Retornando...');
-                window.location.href = 'index.html';
-                return;
-            }
-
+        async function iniciarQuiz() {
             try {
-                const data = JSON.parse(quizData);
-                questions = data.questions || data;
+                // Carregar perguntas do arquivo CSV
+                const response = await fetch('perguntas.csv');
+                if (!response.ok) {
+                    throw new Error('Arquivo perguntas.csv não encontrado');
+                }
+
+                const csvText = await response.text();
+                questions = parseCSV(csvText);
                 
                 if (!Array.isArray(questions) || questions.length === 0) {
-                    throw new Error('Formato de quiz inválido');
+                    throw new Error('Nenhuma pergunta encontrada no arquivo CSV');
                 }
 
                 totalQuestions.innerText = questions.length;
                 scoreTotalEl.innerHTML = `/<span>${questions.length}</span>`;
                 loadQuestion();
             } catch (erro) {
-                alert('Erro ao carregar quiz: ' + erro.message);
+                console.error('Erro:', erro);
+                alert('Erro ao carregar perguntas: ' + erro.message);
                 window.location.href = 'index.html';
             }
+        }
+
+        function parseCSV(csvText) {
+            const lines = csvText.trim().split('\n');
+            const headers = lines[0].split(',');
+            const questionsArray = [];
+
+            for (let i = 1; i < lines.length; i++) {
+                const values = lines[i].split(',');
+                if (values.length < 8) continue;
+
+                questionsArray.push({
+                    author: values[0].trim(),
+                    text: values[1].trim(),
+                    options: [
+                        values[2].trim(),
+                        values[3].trim(),
+                        values[4].trim(),
+                        values[5].trim()
+                    ],
+                    correct: parseInt(values[6].trim()),
+                    explanation: values[7].trim()
+                });
+            }
+
+            return questionsArray;
         }
 
         function loadQuestion() {
@@ -378,18 +429,57 @@
             finalScoreEl.innerText = score;
 
             const percentage = (score / questions.length) * 100;
+            const scorePercentageEl = document.getElementById('score-percentage');
+            const resultAlert = document.getElementById('result-alert');
+            const alertIcon = document.getElementById('alert-icon');
+            const alertTitle = document.getElementById('alert-title');
+            const resultIcon = document.getElementById('result-icon');
             let message = "";
+            let icon = "🏆";
+            let borderColor = "#0369a1";
+            let titleText = "Parabéns!";
+            
+            scorePercentageEl.innerText = Math.round(percentage) + '%';
             
             if (percentage >= 90) {
-                message = "Excelente! Você dominou o conteúdo!";
-            } else if (percentage >= 70) {
-                message = "Muito bom! Você entendeu bem os conceitos principais.";
-            } else if (percentage >= 50) {
-                message = "Bom, mas revise os conceitos para melhorar.";
-            } else {
-                message = "Continue estudando e tente novamente!";
+                message = "Excelente trabalho! Você é um expert em Matemática. Continue assim!";
+                icon = "🏆";
+                borderColor = "#16a34a";
+                titleText = "Excepcional!";
+                resultIcon.innerText = "🏆";
+            }
+            else if (percentage >= 80) {
+                message = "Que legal! Você demonstrou excelente compreensão dos conceitos matemáticos.";
+                icon = "⭐";
+                borderColor = "#ea580c";
+                titleText = "Muito Bom!";
+                resultIcon.innerText = "⭐";
+            }
+            else if (percentage >= 70) {
+                message = "Muito bom! Você tem um bom domínio. Estude mais alguns conceitos e melhore ainda mais.";
+                icon = "✨";
+                borderColor = "#0369a1";
+                titleText = "Bom Desempenho!";
+                resultIcon.innerText = "✨";
+            }
+            else if (percentage >= 50) {
+                message = "Bom começo! Revise os conceitos principais e pratique mais problemas matemáticos.";
+                icon = "📚";
+                borderColor = "#f59e0b";
+                titleText = "Continue Estudando";
+                resultIcon.innerText = "📚";
+            }
+            else {
+                message = "Dedique mais tempo aos estudos! A prática leva à perfeição. Você consegue!";
+                icon = "💪";
+                borderColor = "#dc2626";
+                titleText = "Não Desista!";
+                resultIcon.innerText = "💪";
             }
             
+            alertIcon.innerText = icon;
+            alertTitle.innerText = titleText;
+            resultAlert.style.borderColor = borderColor;
             finalMessageEl.innerText = message;
         }
 

@@ -3,16 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz: Referenciais de Qualidade EaD (MEC 2025)</title>
+    <title>Quiz Matemática - Educação</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #4f46e5;
-            --success-color: #10b981;
-            --error-color: #ef4444;
-            --bg-color: #f3f4f6;
+            --primary-color: #2563eb;
+            --success-color: #16a34a;
+            --error-color: #dc2626;
+            --bg-color: #f8fafc;
             --card-bg: #ffffff;
+            --math-blue: #0369a1;
+            --math-purple: #7c3aed;
+            --math-orange: #ea580c;
         }
 
         body {
@@ -126,9 +129,24 @@
         }
 
         @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(79, 70, 229, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0); }
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.5); }
+            50% { transform: scale(1.05); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        #end-screen {
+            animation: slideUp 0.6s ease-out;
         }
 
         .footer-action {
@@ -424,6 +442,38 @@
             animation: slideOutRight 0.3s ease-out forwards;
         }
 
+        /* CSS para tela final */
+        #end-screen {
+            padding: 20px;
+            padding-bottom: 40px;
+        }
+
+        #end-screen .btn {
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            padding: 14px 24px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        #restart-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px rgba(3, 105, 161, 0.3);
+        }
+
+        #restart-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-outline-secondary:hover {
+            background-color: #e2e8f0;
+        }
+
+        #result-icon {
+            animation: popIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
         @keyframes slideInRight {
             from {
                 opacity: 0;
@@ -504,30 +554,36 @@
             </a>
         </div>
 
-        <div class="card-header bg-success text-white text-center">
-            <h3>Quiz: Educação Infantil - Base Normativa</h3>
-            <p class="mb-0">BNCC, DCNEI, Constituição Federal e Currículo de Pernambuco • 30 Questões</p>
+        <div class="card-header text-white text-center" style="background: linear-gradient(135deg, var(--math-blue) 0%, var(--math-purple) 100%);">
+            <h3 class="mb-1"><i class="bi bi-calculator"></i> Quiz de Matemática</h3>
+            <p class="mb-0">Educação • Aprendizagem • Desenvolvimento • 30 Questões</p>
         </div>
 
         <div class="card-body">
             
             <!-- TELA INICIAL -->
             <div id="start-screen" class="text-center">
-                <p>
-                    Este quiz contém 30 perguntas sobre a base normativa da Educação Infantil, abordando os principais temas:
+                <div class="my-4">
+                    <i class="bi bi-calculator" style="font-size: 4rem; color: var(--math-blue);"></i>
+                </div>
+                <p style="font-size: 1.1rem; color: #4b5563;">
+                    Bem-vindo ao Quiz de Matemática! Desafie seus conhecimentos com <strong>30 questões</strong> sobre conceitos fundamentais e aplicações do ensino de Matemática.
                 </p>
 
-                <ul class="list-inline">
-                    <li class="list-inline-item badge bg-secondary">BNCC</li>
-                    <li class="list-inline-item badge bg-secondary">Direitos de Aprendizagem</li>
-                    <li class="list-inline-item badge bg-secondary">Campos de Experiência</li>
-                    <li class="list-inline-item badge bg-secondary">DCNEI</li>
-                    <li class="list-inline-item badge bg-secondary">Constituição Federal</li>
-                    <li class="list-inline-item badge bg-secondary">Currículo de Pernambuco</li>
-                </ul>
+                <div class="alert alert-light border-2" style="border-color: var(--math-blue); margin-top: 25px; margin-bottom: 25px;">
+                    <strong style="color: var(--math-blue);">Temas Abordados:</strong>
+                    <ul class="mb-0 mt-2" style="text-align: left;">
+                        <li>Conceitos de Aprendizagem Matemática</li>
+                        <li>Ensino por Competências</li>
+                        <li>BNCC na Matemática</li>
+                        <li>Construtivismo</li>
+                        <li>Raciocínio Lógico</li>
+                        <li>Metodologias de Ensino</li>
+                    </ul>
+                </div>
 
-                <button class="btn btn-lg btn-success mt-3" onclick="startQuiz()">
-                    Iniciar Quiz Completo
+                <button class="btn btn-lg" style="background: linear-gradient(135deg, var(--math-blue) 0%, var(--math-purple) 100%); color: white; border: none; font-weight: 600; padding: 14px 40px; font-size: 1.1rem;" onclick="startQuiz()">
+                    <i class="bi bi-play-circle me-2"></i> Iniciar Quiz
                 </button>
             </div>
 
@@ -567,19 +623,48 @@
             </div>
 
             <!-- TELA FINAL -->
-            <div id="end-screen" class="text-center" style="display: none;">
-                <h2>Quiz Finalizado!</h2>
-                <p class="lead">Sua pontuação final:</p>
+            <div id="end-screen" style="display: none;">
+                <div class="d-flex justify-content-center mb-4 mt-5">
+                    <div id="result-icon" style="font-size: 5rem; animation: pulse 2s infinite;">🎉</div>
+                </div>
 
-                <h1 class="display-4">
-                    <span id="final-score">0</span> / 30       
-                </h1>
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold mb-1">Quiz Concluído!</h2>
+                    <p class="text-muted">Confira sua performance</p>
+                </div>
 
-                <div id="final-message" class="mt-3"></div>
+                <div class="card border-0 shadow-sm mb-4" style="background: linear-gradient(135deg, rgba(3, 105, 161, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%);">
+                    <div class="card-body text-center py-5">
+                        <div class="mb-3">
+                            <span style="font-size: 1rem; color: #64748b;">Sua Pontuação</span>
+                        </div>
+                        <div style="font-size: 4rem; font-weight: 800; background: linear-gradient(135deg, var(--math-blue), var(--math-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                            <span id="final-score">0</span><span style="font-size: 2rem; color: #94a3b8;">/30</span>
+                        </div>
+                        <div class="mt-2">
+                            <span id="score-percentage" style="font-size: 1.5rem; font-weight: 600; color: var(--math-blue);">0%</span>
+                        </div>
+                    </div>
+                </div>
 
-                <button class="btn btn-warning mt-4" onclick="location.reload()">
-                    Reiniciar
-                </button>
+                <div class="alert alert-light border-2" id="result-alert" role="alert" style="border-color: var(--math-blue);">
+                    <div class="d-flex align-items-start">
+                        <span id="alert-icon" style="font-size: 1.5rem; margin-right: 12px;">⭐</span>
+                        <div>
+                            <strong id="alert-title" class="d-block mb-1">Parabéns!</strong>
+                            <span id="final-message"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button class="btn btn-lg" id="restart-btn" style="background: linear-gradient(135deg, var(--math-blue) 0%, var(--math-purple) 100%); color: white; border: none; font-weight: 600;" onclick="location.reload()">
+                        <i class="bi bi-arrow-clockwise me-2"></i> Tentar Novamente
+                    </button>
+                    <a href="index.html" class="btn btn-lg btn-outline-secondary" style="font-weight: 600;">
+                        <i class="bi bi-house-door me-2"></i> Voltar
+                    </a>
+                </div>
             </div>
 
         </div>
@@ -602,6 +687,9 @@
 
     // Fechar modal ao clicar fora dele
     document.addEventListener('DOMContentLoaded', function() {
+        // Carregar perguntas do CSV
+        loadQuestionsFromCSV();
+        
         const modal = document.getElementById('welcomeModal');
         modal.addEventListener('click', function(e) {
             if (e.target === modal) {
@@ -661,360 +749,57 @@
         }
     }
 
-    // BANCO DE DADOS COM 30 QUESTÕES - BNCC, DCNEI, CF/88 E CURRÍCULO DE PERNAMBUCO
-        const questions = [
-            {
-                author: "Direitos BNCC",
-                text: "Qual é o primeiro direito de aprendizagem definido pela BNCC na Educação Infantil?",
-                options: [
-                    "Participar",
-                    "Conviver",
-                    "Explorar",
-                    "Expressar"
-                ],
-                correct: 1,
-                explanation: "Conviver é o primeiro direito e envolve aprender com outras crianças e adultos, respeitando diferenças."
-            },
-            {
-                author: "Direitos BNCC",
-                text: "O direito de BRINCAR na Educação Infantil contempla:",
-                options: [
-                    "Apenas brincadeiras dirigidas",
-                    "Diferentes formas: livre, dirigido e simbólico",
-                    "Somente jogar em equipe",
-                    "Atividades competitivas"
-                ],
-                correct: 1,
-                explanation: "A BNCC reconhece múltiplas formas de brincar: livre, dirigido, simbólico e outros."
-            },
-            {
-                author: "Direitos BNCC",
-                text: "O direito de EXPLORAR envolve:",
-                options: [
-                    "Memorizar informações",
-                    "Investigar, experimentar e descobrir o mundo",
-                    "Executar apenas tarefas prontas",
-                    "Obedecer sem questionar"
-                ],
-                correct: 1,
-                explanation: "Explorar significa que a criança investiga e experimenta para descobrir o mundo."
-            },
-            {
-                author: "Direitos BNCC",
-                text: "O direito de EXPRESSAR-SE contempla qual(is) linguagem(ns)?",
-                options: [
-                    "Apenas linguagem oral",
-                    "Oral, corporal, artística e outras",
-                    "Somente escrita",
-                    "Apenas desenho"
-                ],
-                correct: 1,
-                explanation: "A expressão da criança envolve múltiplas linguagens: oral, corporal, artística, gestual, etc."
-            },
-            {
-                author: "Direitos BNCC",
-                text: "O direito de PARTICIPAR significa que a criança:",
-                options: [
-                    "Deve ficar quieta e ouvir",
-                    "Participa das decisões e atividades",
-                    "Assiste à aula passivamente",
-                    "Obedece sem opinar"
-                ],
-                correct: 1,
-                explanation: "Participar significa ter voz ativa nas decisões e atividades da instituição infantil."
-            },
-            {
-                author: "Direitos BNCC",
-                text: "O direito de CONHECER-SE está ligado a qual construção?",
-                options: [
-                    "Conhecimento de disciplinas",
-                    "Identidade, autonomia e autoestima",
-                    "Conceitos científicos",
-                    "Normas sociais"
-                ],
-                correct: 1,
-                explanation: "Conhecer-se significa construir identidade própria, autonomia e autoestima."
-            },
-            {
-                author: "Campos BNCC",
-                text: "O campo 'O eu, o outro e o nós' trabalha principalmente:",
-                options: [
-                    "Cálculo matemático",
-                    "Relações sociais e convivência",
-                    "Movimentos corporais",
-                    "Criatividade artística"
-                ],
-                correct: 1,
-                explanation: "Este campo enfoca relações sociais, identidade coletiva e convivência respeitosa."
-            },
-            {
-                author: "Campos BNCC",
-                text: "Qual campo de experiência trabalha expressão corporal e coordenação motora?",
-                options: [
-                    "Escuta, fala, pensamento e imaginação",
-                    "Corpo, gestos e movimentos",
-                    "Traços, sons, cores e formas",
-                    "Espaços, tempos, quantidades, relações e transformações"
-                ],
-                correct: 1,
-                explanation: "'Corpo, gestos e movimentos' desenvolve coordenação motora e expressão corporal."
-            },
-            {
-                author: "Campos BNCC",
-                text: "O campo 'Traços, sons, cores e formas' envolve principalmente:",
-                options: [
-                    "Conceitos de número",
-                    "Artes visuais, música e criatividade",
-                    "Comportamento e disciplina",
-                    "Leitura e escrita"
-                ],
-                correct: 1,
-                explanation: "Este campo trabalha expressão artística através de artes visuais, música e criatividade."
-            },
-            {
-                author: "Campos BNCC",
-                text: "Qual campo envolve linguagem oral, narrativa e comunicação?",
-                options: [
-                    "Corpo, gestos e movimentos",
-                    "Traços, sons, cores e formas",
-                    "Escuta, fala, pensamento e imaginação",
-                    "Espaços, tempos, quantidades, relações e transformações"
-                ],
-                correct: 2,
-                explanation: "'Escuta, fala, pensamento e imaginação' desenvolve linguagem e comunicação."
-            },
-            {
-                author: "Campos BNCC",
-                text: "O campo 'Espaços, tempos, quantidades, relações e transformações' integra:",
-                options: [
-                    "Apenas arte",
-                    "Apenas história",
-                    "Matemática, natureza e mundo físico",
-                    "Somente disciplinas de humanidades"
-                ],
-                correct: 2,
-                explanation: "Este campo integra números, espaço, tempo e fenômenos naturais."
-            },
-            {
-                author: "BNCC",
-                text: "A Base Nacional Comum Curricular é um documento:",
-                options: [
-                    "Opcional e sugestivo",
-                    "Normativo nacional que define aprendizagens essenciais",
-                    "Privado e sem obrigatoriedade",
-                    "Apenas para escolas particulares"
-                ],
-                correct: 1,
-                explanation: "A BNCC é um documento normativo que define o que todo estudante deve aprender."
-            },
-            {
-                author: "BNCC",
-                text: "Na Educação Infantil, a BNCC NÃO utiliza:",
-                options: [
-                    "Direitos de aprendizagem",
-                    "Campos de experiência",
-                    "Disciplinas tradicionais",
-                    "Lógica integrada"
-                ],
-                correct: 2,
-                explanation: "A BNCC substitui disciplinas por direitos e campos de experiência integrados."
-            },
-            {
-                author: "BNCC",
-                text: "O foco principal da BNCC é a aprendizagem através de:",
-                options: [
-                    "Exercícios prontos",
-                    "Experiências integradas",
-                    "Provas escritas",
-                    "Memorização"
-                ],
-                correct: 1,
-                explanation: "A BNCC enfatiza aprendizagem através de experiências e vivências."
-            },
-            {
-                author: "BNCC",
-                text: "A BNCC considera a criança como:",
-                options: [
-                    "Objeto passivo de educação",
-                    "Protagonista de sua aprendizagem",
-                    "Mero receptor de informação",
-                    "Responsabilidade exclusiva do Estado"
-                ],
-                correct: 1,
-                explanation: "A BNCC coloca a criança como protagonista ativa no seu processo de aprendizagem."
-            },
-            {
-                author: "DCNEI",
-                text: "As Diretrizes Curriculares Nacionais para Educação Infantil (DCNEI) definem que a criança é:",
-                options: [
-                    "Um ser incompleto que precisa ser moldado",
-                    "Um sujeito de direitos",
-                    "Tábula rasa",
-                    "Responsabilidade apenas dos pais"
-                ],
-                correct: 1,
-                explanation: "As DCNEI reconhecem a criança como sujeito de direitos com capacidades próprias."
-            },
-            {
-                author: "DCNEI",
-                text: "Segundo as DCNEI, cuidar e educar são:",
-                options: [
-                    "Ações separadas e independentes",
-                    "Indissociáveis - devem ocorrer juntas",
-                    "Responsabilidades apenas da educação",
-                    "Tarefas exclusivas da família"
-                ],
-                correct: 1,
-                explanation: "Para as DCNEI, cuidar e educar são inseparáveis na Educação Infantil."
-            },
-            {
-                author: "DCNEI",
-                text: "Qual é o principal eixo estruturante da Educação Infantil conforme DCNEI?",
-                options: [
-                    "Conteúdos disciplinares",
-                    "Interações e brincadeiras",
-                    "Avaliações e resultados",
-                    "Controle e obediência"
-                ],
-                correct: 1,
-                explanation: "As DCNEI apontam interações e brincadeiras como eixos estruturantes."
-            },
-            {
-                author: "DCNEI",
-                text: "As DCNEI destacam que as interações ocorrem:",
-                options: [
-                    "Apenas em momentos de aula",
-                    "Somente entre crianças",
-                    "Entre crianças e entre crianças e adultos",
-                    "Exclusivamente em atividades dirigidas"
-                ],
-                correct: 2,
-                explanation: "As interações ocorrem tanto entre pares quanto com educadores no cotidiano."
-            },
-            {
-                author: "CF/88",
-                text: "O artigo 205 da Constituição Federal de 1988 afirma que educação é:",
-                options: [
-                    "Responsabilidade apenas do Estado",
-                    "Responsabilidade apenas da família",
-                    "Um direito de todos e dever do Estado e da família",
-                    "Um privilégio de poucos"
-                ],
-                correct: 2,
-                explanation: "A CF/88 estabelece educação como direito universal com responsabilidade compartilhada."
-            },
-            {
-                author: "CF/88",
-                text: "Segundo a Constituição Federal de 1988, a Educação Infantil é:",
-                options: [
-                    "Luxo ou privilégio",
-                    "Responsabilidade apenas privada",
-                    "Direito da criança e dever do Estado",
-                    "Iniciativa opcional"
-                ],
-                correct: 2,
-                explanation: "A CF/88 garante Educação Infantil como direito universal e dever estatal."
-            },
-            {
-                author: "CF/88",
-                text: "A Educação Infantil, conforme a CF/88, faz parte de qual nível?",
-                options: [
-                    "Educação Complementar",
-                    "Educação Superior",
-                    "Educação Básica",
-                    "Educação Profissional"
-                ],
-                correct: 2,
-                explanation: "A Constituição Federal define Educação Infantil como primeira etapa da Educação Básica."
-            },
-            {
-                author: "Currículo PE",
-                text: "O Currículo de Pernambuco para Educação Infantil segue como referência:",
-                options: [
-                    "Apenas documentos locais",
-                    "A Base Nacional Comum Curricular (BNCC)",
-                    "Somente experiências internacionais",
-                    "Sem qualquer parâmetro nacional"
-                ],
-                correct: 1,
-                explanation: "O currículo de PE é baseado na BNCC, adaptado à realidade regional."
-            },
-            {
-                author: "Currículo PE",
-                text: "Uma característica do Currículo de Pernambuco é:",
-                options: [
-                    "Ignorar a cultura regional",
-                    "Valorizar a realidade local e contexto social",
-                    "Desconhecer as políticas nacionais",
-                    "Não considerar diversidade"
-                ],
-                correct: 1,
-                explanation: "O currículo pernambucano valoriza contextualização com a realidade regional nordestina."
-            },
-            {
-                author: "Currículo PE",
-                text: "O Currículo de Pernambuco mantém qual estrutura da BNCC?",
-                options: [
-                    "Apenas alguns direitos",
-                    "Somente campos de experiência",
-                    "Direitos de aprendizagem e campos de experiência",
-                    "Nenhuma estrutura da BNCC"
-                ],
-                correct: 2,
-                explanation: "PE mantém os direitos e campos de experiência da BNCC, adaptando-os localmente."
-            },
-            {
-                author: "Currículo PE",
-                text: "A adaptação do currículo em Pernambuco considera principalmente:",
-                options: [
-                    "Padrões internacionais únicos",
-                    "Cultura regional, sertão, contexto social",
-                    "Ignorar particularidades",
-                    "Modelos de outras regiões"
-                ],
-                correct: 1,
-                explanation: "PE valoriza aspectos culturais nordestinos, realidade do sertão e contexto social."
-            },
-            {
-                author: "Integração",
-                text: "Como se relacionam BNCC, DCNEI e Constituição Federal?",
-                options: [
-                    "São documentos separados sem conexão",
-                    "BNCC substitui DCNEI e CF/88",
-                    "Formam uma hierarquia integrada de normatização educacional",
-                    "Apenas a BNCC é relevante"
-                ],
-                correct: 2,
-                explanation: "Formam um continuum: CF/88 (direito fundamental) → DCNEI (diretrizes) → BNCC (currículo)."
-            },
-            {
-                author: "Síntese",
-                text: "Para resumir: a BNCC define O QÊ ensinar, as DCNEI definem COMO, e os direitos descrevem:",
-                options: [
-                    "Avaliações",
-                    "Como a criança aprende",
-                    "Disciplinas",
-                    "Horários"
-                ],
-                correct: 1,
-                explanation: "Direitos descrevem como e em quais condições a criança aprende melhor."
-            },
-            {
-                author: "Aplicação",
-                text: "Na prática, um professor deve usar simultaneamente:",
-                options: [
-                    "Apenas BNCC",
-                    "Apenas DCNEI",
-                    "BNCC + DCNEI + Currículo local",
-                    "Nenhum documento normativo"
-                ],
-                correct: 2,
-                explanation: "Na prática educacional, os três documentos trabalham juntos: nacional (BNCC) e local (currículo)."
+    // CARREGANDO PERGUNTAS DO ARQUIVO CSV
+        let questions = [];
+
+        async function loadQuestionsFromCSV() {
+            try {
+                const response = await fetch('perguntas.csv');
+                if (!response.ok) {
+                    throw new Error('Arquivo perguntas.csv não encontrado');
+                }
+
+                const csvText = await response.text();
+                questions = parseCSV(csvText);
+                
+                if (!Array.isArray(questions) || questions.length === 0) {
+                    throw new Error('Nenhuma pergunta encontrada');
+                }
+                
+                console.log(`✅ ${questions.length} perguntas carregadas do CSV`);
+            } catch (erro) {
+                console.error('Erro ao carregar CSV:', erro);
+                alert('Erro ao carregar perguntas: ' + erro.message);
             }
-            ];
+        }
 
+        function parseCSV(csvText) {
+            const lines = csvText.trim().split('\n');
+            const headers = lines[0].split(',');
+            const questionsArray = [];
 
-    // LÓGICA DO QUIZ
+            for (let i = 1; i < lines.length; i++) {
+                const values = lines[i].split(',');
+                if (values.length < 8) continue;
+
+                questionsArray.push({
+                    author: values[0].trim(),
+                    text: values[1].trim(),
+                    options: [
+                        values[2].trim(),
+                        values[3].trim(),
+                        values[4].trim(),
+                        values[5].trim()
+                    ],
+                    correct: parseInt(values[6].trim()),
+                    explanation: values[7].trim()
+                });
+            }
+
+            return questionsArray;
+        }
+
+        // LÓGICA DO QUIZ
     let currentQuestionIndex = 0;
     let score = 0;
     let isAnswered = false;
@@ -1136,14 +921,63 @@
         finalScoreEl.innerText = score;
 
         const percentage = (score / questions.length) * 100;
+        const scorePercentageEl = document.getElementById('score-percentage');
+        const resultAlert = document.getElementById('result-alert');
+        const alertIcon = document.getElementById('alert-icon');
+        const alertTitle = document.getElementById('alert-title');
+        const resultIcon = document.getElementById('result-icon');
         let message = "";
+        let icon = "🎉";
+        let borderColor = "var(--math-blue)";
+        let titleText = "Parabéns!";
         
-        if (percentage >= 90) message = "Excelente! Você domina completamente a base normativa da Educação Infantil!";
-        else if (percentage >= 70) message = "Muito bom! Você tem um sólido conhecimento sobre BNCC, DCNEI e CF/88.";
-        else if (percentage >= 50) message = "Bom, mas estude mais a integração entre BNCC, DCNEI e Constituição Federal.";
-        else message = "Atenção! Dedique mais tempo aos documentos normativos da Educação Infantil.";
+        scorePercentageEl.innerText = Math.round(percentage) + '%';
         
+        if (percentage >= 90) {
+            message = "Excelente trabalho! Você é um expert em Matemática. Continue assim!";
+            icon = "🏆";
+            borderColor = "#16a34a";
+            titleText = "Excepcional!";
+            resultIcon.innerText = "🏆";
+        }
+        else if (percentage >= 80) {
+            message = "Que legal! Você demonstrou excelente compreensão dos conceitos matemáticos.";
+            icon = "⭐";
+            borderColor = "#ea580c";
+            titleText = "Muito Bom!";
+            resultIcon.innerText = "⭐";
+        }
+        else if (percentage >= 70) {
+            message = "Muito bom! Você tem um bom domínio. Estude mais alguns conceitos e melhore ainda mais.";
+            icon = "✨";
+            borderColor = "var(--math-blue)";
+            titleText = "Bom Desempenho!";
+            resultIcon.innerText = "✨";
+        }
+        else if (percentage >= 50) {
+            message = "Bom começo! Revise os conceitos principais e pratique mais problemas matemáticos.";
+            icon = "📚";
+            borderColor = "#f59e0b";
+            titleText = "Continue Estudando";
+            resultIcon.innerText = "📚";
+        }
+        else {
+            message = "Dedique mais tempo aos estudos! A prática leva à perfeição. Você consegue!";
+            icon = "💪";
+            borderColor = "#dc2626";
+            titleText = "Não Desista!";
+            resultIcon.innerText = "💪";
+        }
+        
+        alertIcon.innerText = icon;
+        alertTitle.innerText = titleText;
+        resultAlert.style.borderColor = borderColor;
         finalMessageEl.innerText = message;
+        
+        // Scroll para a tela final
+        setTimeout(() => {
+            endScreen.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 300);
     }
 </script>
 
