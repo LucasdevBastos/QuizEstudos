@@ -556,6 +556,10 @@
             <span class="heart full">❤️</span>
             <span class="heart full">❤️</span>
             <span class="heart full">❤️</span>
+            <span class="heart full">❤️</span>
+            <span class="heart full">❤️</span>
+            <span class="heart full">❤️</span>
+            
         </div>
         <div class="progress-bar-container">
             <div class="progress-bar">
@@ -658,7 +662,7 @@
     let questions = [];
     let currentQuestionIndex = 0;
     let score = 0;
-    let hearts = 3;
+    let hearts = 6;
     let isAnswered = false;
 
     // ===== CARREGAR CSV =====
@@ -785,7 +789,7 @@
     function updateHearts() {
         const container = document.getElementById('heartsContainer');
         container.innerHTML = '';
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 6; i++) {
             const heart = document.createElement('span');
             heart.className = i < hearts ? 'heart full' : 'heart empty';
             heart.innerHTML = i < hearts ? '❤️' : '🤍';
