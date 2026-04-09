@@ -777,19 +777,12 @@
     function loseHeart() {
         hearts--;
         updateHearts();
-
-        if (hearts <= 0) {
-            setTimeout(() => {
-                alert('Você perdeu todas as vidas! Tente novamente.');
-                showResults();
-            }, 500);
-        }
     }
 
     function updateHearts() {
         const container = document.getElementById('heartsContainer');
         container.innerHTML = '';
-        for (let i = 0; i < 6; i++) {
+        for (let i = 0; i < 10; i++) {
             const heart = document.createElement('span');
             heart.className = i < hearts ? 'heart full' : 'heart empty';
             heart.innerHTML = i < hearts ? '❤️' : '🤍';
