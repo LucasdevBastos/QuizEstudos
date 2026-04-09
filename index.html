@@ -3,982 +3,855 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Matemática - Educação</title>
+    <title>Quiz Didática II</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         :root {
-            --primary-color: #2563eb;
-            --success-color: #16a34a;
-            --error-color: #dc2626;
-            --bg-color: #f8fafc;
-            --card-bg: #ffffff;
-            --math-blue: #0369a1;
-            --math-purple: #7c3aed;
-            --math-orange: #ea580c;
+            --duolingo-blue: #1f73e6;
+            --duolingo-green: #58cc02;
+            --duolingo-red: #ff4b4b;
+            --duolingo-yellow: #ffd700;
+            --duolingo-purple: #a435f0;
+            --duolingo-light-bg: #fafbfc;
+            --duolingo-dark-text: #333333;
         }
 
         body {
-            background-color: var(--bg-color);
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            color: #1f2937;
-            padding-bottom: 80px;
-        }
-
-        .quiz-card {
-            max-width: 600px;
-            margin: 0 auto;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, var(--duolingo-light-bg) 0%, #f5f7fa 100%);
+            color: var(--duolingo-dark-text);
             min-height: 100vh;
-            background: var(--card-bg);
-            box-shadow: 0 0 20px rgba(0,0,0,0.05);
-            display: flex;
-            flex-direction: column;
-            border-radius: 20px;
-            overflow: hidden;
+            padding: 0;
         }
 
-        .card-header {
-            padding: 20px;
+        /* ===== HEADER DUOLINGO ===== */
+        .duolingo-header {
             background: white;
-            border-bottom: 1px solid #e5e7eb;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
             position: sticky;
             top: 0;
-            z-index: 10;
-            border-radius: 0;
-        }
-
-        .score-display {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: var(--success-color);
-        }
-
-        .author-badge {
-            background-color: #e0e7ff;
-            color: var(--primary-color);
-            padding: 5px 12px;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            display: inline-block;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .question-text {
-            font-size: 1.25rem;
-            font-weight: 700;
-            line-height: 1.4;
-            margin-bottom: 25px;
-            color: #111827;
-        }
-
-        .option-btn {
-            width: 100%;
-            text-align: left;
-            margin-bottom: 12px;
-            padding: 16px;
-            border: 2px solid #e5e7eb;
-            border-radius: 12px;
-            background: white;
-            color: #4b5563;
-            font-weight: 500;
-            transition: all 0.2s ease;
-            position: relative;
-            display: flex;
-            align-items: center;
-            font-size: 1.08rem;
-        }
-
-        .option-btn:hover, .option-btn:focus {
-            background-color: #0071db;
-            border-color: #d1d5db;
-        }
-
-        .btn-success, .btn-success:focus {
-            background: var(--success-color) !important;
-            border-color: var(--success-color) !important;
-            color: #fff !important;
-        }
-        .btn-danger, .btn-danger:focus {
-            background: var(--error-color) !important;
-            border-color: var(--error-color) !important;
-            color: #fff !important;
-        }
-
-        .explanation-box {
-            display: none;
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #eff6ff;
-            border-left: 4px solid var(--primary-color);
-            border-radius: 8px;
-            font-size: 0.95rem;
-            color: #1f2937;
-            animation: fadeIn 0.4s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .pulse-animation {
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.05); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes popIn {
-            0% { opacity: 0; transform: scale(0.5); }
-            50% { transform: scale(1.05); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-
-        #end-screen {
-            animation: slideUp 0.6s ease-out;
-        }
-
-        .footer-action {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            padding: 15px 20px;
-            background: white;
-            box-shadow: 0 -4px 20px rgba(0,0,0,0.05);
             z-index: 100;
-            display: none;
         }
 
-        /* ========== MODAL DE BOAS-VINDAS MODERNO ========== */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(79, 70, 229, 0.3) 0%, rgba(236, 72, 153, 0.3) 100%);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            opacity: 0;
-            animation: overlayFadeIn 0.4s ease forwards;
-        }
-
-        .modal-content-box {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%);
-            border-radius: 32px;
-            padding: 50px 40px;
-            max-width: 480px;
-            text-align: center;
-            box-shadow: 
-                0 20px 60px rgba(0, 0, 0, 0.15),
-                0 0 200px rgba(236, 72, 153, 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            animation: modalSlideUp 0.6s cubic-bezier(0.23, 1, 0.320, 1) forwards;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-        }
-
-        .modal-emoji-container {
-            position: relative;
-            margin-bottom: 24px;
-            height: 100px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-emoji {
-            font-size: 4.5rem;
-            animation: emojiPulse 2.5s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
-            filter: drop-shadow(0 8px 20px rgba(236, 72, 153, 0.3));
-        }
-
-        .modal-content-box h2 {
-            font-size: 2.2rem;
-            background: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin: 0 0 12px 0;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-        }
-
-        .modal-subtitle {
-            font-size: 1rem;
-            color: #9ca3af;
-            margin-bottom: 28px;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-
-        .modal-content-box p {
-            font-size: 1.15rem;
-            color: #4b5563;
-            margin: 0 0 18px 0;
-            line-height: 1.7;
-            font-weight: 500;
-        }
-
-        .modal-content-box strong {
-            background: linear-gradient(135deg, #4f46e5, #ec4899);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: 700;
-        }
-
-        .modal-secondary-text {
-            font-size: 0.95rem;
-            color: #9ca3af;
-            margin-bottom: 0;
-            font-weight: 400;
-        }
-
-        .modal-secondary-text strong {
-            background: none;
-            -webkit-text-fill-color: #10b981;
-            color: #10b981;
-            font-weight: 600;
-        }
-
-        .modal-btn {
-            background: linear-gradient(135deg, #4f46e5 0%, #667eea 100%);
-            color: white;
-            border: none;
-            padding: 16px 48px;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 1.05rem;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
-            margin-top: 32px;
-            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .modal-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .modal-btn:hover::before {
-            left: 100%;
-        }
-
-        .modal-btn:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 16px 40px rgba(79, 70, 229, 0.4);
-        }
-
-        .modal-btn:active {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
-        }
-
-        @keyframes overlayFadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes modalSlideUp {
-            from {
-                opacity: 0;
-                transform: translateY(60px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes emojiPulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.1);
-            }
-        }
-
-        @media (max-width: 480px) {
-            .modal-content-box {
-                padding: 40px 32px;
-                border-radius: 28px;
-                max-width: calc(100% - 32px);
-            }
-
-            .modal-content-box h2 {
-                font-size: 1.9rem;
-            }
-
-            .modal-emoji {
-                font-size: 4rem;
-            }
-
-            .modal-content-box p {
-                font-size: 1.05rem;
-            }
-
-            .modal-btn {
-                padding: 14px 40px;
-                font-size: 1rem;
-            }
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeOut {
-            from {
-                opacity: 1;
-            }
-            to {
-                opacity: 0;
-            }
-        }
-
-        /* ========== NOTIFICAÇÃO MOTIVACIONAL ========== */
-        .notification-container {
-            position: fixed;
-            bottom: 100px;
-            right: 16px;
-            z-index: 500;
-            pointer-events: none;
-        }
-
-        .notification-toast {
-            background: white;
-            border-radius: 12px;
-            padding: 16px 20px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        .header-left {
             display: flex;
             align-items: center;
             gap: 12px;
-            min-width: 250px;
-            max-width: 300px;
-            pointer-events: auto;
-            animation: slideInRight 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-            margin-bottom: 12px;
-            border-left: 4px solid transparent;
         }
 
-        .notification-toast.success {
-            border-left-color: #10b981;
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--duolingo-green) 0%, var(--duolingo-blue) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .notification-toast.success .notification-icon {
-            color: #10b981;
-            font-size: 1.5rem;
-        }
-
-        .notification-toast.support {
-            border-left-color: #f59e0b;
-        }
-
-        .notification-toast.support .notification-icon {
-            color: #f59e0b;
-            font-size: 1.5rem;
-        }
-
-        .notification-icon {
-            flex-shrink: 0;
-            font-size: 1.5rem;
+        .header-right {
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 16px;
         }
 
-        .notification-content {
-            flex: 1;
+        .hearts-container {
+            display: flex;
+            gap: 4px;
+            align-items: center;
         }
 
-        .notification-message {
-            font-weight: 600;
-            color: #1f2937;
-            font-size: 0.95rem;
-            line-height: 1.4;
+        .heart {
+            font-size: 20px;
+            transition: transform 0.3s ease;
         }
 
-        .notification-toast.exit {
-            animation: slideOutRight 0.3s ease-out forwards;
+        .heart.lost {
+            animation: heartBreak 0.4s ease;
         }
 
-        /* CSS para tela final */
-        #end-screen {
+        @keyframes heartBreak {
+            0% { transform: scale(1) rotate(0deg); opacity: 1; }
+            50% { transform: scale(1.1) rotate(10deg); }
+            100% { transform: scale(0) rotate(-10deg); opacity: 0; }
+        }
+
+        .progress-bar-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+        }
+
+        .progress-bar {
+            width: 120px;
+            height: 6px;
+            background: #e5e5e5;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--duolingo-green) 0%, var(--duolingo-blue) 100%);
+            transition: width 0.4s ease;
+            border-radius: 3px;
+        }
+
+        /* ===== CONTAINER PRINCIPAL ===== */
+        .quiz-container {
+            max-width: 600px;
+            margin: 0 auto;
             padding: 20px;
-            padding-bottom: 40px;
         }
 
-        #end-screen .btn {
-            transition: all 0.3s ease;
+        .quiz-content {
+            background: white;
+            border-radius: 16px;
+            padding: 32px 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        /* ===== TELA INICIAL ===== */
+        .title-hero {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .title-emoji {
+            font-size: 72px;
+            margin-bottom: 16px;
+            display: inline-block;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .title-hero h1 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--duolingo-blue) 0%, var(--duolingo-purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .title-hero p {
+            font-size: 16px;
+            color: #888;
+            margin-bottom: 24px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, rgba(31, 115, 230, 0.1) 0%, rgba(164, 53, 240, 0.1) 100%);
+            padding: 16px;
             border-radius: 12px;
-            padding: 14px 24px;
-            font-size: 1.05rem;
+            text-align: center;
+            border: 1px solid rgba(31, 115, 230, 0.2);
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--duolingo-blue);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        /* ===== BOTÕES ===== */
+        .btn-start {
+            width: 100%;
+            padding: 16px;
+            margin-top: 16px;
+            background: linear-gradient(135deg, var(--duolingo-green) 0%, #4ab83d 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(88, 204, 2, 0.3);
+        }
+
+        .btn-start:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(88, 204, 2, 0.4);
+        }
+
+        .btn-start:active {
+            transform: translateY(0);
+        }
+
+        /* ===== TELA DO QUIZ ===== */
+        .question-section {
+            margin-bottom: 32px;
+        }
+
+        .question-text {
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 1.4;
+            color: var(--duolingo-dark-text);
+            margin-bottom: 24px;
+        }
+
+        .topic-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--duolingo-blue) 0%, var(--duolingo-purple) 100%);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
             font-weight: 600;
+            margin-bottom: 16px;
             letter-spacing: 0.5px;
         }
 
-        #restart-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 24px rgba(3, 105, 161, 0.3);
+        .options-container {
+            display: grid;
+            gap: 12px;
         }
 
-        #restart-btn:active {
-            transform: translateY(-1px);
+        .option-btn {
+            padding: 16px;
+            border: 2px solid #e5e5e5;
+            border-radius: 12px;
+            background: white;
+            color: var(--duolingo-dark-text);
+            font-size: 15px;
+            font-weight: 500;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .btn-outline-secondary:hover {
-            background-color: #e2e8f0;
+        .option-btn:hover:not(.disabled):not(.correct):not(.incorrect) {
+            border-color: var(--duolingo-blue);
+            background: rgba(31, 115, 230, 0.05);
+            box-shadow: 0 2px 8px rgba(31, 115, 230, 0.15);
         }
 
-        #result-icon {
-            animation: popIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        .option-btn.correct {
+            border-color: var(--duolingo-green);
+            background: rgba(88, 204, 2, 0.1);
+            color: var(--duolingo-green);
+            animation: correctPulse 0.4s ease;
         }
 
-        @keyframes slideInRight {
+        .option-btn.incorrect {
+            border-color: var(--duolingo-red);
+            background: rgba(255, 75, 75, 0.1);
+            color: var(--duolingo-red);
+            animation: incorrectShake 0.4s ease;
+        }
+
+        @keyframes correctPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes incorrectShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-4px); }
+            75% { transform: translateX(4px); }
+        }
+
+        .option-btn.disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .explanation-card {
+            display: none;
+            margin-top: 24px;
+            padding: 16px;
+            background: linear-gradient(135deg, rgba(88, 204, 2, 0.08) 0%, rgba(31, 115, 230, 0.08) 100%);
+            border-left: 4px solid var(--duolingo-green);
+            border-radius: 12px;
+            animation: slideUp 0.4s ease;
+        }
+
+        .explanation-card.show {
+            display: block;
+        }
+
+        .explanation-title {
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--duolingo-green);
+            margin-bottom: 8px;
+        }
+
+        .explanation-text {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        @keyframes slideUp {
             from {
                 opacity: 0;
-                transform: translateX(100px);
+                transform: translateY(10px);
             }
             to {
                 opacity: 1;
-                transform: translateX(0);
+                transform: translateY(0);
             }
         }
 
-        @keyframes slideOutRight {
-            from {
-                opacity: 1;
-                transform: translateX(0);
-            }
-            to {
-                opacity: 0;
-                transform: translateX(100px);
-            }
+        .next-button-container {
+            margin-top: 24px;
+            display: flex;
+            gap: 12px;
         }
 
+        .btn-next {
+            flex: 1;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--duolingo-green) 0%, #4ab83d 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        .btn-next.show {
+            display: block;
+        }
+
+        .btn-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(88, 204, 2, 0.3);
+        }
+
+        /* ===== TELA FINAL ===== */
+        .celebration {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .celebration-emoji {
+            font-size: 80px;
+            margin-bottom: 16px;
+            animation: celebrationBounce 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes celebrationBounce {
+            0% { transform: scale(0) rotate(-180deg); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+
+        .celebration-title {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: var(--duolingo-dark-text);
+        }
+
+        .celebration-subtitle {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 24px;
+        }
+
+        .score-display-large {
+            background: linear-gradient(135deg, rgba(88, 204, 2, 0.15) 0%, rgba(31, 115, 230, 0.15) 100%);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+            border: 2px solid rgba(88, 204, 2, 0.3);
+        }
+
+        .score-number {
+            font-size: 56px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--duolingo-green) 0%, var(--duolingo-blue) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .score-max {
+            font-size: 24px;
+            color: #ccc;
+        }
+
+        .score-percentage {
+            font-size: 18px;
+            color: var(--duolingo-green);
+            font-weight: 700;
+            margin-top: 8px;
+        }
+
+        .feedback-card {
+            background: linear-gradient(135deg, rgba(31, 115, 230, 0.08) 0%, rgba(164, 53, 240, 0.08) 100%);
+            border: 1px solid rgba(31, 115, 230, 0.2);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .feedback-title {
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: var(--duolingo-dark-text);
+        }
+
+        .feedback-message {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            flex-direction: column;
+        }
+
+        .btn-primary {
+            padding: 14px;
+            background: linear-gradient(135deg, var(--duolingo-green) 0%, #4ab83d 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(88, 204, 2, 0.3);
+        }
+
+        .btn-secondary {
+            padding: 14px;
+            background: white;
+            border: 2px solid #e5e5e5;
+            color: var(--duolingo-dark-text);
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--duolingo-blue);
+            background: rgba(31, 115, 230, 0.05);
+        }
+
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 480px) {
-            .notification-container {
-                bottom: 90px;
-                right: 12px;
-                left: 12px;
+            .quiz-content {
+                padding: 20px 16px;
+                border-radius: 12px;
             }
 
-            .notification-toast {
-                min-width: auto;
-                max-width: 100%;
+            .title-hero h1 {
+                font-size: 24px;
+            }
+
+            .title-emoji {
+                font-size: 56px;
+            }
+
+            .question-text {
+                font-size: 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .score-number {
+                font-size: 48px;
+            }
+
+            .celebration-emoji {
+                font-size: 64px;
             }
         }
 
-        @media (min-width: 768px) {
-            .quiz-card {
-                min-height: auto;
-                margin-top: 40px;
-                margin-bottom: 40px;
+        /* ===== ANIMAÇÕES GERAIS ===== */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
             }
-            body { padding-bottom: 0; }
-            .footer-action {
-                position: static;
-                box-shadow: none;
-                border-top: 1px solid #e5e7eb;
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease;
+        }
+
+        .slide-in-up {
+            animation: slideInUp 0.3s ease;
+        }
+
+        .hidden {
+            display: none !important;
         }
     </style>
 </head>
 <body>
 
-<!-- Modal de Boas-vindas -->
-<div class="modal-overlay" id="welcomeModal">
-    <div class="modal-content-box">
-        <div class="modal-emoji-container">
-            <div class="modal-emoji">💝</div>
+<!-- HEADER DUOLINGO -->
+<div class="duolingo-header">
+    <div class="header-left">
+        <span class="logo">📚 Quiz</span>
+    </div>
+    <div class="header-right">
+        <div class="hearts-container" id="heartsContainer">
+            <span class="heart full">❤️</span>
+            <span class="heart full">❤️</span>
+            <span class="heart full">❤️</span>
         </div>
-        <div class="modal-subtitle">Bem-vindo!</div>
-        <h2>Eu te amo!</h2>
-        <p>Que você tenha <strong>bons estudos</strong> e alcance todo o sucesso que merece! 🌟</p>
-        <p class="modal-secondary-text">Você é <strong>capaz</strong> de fazer tudo!</p>
-        <button class="modal-btn" onclick="closeWelcomeModal()">Começar a Estudar</button>
+        <div class="progress-bar-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+            <span id="progressText">1/59</span>
+        </div>
     </div>
 </div>
 
-<!-- Container de Notificações -->
-<div class="notification-container" id="notificationContainer"></div>
+<!-- CONTAINER PRINCIPAL -->
+<div class="quiz-container">
+    <div class="quiz-content">
 
-<div class="container">
-    <div class="card quiz-card">
-        <div class="d-flex justify-content-between align-items-center p-2">
-            <a href="index.html" class="btn btn-pedagogia">
-                <i class="bi bi-arrow-left-circle"></i> Primeira Página
-            </a>
-            <a href="#" class="btn btn-dark" onclick="location.reload()">
-                <i class="bi bi-house-door"></i> Reiniciar Quiz
-            </a>
+        <!-- TELA INICIAL -->
+        <div id="startScreen" class="fade-in">
+            <div class="title-hero">
+                <div class="title-emoji">📚</div>
+                <h1>Didática II</h1>
+                <p>Desafie seus conhecimentos sobre planejamento educacional</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-value">59</div>
+                    <div class="stat-label">Questões</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">∞</div>
+                    <div class="stat-label">Tentativas</div>
+                </div>
+            </div>
+
+            <p style="color: #888; font-size: 14px; text-align: center; margin-bottom: 24px;">
+                Estude planejamento, metodologias, objetivos e avaliação educacional. Você consegue! 💪
+            </p>
+
+            <button class="btn-start" onclick="startQuiz()">
+                <i class="bi bi-play-fill"></i> Começar Quiz
+            </button>
         </div>
 
-        <div class="card-header text-white text-center" style="background: linear-gradient(135deg, var(--math-blue) 0%, var(--math-purple) 100%);">
-            <h3 class="mb-1"><i class="bi bi-calculator"></i> Quiz de Matemática</h3>
-            <p class="mb-0">Educação • Aprendizagem • Desenvolvimento • 30 Questões</p>
-        </div>
-
-        <div class="card-body">
+        <!-- TELA DO QUIZ -->
+        <div id="quizScreen" class="hidden">
+            <div class="topic-badge" id="topicBadge">Didática II</div>
             
-            <!-- TELA INICIAL -->
-            <div id="start-screen" class="text-center">
-                <div class="my-4">
-                    <i class="bi bi-calculator" style="font-size: 4rem; color: var(--math-blue);"></i>
-                </div>
-                <p style="font-size: 1.1rem; color: #4b5563;">
-                    Bem-vindo ao Quiz de Matemática! Desafie seus conhecimentos com <strong>30 questões</strong> sobre conceitos fundamentais e aplicações do ensino de Matemática.
-                </p>
+            <div class="question-section">
+                <div class="question-text" id="questionText">Carregando pergunta...</div>
+            </div>
 
-                <div class="alert alert-light border-2" style="border-color: var(--math-blue); margin-top: 25px; margin-bottom: 25px;">
-                    <strong style="color: var(--math-blue);">Temas Abordados:</strong>
-                    <ul class="mb-0 mt-2" style="text-align: left;">
-                        <li>Conceitos de Aprendizagem Matemática</li>
-                        <li>Ensino por Competências</li>
-                        <li>BNCC na Matemática</li>
-                        <li>Construtivismo</li>
-                        <li>Raciocínio Lógico</li>
-                        <li>Metodologias de Ensino</li>
-                    </ul>
-                </div>
+            <div class="options-container" id="optionsContainer">
+                <!-- Opções serão inseridas via JS -->
+            </div>
 
-                <button class="btn btn-lg" style="background: linear-gradient(135deg, var(--math-blue) 0%, var(--math-purple) 100%); color: white; border: none; font-weight: 600; padding: 14px 40px; font-size: 1.1rem;" onclick="startQuiz()">
-                    <i class="bi bi-play-circle me-2"></i> Iniciar Quiz
+            <div class="explanation-card" id="explanationCard">
+                <div class="explanation-title">💡 Explicação:</div>
+                <div class="explanation-text" id="explanationText"></div>
+            </div>
+
+            <div class="next-button-container">
+                <button class="btn-next" id="nextBtn" onclick="nextQuestion()">
+                    Próxima Pergunta
                 </button>
             </div>
-
-            <!-- TELA DO QUIZ -->
-            <div id="quiz-screen" style="display: none;">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="badge bg-info text-dark" id="question-counter">
-                        Questão 1/50
-                    </span>
-                    <span class="score-display">
-                        Acertos: <span id="score">0</span>
-                    </span>
-                </div>
-                
-                <h5 id="author-name" class="text-success author-badge">
-                    Tema
-                </h5>
-
-                <h4 id="question-text" class="mb-4">
-                    Texto da Pergunta
-                </h4>
-
-                <div id="options-container" class="d-grid gap-2">
-                    <!-- Opções serão inseridas via JS -->
-                </div>
-
-                <div id="explanation" class="explanation-box">
-                    <strong>Explicação:</strong>
-                    <span id="explanation-text"></span>
-                </div>
-
-                <div class="d-flex justify-content-end mt-3">
-                    <button id="next-btn" class="btn btn-success disabled" onclick="nextQuestion()">
-                        Próxima Pergunta
-                    </button>
-                </div>
-            </div>
-
-            <!-- TELA FINAL -->
-            <div id="end-screen" style="display: none;">
-                <div class="d-flex justify-content-center mb-4 mt-5">
-                    <div id="result-icon" style="font-size: 5rem; animation: pulse 2s infinite;">🎉</div>
-                </div>
-
-                <div class="text-center mb-4">
-                    <h2 class="fw-bold mb-1">Quiz Concluído!</h2>
-                    <p class="text-muted">Confira sua performance</p>
-                </div>
-
-                <div class="card border-0 shadow-sm mb-4" style="background: linear-gradient(135deg, rgba(3, 105, 161, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%);">
-                    <div class="card-body text-center py-5">
-                        <div class="mb-3">
-                            <span style="font-size: 1rem; color: #64748b;">Sua Pontuação</span>
-                        </div>
-                        <div style="font-size: 4rem; font-weight: 800; background: linear-gradient(135deg, var(--math-blue), var(--math-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
-                            <span id="final-score">0</span><span style="font-size: 2rem; color: #94a3b8;">/30</span>
-                        </div>
-                        <div class="mt-2">
-                            <span id="score-percentage" style="font-size: 1.5rem; font-weight: 600; color: var(--math-blue);">0%</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="alert alert-light border-2" id="result-alert" role="alert" style="border-color: var(--math-blue);">
-                    <div class="d-flex align-items-start">
-                        <span id="alert-icon" style="font-size: 1.5rem; margin-right: 12px;">⭐</span>
-                        <div>
-                            <strong id="alert-title" class="d-block mb-1">Parabéns!</strong>
-                            <span id="final-message"></span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="d-grid gap-2">
-                    <button class="btn btn-lg" id="restart-btn" style="background: linear-gradient(135deg, var(--math-blue) 0%, var(--math-purple) 100%); color: white; border: none; font-weight: 600;" onclick="location.reload()">
-                        <i class="bi bi-arrow-clockwise me-2"></i> Tentar Novamente
-                    </button>
-                    <a href="index.html" class="btn btn-lg btn-outline-secondary" style="font-weight: 600;">
-                        <i class="bi bi-house-door me-2"></i> Voltar
-                    </a>
-                </div>
-            </div>
-
         </div>
+
+        <!-- TELA FINAL -->
+        <div id="endScreen" class="hidden">
+            <div class="celebration">
+                <div class="celebration-emoji" id="celebrationEmoji">🎉</div>
+                <h2 class="celebration-title">Quiz Concluído!</h2>
+                <p class="celebration-subtitle">Veja como você se saiu</p>
+            </div>
+
+            <div class="score-display-large">
+                <div class="score-number"><span id="finalScore">0</span><span class="score-max">/59</span></div>
+                <div class="score-percentage" id="scorePercentage">0%</div>
+            </div>
+
+            <div class="feedback-card">
+                <div class="feedback-title" id="feedbackTitle">Parabéns!</div>
+                <div class="feedback-message" id="feedbackMessage">Muito bom!</div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn-primary" onclick="location.reload()">
+                    <i class="bi bi-arrow-clockwise"></i> Tentar Novamente
+                </button>
+                <button class="btn-secondary" onclick="window.location.href='index.html'">
+                    <i class="bi bi-house-door"></i> Voltar
+                </button>
+            </div>
+        </div>
+
     </div>
 </div>
 
 <script>
-    // Estatísticas de acertos/erros
-    let consecutiveCorrect = 0;
-    let consecutiveWrong = 0;
-
-    // Função para fechar o modal de boas-vindas
-    function closeWelcomeModal() {
-        const modal = document.getElementById('welcomeModal');
-        modal.style.animation = 'fadeOut 0.3s ease forwards';
-        setTimeout(() => {
-            modal.style.display = 'none';
-        }, 300);
-    }
-
-    // Fechar modal ao clicar fora dele
-    document.addEventListener('DOMContentLoaded', function() {
-        // Carregar perguntas do CSV
-        loadQuestionsFromCSV();
-        
-        const modal = document.getElementById('welcomeModal');
-        modal.addEventListener('click', function(e) {
-            if (e.target === modal) {
-                closeWelcomeModal();
-            }
-        });
-    });
-
-    // Sistema de Notificações Motivacionais
-    function showNotification(type, message, icon) {
-        const container = document.getElementById('notificationContainer');
-        const toast = document.createElement('div');
-        toast.className = `notification-toast ${type}`;
-        toast.innerHTML = `
-            <div class="notification-icon">${icon}</div>
-            <div class="notification-content">
-                <div class="notification-message">${message}</div>
-            </div>
-        `;
-        container.appendChild(toast);
-
-        // Auto-remover após 3.5 segundos
-        setTimeout(() => {
-            toast.classList.add('exit');
-            setTimeout(() => {
-                toast.remove();
-            }, 300);
-        }, 3500);
-    }
-
-    // Função para verificar e mostrar notificações motivacionais
-    function checkMotivationalNotification(isCorrect) {
-        if (isCorrect) {
-            consecutiveCorrect++;
-            consecutiveWrong = 0;
-
-            // Se acertou 3 respostas seguidas
-            if (consecutiveCorrect === 3) {
-                showNotification('success', 'Continue brilhando! ✨', '⭐');
-            }
-            // Se acertou 5 respostas seguidas
-            else if (consecutiveCorrect === 5) {
-                showNotification('success', 'Já é um destaque! Siga assim!', '🏆');
-            }
-        } else {
-            consecutiveWrong++;
-            consecutiveCorrect = 0;
-
-            // Se errou 2 respostas seguidas
-            if (consecutiveWrong === 2) {
-                showNotification('support', 'Você é capaz!  Eu te amo!', '💖');
-            }
-            // Se errou 3 respostas seguidas
-            else if (consecutiveWrong === 3) {
-                showNotification('support', 'Continue! Você consegue! ', '🌟');
-            }
-        }
-    }
-
-    // CARREGANDO PERGUNTAS DO ARQUIVO CSV
-        let questions = [];
-
-        async function loadQuestionsFromCSV() {
-            try {
-                const response = await fetch('perguntas.csv');
-                if (!response.ok) {
-                    throw new Error('Arquivo perguntas.csv não encontrado');
-                }
-
-                const csvText = await response.text();
-                questions = parseCSV(csvText);
-                
-                if (!Array.isArray(questions) || questions.length === 0) {
-                    throw new Error('Nenhuma pergunta encontrada');
-                }
-                
-                console.log(`✅ ${questions.length} perguntas carregadas do CSV`);
-            } catch (erro) {
-                console.error('Erro ao carregar CSV:', erro);
-                alert('Erro ao carregar perguntas: ' + erro.message);
-            }
-        }
-
-        function parseCSV(csvText) {
-            const lines = csvText.trim().split('\n');
-            const headers = lines[0].split(',');
-            const questionsArray = [];
-
-            for (let i = 1; i < lines.length; i++) {
-                const values = lines[i].split(',');
-                if (values.length < 8) continue;
-
-                questionsArray.push({
-                    author: values[0].trim(),
-                    text: values[1].trim(),
-                    options: [
-                        values[2].trim(),
-                        values[3].trim(),
-                        values[4].trim(),
-                        values[5].trim()
-                    ],
-                    correct: parseInt(values[6].trim()),
-                    explanation: values[7].trim()
-                });
-            }
-
-            return questionsArray;
-        }
-
-        // LÓGICA DO QUIZ
+    // ===== VARIÁVEIS GLOBAIS =====
+    let questions = [];
     let currentQuestionIndex = 0;
     let score = 0;
+    let hearts = 3;
     let isAnswered = false;
 
-    // Elementos DOM
-    const startScreen = document.getElementById('start-screen');
-    const quizScreen = document.getElementById('quiz-screen');
-    const endScreen = document.getElementById('end-screen');
-    
-    const questionCounter = document.getElementById('question-counter');
-    const scoreEl = document.getElementById('score');
-    const authorNameEl = document.getElementById('author-name');
-    const questionTextEl = document.getElementById('question-text');
-    const optionsContainer = document.getElementById('options-container');
-    const explanationBox = document.getElementById('explanation');
-    const explanationText = document.getElementById('explanation-text');
-    const nextBtn = document.getElementById('next-btn');
-    const finalScoreEl = document.getElementById('final-score');
-    const finalMessageEl = document.getElementById('final-message');
+    // ===== CARREGAR CSV =====
+    async function loadQuestionsFromCSV() {
+        try {
+            const response = await fetch('perguntas.csv');
+            const csvText = await response.text();
+            questions = parseCSV(csvText);
+            console.log(`✅ ${questions.length} perguntas carregadas`);
+        } catch (erro) {
+            console.error('Erro ao carregar CSV:', erro);
+            alert('Erro ao carregar perguntas');
+        }
+    }
 
+    function parseCSV(csvText) {
+        const lines = csvText.trim().split('\n');
+        const questionsArray = [];
+
+        for (let i = 1; i < lines.length; i++) {
+            const values = lines[i].split(',');
+            if (values.length < 8) continue;
+
+            questionsArray.push({
+                author: values[0].trim(),
+                text: values[1].trim(),
+                options: [values[2].trim(), values[3].trim(), values[4].trim(), values[5].trim()],
+                correct: parseInt(values[6].trim()),
+                explanation: values[7].trim()
+            });
+        }
+
+        return questionsArray;
+    }
+
+    // ===== EMBARALHAR =====
     function shuffleQuestions() {
-        // Embaralha as alternativas de cada pergunta
         questions.forEach(question => {
             const correctAnswer = question.options[question.correct];
-            
-            // Fisher-Yates shuffle
             for (let i = question.options.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [question.options[i], question.options[j]] = [question.options[j], question.options[i]];
             }
-            
-            // Encontra a nova posição da resposta correta
             question.correct = question.options.indexOf(correctAnswer);
         });
     }
 
+    // ===== INICIAR QUIZ =====
     function startQuiz() {
-        // Reset dos contadores motivacionais
-        consecutiveCorrect = 0;
-        consecutiveWrong = 0;
-        
-        // Embaralha as alternativas
+        document.getElementById('startScreen').classList.add('hidden');
+        document.getElementById('quizScreen').classList.remove('hidden');
         shuffleQuestions();
-        
-        startScreen.style.display = 'none';
-        quizScreen.style.display = 'block';
         loadQuestion();
     }
 
+    // ===== CARREGAR PERGUNTA =====
     function loadQuestion() {
         isAnswered = false;
         const q = questions[currentQuestionIndex];
-        
-        // Resetar UI
-        explanationBox.style.display = 'none';
-        nextBtn.classList.add('disabled');
-        optionsContainer.innerHTML = '';
-        
-        // Preencher dados
-        questionCounter.innerText = `Questão ${currentQuestionIndex + 1}/${questions.length}`;
-        authorNameEl.innerText = q.author; // Usando Tópico como Autor
-        questionTextEl.innerText = q.text;
 
-        // Gerar Botões
-        q.options.forEach((opt, index) => {
+        document.getElementById('questionText').innerText = q.text;
+        document.getElementById('topicBadge').innerText = q.author;
+        document.getElementById('explanationCard').classList.remove('show');
+        document.getElementById('nextBtn').classList.remove('show');
+
+        // Atualizar progresso
+        updateProgress();
+
+        // Gerar opções
+        const container = document.getElementById('optionsContainer');
+        container.innerHTML = '';
+
+        q.options.forEach((option, index) => {
             const btn = document.createElement('button');
-            btn.className = 'btn btn-outline-dark option-btn';
-            btn.innerText = opt;
+            btn.className = 'option-btn';
+            btn.innerText = option;
             btn.onclick = () => checkAnswer(index, btn);
-            optionsContainer.appendChild(btn);
+            container.appendChild(btn);
         });
     }
 
+    // ===== VERIFICAR RESPOSTA =====
     function checkAnswer(selectedIndex, btnElement) {
         if (isAnswered) return;
         isAnswered = true;
 
         const q = questions[currentQuestionIndex];
-        const buttons = optionsContainer.querySelectorAll('button');
+        const buttons = document.querySelectorAll('.option-btn');
         const isCorrect = selectedIndex === q.correct;
 
+        buttons.forEach((btn, idx) => {
+            btn.classList.add('disabled');
+            if (idx === q.correct) {
+                btn.classList.add('correct');
+            } else if (idx === selectedIndex && !isCorrect) {
+                btn.classList.add('incorrect');
+            }
+        });
+
         if (isCorrect) {
-            btnElement.classList.remove('btn-outline-dark');
-            btnElement.classList.add('btn-success');
             score++;
-            scoreEl.innerText = score;
         } else {
-            btnElement.classList.remove('btn-outline-dark');
-            btnElement.classList.add('btn-danger');
-            // Mostrar a correta
-            buttons[q.correct].classList.remove('btn-outline-dark');
-            buttons[q.correct].classList.add('btn-success');
+            loseHeart();
         }
 
-        // Verificar e mostrar notificação motivacional
-        checkMotivationalNotification(isCorrect);
-
-        // Mostrar explicação
-        explanationText.innerText = q.explanation;
-        explanationBox.style.display = 'block';
-        
-        // Habilitar botão Próximo
-        nextBtn.classList.remove('disabled');
+        document.getElementById('explanationText').innerText = q.explanation;
+        document.getElementById('explanationCard').classList.add('show');
+        document.getElementById('nextBtn').classList.add('show');
     }
 
+    // ===== PERDER VIDA =====
+    function loseHeart() {
+        hearts--;
+        updateHearts();
+
+        if (hearts <= 0) {
+            setTimeout(() => {
+                alert('Você perdeu todas as vidas! Tente novamente.');
+                showResults();
+            }, 500);
+        }
+    }
+
+    function updateHearts() {
+        const container = document.getElementById('heartsContainer');
+        container.innerHTML = '';
+        for (let i = 0; i < 3; i++) {
+            const heart = document.createElement('span');
+            heart.className = i < hearts ? 'heart full' : 'heart empty';
+            heart.innerHTML = i < hearts ? '❤️' : '🤍';
+            container.appendChild(heart);
+        }
+    }
+
+    // ===== ATUALIZAR PROGRESSO =====
+    function updateProgress() {
+        const percentage = ((currentQuestionIndex) / questions.length) * 100;
+        document.getElementById('progressFill').style.width = percentage + '%';
+        document.getElementById('progressText').innerText = (currentQuestionIndex + 1) + '/' + questions.length;
+    }
+
+    // ===== PRÓXIMA PERGUNTA =====
     function nextQuestion() {
         currentQuestionIndex++;
         if (currentQuestionIndex < questions.length) {
-            isAnswered = false;
             loadQuestion();
         } else {
             showResults();
         }
     }
 
+    // ===== MOSTRAR RESULTADOS =====
     function showResults() {
-        quizScreen.style.display = 'none';
-        endScreen.style.display = 'block';
-        finalScoreEl.innerText = score;
+        document.getElementById('quizScreen').classList.add('hidden');
+        document.getElementById('endScreen').classList.remove('hidden');
 
         const percentage = (score / questions.length) * 100;
-        const scorePercentageEl = document.getElementById('score-percentage');
-        const resultAlert = document.getElementById('result-alert');
-        const alertIcon = document.getElementById('alert-icon');
-        const alertTitle = document.getElementById('alert-title');
-        const resultIcon = document.getElementById('result-icon');
-        let message = "";
-        let icon = "🎉";
-        let borderColor = "var(--math-blue)";
-        let titleText = "Parabéns!";
-        
-        scorePercentageEl.innerText = Math.round(percentage) + '%';
-        
+        document.getElementById('finalScore').innerText = score;
+        document.getElementById('scorePercentage').innerText = Math.round(percentage) + '%';
+
+        let emoji = '🎉';
+        let title = 'Parabéns!';
+        let message = '';
+
         if (percentage >= 90) {
-            message = "Excelente trabalho! Você é um expert em Matemática. Continue assim!";
-            icon = "🏆";
-            borderColor = "#16a34a";
-            titleText = "Excepcional!";
-            resultIcon.innerText = "🏆";
+            emoji = '🏆';
+            title = 'Excepcional!';
+            message = 'Você domina didática! Excelente performance. Continue assim! 🚀';
+        } else if (percentage >= 80) {
+            emoji = '⭐';
+            title = 'Muito Bom!';
+            message = 'Demonstrou excelente compreensão! Seus conhecimentos são impressionantes! 🌟';
+        } else if (percentage >= 70) {
+            emoji = '✨';
+            title = 'Bom Desempenho!';
+            message = 'Você tem ótima base! Estude mais e melhore ainda! 📚';
+        } else if (percentage >= 50) {
+            emoji = '📚';
+            title = 'Continue Estudando';
+            message = 'Bom começo! Revise os conceitos e pratique mais.';
+        } else {
+            emoji = '💪';
+            title = 'Dedique-se Mais';
+            message = 'Não desista! A prática leva à perfeição. Tente novamente!';
         }
-        else if (percentage >= 80) {
-            message = "Que legal! Você demonstrou excelente compreensão dos conceitos matemáticos.";
-            icon = "⭐";
-            borderColor = "#ea580c";
-            titleText = "Muito Bom!";
-            resultIcon.innerText = "⭐";
-        }
-        else if (percentage >= 70) {
-            message = "Muito bom! Você tem um bom domínio. Estude mais alguns conceitos e melhore ainda mais.";
-            icon = "✨";
-            borderColor = "var(--math-blue)";
-            titleText = "Bom Desempenho!";
-            resultIcon.innerText = "✨";
-        }
-        else if (percentage >= 50) {
-            message = "Bom começo! Revise os conceitos principais e pratique mais problemas matemáticos.";
-            icon = "📚";
-            borderColor = "#f59e0b";
-            titleText = "Continue Estudando";
-            resultIcon.innerText = "📚";
-        }
-        else {
-            message = "Dedique mais tempo aos estudos! A prática leva à perfeição. Você consegue!";
-            icon = "💪";
-            borderColor = "#dc2626";
-            titleText = "Não Desista!";
-            resultIcon.innerText = "💪";
-        }
-        
-        alertIcon.innerText = icon;
-        alertTitle.innerText = titleText;
-        resultAlert.style.borderColor = borderColor;
-        finalMessageEl.innerText = message;
-        
-        // Scroll para a tela final
-        setTimeout(() => {
-            endScreen.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 300);
+
+        document.getElementById('celebrationEmoji').innerText = emoji;
+        document.getElementById('feedbackTitle').innerText = title;
+        document.getElementById('feedbackMessage').innerText = message;
     }
+
+    // ===== INICIALIZAR =====
+    document.addEventListener('DOMContentLoaded', loadQuestionsFromCSV);
 </script>
 
 </body>
