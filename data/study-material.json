@@ -1,0 +1,204 @@
+{
+  "course": "Concepções de linguagem",
+  "description": "Material organizado a partir dos trechos marcados nas seis primeiras páginas da aula.",
+  "source": "Material_de_Estudo_Concepcoes_da_Linguagem.pdf",
+  "sections": [
+    {
+      "id": "introducao-linguagem",
+      "topicId": "introducao-linguagem",
+      "number": 1,
+      "group": "Guia para a prova",
+      "title": "Por que compreender a linguagem?",
+      "subtitle": "Compreender o conteúdo ensinado é essencial para orientar o ensino.",
+      "reference": "Página 1 do material / página 11 do livro.",
+      "content": [
+        "O foco é a origem das concepções inatista e histórico-social, os processos sociais e a relação entre trabalho, linguagem e consciência.",
+        "A teoria sobre como alguém aprende e a teoria sobre o conteúdo ensinado são essenciais para orientar o ensino. Na aula, esse conteúdo é a língua escrita.",
+        "Isso significa que conhecer estratégias de aprendizagem não basta: é preciso compreender o que é a linguagem, de onde ela vem e como se constitui. A forma de entender esse objeto influencia a maneira de organizar seu ensino.",
+        "Concepção é mais ampla que um conceito isolado: envolve uma maneira de compreender a realidade e o mundo."
+      ],
+      "keyConcept": "A forma de compreender a linguagem influencia a maneira de organizar seu ensino.",
+      "remember": "No texto-base, o nome da primeira concepção é inatista, e não “analítica”. O papel do educador foi retirado do conteúdo de revisão, conforme a orientação registrada no material.",
+      "keywords": ["linguagem", "concepção", "língua escrita", "ensino"],
+      "summary": "Compreender a linguagem, sua origem e sua constituição orienta a organização do ensino."
+    },
+    {
+      "id": "nucleo-prova",
+      "topicId": "nucleo-prova",
+      "number": 2,
+      "group": "Guia para a prova",
+      "title": "O núcleo da prova",
+      "subtitle": "O foco está na origem das concepções inatista e histórico-social.",
+      "content": [
+        "Inatista: a linguagem é concebida como capacidade natural, inata e de origem biológica.",
+        "Histórico-social: a linguagem é construída na atividade humana, nas relações sociais e no decorrer da história."
+      ],
+      "remember": "Leia as explicações, compare as duas concepções e tente responder às perguntas da revisão ativa antes de consultar as respostas.",
+      "keywords": ["inatista", "histórico-social", "origem", "linguagem"],
+      "summary": "A prova contrapõe a origem biológica da concepção inatista à origem social e histórica da concepção histórico-social."
+    },
+    {
+      "id": "inatista",
+      "topicId": "inatista",
+      "number": 3,
+      "group": "Origem das concepções",
+      "title": "Concepção inatista",
+      "subtitle": "Linguagem como capacidade natural, inata e de origem biológica.",
+      "reference": "Página 2 do material / página 12 do livro.",
+      "content": [
+        "Segundo a apresentação feita pela aula, a linguagem tem origem biológica: é tratada como um dado natural e uma capacidade inata. A consciência é entendida como um dom primário, inerente ao sujeito desde o princípio, e a linguagem como uma função dessa consciência.",
+        "A comunicação é descrita como mecânica e linear: alguém envia uma mensagem e o destinatário a recebe tal como foi enviada. O texto atribui capacidades naturais de linguagem aos humanos e aos animais, com diferenças de complexidade.",
+        "A aprendizagem da linguagem ocorreria espontaneamente, acompanhando um processo predominantemente natural. Nessa perspectiva, o desenvolvimento biopsicológico precede e dá suporte à aprendizagem."
+      ],
+      "keyConcept": "A linguagem é tratada como um dado natural, uma capacidade inata e uma função de uma consciência considerada primária.",
+      "remember": "Desenvolvimento primeiro; aprendizagem depois.",
+      "keywords": ["inato", "natural", "biológico", "espontâneo"],
+      "summary": "Na concepção inatista, a origem da linguagem é biológica e o desenvolvimento precede a aprendizagem."
+    },
+    {
+      "id": "historico-social",
+      "topicId": "historico-social",
+      "number": 4,
+      "group": "Origem das concepções",
+      "title": "Concepção histórico-social",
+      "subtitle": "A linguagem é processo e produto da atividade humana.",
+      "reference": "Página 3 do material / página 13 do livro.",
+      "content": [
+        "A linguagem é processo e produto da atividade humana. É construída e aprendida no interior de um processo histórico-social e ela própria constitui esse processo.",
+        "Sua formação envolve uma dupla interação inseparável: os seres humanos agem sobre a natureza e se relacionam entre si. A realidade humana resulta da produção social das condições de existência.",
+        "A base natural é necessária, mas não produz sozinha a linguagem humana. É a atividade humana, que tem caráter social, que explica sua constituição. A aula adota essa concepção como referência para a disciplina."
+      ],
+      "keyConcept": "A linguagem se constitui na atividade humana, nas relações sociais e no decorrer da história.",
+      "remember": "Trabalho coletivo e necessidade de comunicação ajudam a explicar a origem da linguagem.",
+      "keywords": ["história", "sociedade", "atividade humana", "cooperação"],
+      "summary": "Na concepção histórico-social, a linguagem é construída e aprendida na atividade humana e nas relações sociais."
+    },
+    {
+      "id": "processos-sociais",
+      "topicId": "processos-sociais",
+      "number": 5,
+      "group": "Processos sociais e trabalho",
+      "title": "Processos naturais e processos sociais",
+      "subtitle": "A linguagem é apresentada como produto e processo social.",
+      "reference": "Páginas 3 e 4 do material / páginas 13 e 14 do livro.",
+      "content": [
+        "Os processos naturais ocorrem espontaneamente e independem da vontade humana. Nos processos sociais, as pessoas são atores conscientes: agem deliberadamente, visando a objetivos definidos.",
+        "Os processos sociais e seus produtos resultam, direta ou indiretamente, da atividade humana consciente e intencional. A linguagem é um desses produtos e processos sociais."
+      ],
+      "example": "A germinação espontânea de uma semente é um processo natural. Preparar coletivamente uma plantação, combinar tarefas e produzir alimentos envolve processos sociais. Os exemplos foram acrescentados no material para facilitar a compreensão.",
+      "keywords": ["natural", "social", "consciência", "intencionalidade"],
+      "summary": "Processos naturais são espontâneos; processos sociais resultam da atividade humana consciente e intencional."
+    },
+    {
+      "id": "trabalho",
+      "topicId": "trabalho",
+      "number": 6,
+      "group": "Processos sociais e trabalho",
+      "title": "O que é trabalho?",
+      "subtitle": "O conceito é mais amplo que emprego ou ação isolada.",
+      "content": [
+        "Trabalho é uma atividade especificamente humana pela qual as pessoas, em cooperação, agem sobre a natureza para produzir suas condições de existência. Ao produzir essas condições, produzem também a si mesmas, desenvolvendo suas capacidades.",
+        "O conceito é mais amplo que emprego ou ação isolada. Abrange a produção de bens que atendem tanto a necessidades corporais, como bebida e agasalho, quanto a necessidades espirituais ou culturais, como ciência e arte.",
+        "O trabalho é apresentado como ponto de partida para compreender os objetos e processos da realidade humana. Seu caráter social está nas relações de cooperação necessárias à produção."
+      ],
+      "keyConcept": "Trabalho é a atividade humana cooperativa de agir sobre a natureza para produzir as condições de existência.",
+      "keywords": ["trabalho", "cooperação", "natureza", "produção"],
+      "summary": "O trabalho produz condições de existência e também desenvolve as capacidades humanas."
+    },
+    {
+      "id": "trabalho-linguagem",
+      "topicId": "trabalho-linguagem",
+      "number": 7,
+      "group": "Processos sociais e trabalho",
+      "title": "Como o trabalho explica a linguagem?",
+      "subtitle": "O trabalho em comum cria a necessidade de comunicação.",
+      "content": [
+        "O trabalho em comum exige que as pessoas organizem tarefas, troquem informações e se auxiliem. Segundo a concepção histórico-social do texto, a necessidade de comunicação nessa atividade leva à produção da linguagem."
+      ],
+      "remember": "A linguagem tem origem social porque se constitui nas relações de cooperação e comunicação da atividade humana, desenvolvidas historicamente.",
+      "keywords": ["trabalho coletivo", "comunicação", "cooperação", "origem social"],
+      "summary": "A necessidade de comunicação criada pelo trabalho coletivo ajuda a explicar a origem social da linguagem."
+    },
+    {
+      "id": "marx",
+      "topicId": "marx",
+      "number": 8,
+      "group": "Autores e comparação",
+      "title": "Marx: transformar a natureza e a si mesmo",
+      "subtitle": "A transformação ocorre no produto e em quem o produz.",
+      "reference": "Página 5 do material / página 15 do livro.",
+      "content": [
+        "O trabalho é um processo entre o ser humano e a natureza. Por sua ação, ele regula esse intercâmbio e transforma os recursos naturais em formas úteis à vida humana.",
+        "Ao modificar a natureza externa, modifica também sua própria natureza: desenvolve habilidades, conhecimentos e potencialidades. A passagem distingue esse trabalho das formas instintivas animais."
+      ],
+      "example": "Ao produzir uma roupa, a pessoa transforma materiais e também aperfeiçoa suas técnicas, seu planejamento e suas habilidades. A transformação ocorre no produto e em quem o produz.",
+      "keywords": ["Marx", "natureza", "transformação", "potencialidades"],
+      "summary": "Ao transformar a natureza pelo trabalho, o ser humano também desenvolve a si mesmo."
+    },
+    {
+      "id": "bakhtin",
+      "topicId": "bakhtin",
+      "number": 9,
+      "group": "Autores e comparação",
+      "title": "Bakhtin: linguagem e consciência",
+      "subtitle": "A participação na comunicação verbal é constitutiva da consciência.",
+      "reference": "Página 6 do material / página 16 do livro.",
+      "content": [
+        "O indivíduo participa da corrente da comunicação verbal. É nessa participação, na língua e por meio dela, que sua consciência desperta e começa a operar.",
+        "A língua não é apresentada como um objeto pronto que o indivíduo recebe e usa isoladamente. A participação nas relações de comunicação é constitutiva da consciência. A linguagem também permite organizar atividades e acumular e transmitir experiências entre gerações.",
+        "Nessa concepção, a aprendizagem é entendida como desencadeadora do desenvolvimento da inteligência. A base biológica continua necessária, mas é modificada pelas atividades e experiências sociais."
+      ],
+      "keyConcept": "A consciência desperta e começa a operar na participação do indivíduo na comunicação verbal, na língua e por meio dela.",
+      "keywords": ["Bakhtin", "consciência", "comunicação verbal", "aprendizagem"],
+      "summary": "Em Bakhtin, a participação nas relações de comunicação é constitutiva da consciência."
+    },
+    {
+      "id": "comparacao",
+      "topicId": "comparacao",
+      "number": 10,
+      "group": "Autores e comparação",
+      "title": "Inatista e histórico-social",
+      "subtitle": "Compare as duas concepções nos cinco aspectos centrais.",
+      "type": "comparison",
+      "comparison": [
+        {"aspect": "Origem", "inatista": "Biológica e natural.", "historicoSocial": "Social e histórica."},
+        {"aspect": "Linguagem", "inatista": "Capacidade inata.", "historicoSocial": "Processo e produto da atividade humana."},
+        {"aspect": "Consciência", "inatista": "Dom primário do sujeito.", "historicoSocial": "Constitui-se socialmente, em relação com a linguagem."},
+        {"aspect": "Aprendizagem", "inatista": "Entendida como espontânea.", "historicoSocial": "Constitui-se nas práticas e relações sociais."},
+        {"aspect": "Desenvolvimento", "inatista": "Precede a aprendizagem.", "historicoSocial": "É impulsionado pela aprendizagem."}
+      ],
+      "keywords": ["origem", "linguagem", "consciência", "aprendizagem", "desenvolvimento"],
+      "summary": "As concepções diferem quanto à origem, à linguagem, à consciência e à relação entre aprendizagem e desenvolvimento."
+    },
+    {
+      "id": "revisao-ativa",
+      "topicId": "revisao-ativa",
+      "number": 11,
+      "group": "Revisão ativa",
+      "title": "Revise antes do quiz",
+      "subtitle": "Responda em voz alta ou por escrito antes de revelar as respostas.",
+      "type": "review",
+      "content": [
+        "Cubra as respostas para testar o que você compreendeu. Estas são questões de treino, não uma previsão das questões da prova."
+      ],
+      "reviewQuestions": [
+        {"question": "Como a concepção inatista explica a origem da linguagem?", "answer": "Como uma capacidade natural, inata e de origem biológica, relacionada a uma consciência considerada original do sujeito."},
+        {"question": "Como a concepção histórico-social explica essa origem?", "answer": "Como resultado da atividade humana e das relações sociais, especialmente da necessidade de comunicação e cooperação no trabalho, ao longo da história."},
+        {"question": "Quais são as duas interações inseparáveis?", "answer": "A interação dos seres humanos com a natureza e a interação dos seres humanos entre si."},
+        {"question": "Qual é a diferença entre processos naturais e sociais?", "answer": "Os naturais ocorrem espontaneamente e independem da vontade humana. Os sociais resultam da atividade humana consciente e intencional, orientada a objetivos."},
+        {"question": "O que é trabalho e por que ele é social?", "answer": "É a atividade de produzir as condições de existência pela ação sobre a natureza. É social porque envolve cooperação e relações entre pessoas."},
+        {"question": "O que significa transformar a natureza e a si mesmo?", "answer": "Ao modificar recursos naturais para atender às necessidades, o ser humano também desenvolve conhecimentos, habilidades e potencialidades."},
+        {"question": "Qual é a relação entre linguagem e consciência em Bakhtin?", "answer": "A consciência desperta e começa a operar na participação do indivíduo na comunicação verbal, na língua e por meio dela."},
+        {"question": "Como aprendizagem e desenvolvimento se relacionam?", "answer": "Na inatista, o desenvolvimento precede a aprendizagem. Na histórico-social apresentada no texto, a aprendizagem impulsiona o desenvolvimento da inteligência."}
+      ],
+      "remember": "Explique a origem de cada concepção; diferencie natural e social; relacione trabalho, cooperação e linguagem; explique Marx e Bakhtin.",
+      "keywords": ["revisão", "inatista", "histórico-social", "Marx", "Bakhtin"],
+      "summary": "A revisão ativa retoma a origem das concepções, os processos sociais, o trabalho, Marx e Bakhtin.",
+      "includeInPerformance": false
+    }
+  ],
+  "review": {
+    "dontConfuse": ["origem biológica e natural", "origem social e histórica"],
+    "phrase": "A concepção inatista trata a linguagem como capacidade natural; a histórico-social a compreende como processo e produto da atividade humana."
+  }
+}
